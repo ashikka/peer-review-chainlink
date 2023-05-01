@@ -1,9 +1,11 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
+import { useNavigate } from "react-router-dom";
 
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../stores';
 import { setUser } from '../../stores/slices/userSlice';
 
 
@@ -11,6 +13,7 @@ function RegisterDialog({ isOpen, setIsOpen, register }:
     { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, register: (name: string, email: string) => any }) {
     const api = useContext(ApiContext).api;
     const ether = useContext(EtherContext).ether;
+
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -146,25 +149,35 @@ export default function Navbar() {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api;
     const dispatch = useDispatch();
-    
-    const getUser = async (token: string) => {
+    const navigate = useNavigate();
+    const user = useSelector((state: RootState) => state.user);
 
+    const getUser = async (token: string) => {
         api?.setToken(token);
         const user = await api?.me();
-        if(user) {
+        if (user?.data) {
+            user.data.token = token;
             dispatch(setUser(user.data));
+            navigate('/paper');
+        } else {
+            navigate('/');
         }
 
     }
     useEffect(() => {
-        if(api){
+        if (api) {
             const token = localStorage.getItem("token");
             if (token) {
-            getUser(token);
+                getUser(token);
+            } else {
+                navigate('/');
             }
         }
     }, [api]);
 
+    useEffect(() => {
+        console.log(user)
+    }, [user.token]);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -187,7 +200,6 @@ export default function Navbar() {
 
     const register = async (name: string, email: string) => {
         if (ether == null || api == null) return;
-
         const signature = await ether.signMessage("Click sign below to authenticate with DocPublish :)");
 
         if (signature == null) return;
@@ -200,7 +212,7 @@ export default function Navbar() {
         console.log(user.data);
     }
 
-    
+
     const signIn = async (address: string) => {
         if (ether == null || api == null) return;
 
@@ -210,23 +222,41 @@ export default function Navbar() {
 
         const res = await api.login(address, signature);
         localStorage.setItem("token", res.data.token);
-        // This will later set some redux state
-        console.log(res.data);
+        getUser(res.data.token);
     }
+
+    const signOut = async () => {
+        localStorage.removeItem("token");
+        dispatch(setUser({}));
+        navigate('/');
+    };
 
     return (
         <>
-            {isOpen && <RegisterDialog isOpen={isOpen} setIsOpen={setIsOpen} register={register} /> }
+            {isOpen && <RegisterDialog isOpen={isOpen} setIsOpen={setIsOpen} register={register} />}
             <div className="w-screen h-24 border-b-4 border-indigo-500 mb-8 px-8 flex flex-row items-center justify-between">
                 <div className="w-32 text-2xl"><span className='font-semibold'>Doc</span>Publish</div>
                 <div className="text-xl flex flex-row">
-                    <button
+                    {!user.username && <button
                         type="button"
                         className="py-2 px-3 bg-indigo-500 text-white text-lg font-semibold rounded-md shadow focus:outline-none"
                         onClick={signInOrRegister}
                     >
                         Sign In
-                    </button>
+                    </button>}
+
+                    {user.username &&
+                        <> 
+                            <span className="w-32 text-xl">Signed in as <span className='font-semibold'>{user.username}</span></span>
+                            <button
+                                type="button"
+                                className="py-2 px-3 bg-indigo-500 text-white text-lg font-semibold rounded-md shadow focus:outline-none"
+                                onClick={signOut}
+                            >
+                                Sign Out
+                            </button>
+                        </>}
+
                 </div>
             </div>
         </>

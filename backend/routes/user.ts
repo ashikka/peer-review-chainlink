@@ -33,9 +33,9 @@ router.post("/register", async (req, res) => {
       email,
     });
     await user.save();
-    res.json(user);
+    return res.json(user);
   } else {
-    res.status(401).json({
+    return res.status(401).json({
       success: false,
       message: "Invalid signature",
     });
@@ -62,7 +62,7 @@ router.post("/login", async (req, res) => {
       expiresIn: "2h",
     });
 
-    res.status(201).json({ token });
+    return res.status(201).json({ token });
   }
 
   return res.status(401).json({

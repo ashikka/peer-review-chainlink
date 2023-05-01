@@ -1,24 +1,21 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { createAction, createSlice } from '@reduxjs/toolkit';
+import { createAction, createReducer, createSlice } from '@reduxjs/toolkit';
 
 export const setUser = createAction<any>(`user/setUser`);
 
-const userSlice = createSlice({
-  name: 'user',
-
-  initialState: {
-    token: null,
-    email: null,
-    username: null
-  },
-  reducers: {
+const userSlice = createReducer({
+  token: null,
+  email: null,
+  username: null,
+  address: null,
+},
+  {
     [setUser.toString()]: (state, action) => {
       state.token = action.payload.token;
       state.email = action.payload.email;
-      state.username = action.payload.username;
+      state.username = action.payload.name;
+      state.address = action.payload.address;
     }
-  },
+  });
 
-});
-
-export default userSlice.reducer;
+export default userSlice;

@@ -1,9 +1,14 @@
 import { ethers } from 'ethers';
+import { create, IPFSHTTPClient } from "ipfs-http-client";
 
 export default class Ether {
     private provider: ethers.providers.Web3Provider
+    private client: IPFSHTTPClient;
     constructor() {
         this.provider = new ethers.providers.Web3Provider(window.ethereum);
+        this.client = create({
+            url: 'https://ipfs.infura.io:5001/api/v0'
+        });
     }
 
     async connectWallet() {
@@ -15,5 +20,10 @@ export default class Ether {
     async signMessage(message: string) {
         const signer = this.provider.getSigner();
         return await signer.signMessage(message);
+    }
+
+    async add(file: any) {
+        const added = await this.client.add(file)
+        return `https://ipfs.infura.io/ipfs/${added.path}`
     }
 }
