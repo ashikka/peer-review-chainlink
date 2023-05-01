@@ -1,8 +1,22 @@
 import express from 'express';
 import { ethers } from "ethers";
 import User from '../models/user';
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
+
+router.get("/me", async(req, res) => {
+    const token = req.headers.authorization;
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "No token provided",
+        });
+    }
+    const data: any = jwt.verify(token, process.env.TOKEN_KEY);
+    const user = await User.findOne({ address: data.user.address });
+    res.status(201).json(user);
+});
 
 router.post('/register', async (req, res) => {
     const { address, name, email, signature } = req.body;
@@ -36,7 +50,16 @@ router.post('/login', async (req, res) => {
     }
 
     if (ethers.utils.verifyMessage("Click sign below to authenticate with DocPublish :)", signature) === address) {
-        return res.json(user);
+        const token = jwt.sign(
+            { user },
+            process.env.TOKEN_KEY,
+            {
+              expiresIn: "2h",
+            }
+          );
+      
+          res.status(201).json({token});
+        
     }
 
     return res.status(401).json({
@@ -58,5 +81,6 @@ router.get('/:address', async (req, res) => {
         });
     }
 })
+
 
 export default router;
