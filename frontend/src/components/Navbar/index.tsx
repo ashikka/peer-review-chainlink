@@ -3,6 +3,8 @@ import { Dialog, Transition } from '@headlessui/react'
 
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../stores/slices/userSlice';
 
 
 function RegisterDialog({ isOpen, setIsOpen, register }:
@@ -143,6 +145,26 @@ function RegisterDialog({ isOpen, setIsOpen, register }:
 export default function Navbar() {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api;
+    const dispatch = useDispatch();
+    
+    const getUser = async (token: string) => {
+
+        api?.setToken(token);
+        const user = await api?.me();
+        if(user) {
+            dispatch(setUser(user.data));
+        }
+
+    }
+    useEffect(() => {
+        if(api){
+            const token = localStorage.getItem("token");
+            if (token) {
+            getUser(token);
+            }
+        }
+    }, [api]);
+
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -178,6 +200,7 @@ export default function Navbar() {
         console.log(user.data);
     }
 
+    
     const signIn = async (address: string) => {
         if (ether == null || api == null) return;
 
@@ -186,7 +209,7 @@ export default function Navbar() {
         if (signature == null) return;
 
         const res = await api.login(address, signature);
-
+        localStorage.setItem("token", res.data.token);
         // This will later set some redux state
         console.log(res.data);
     }

@@ -9,6 +9,10 @@ export default class API {
         })
     }
 
+    setToken(token: string) {
+        this.instance.defaults.headers.common['Authorization'] = `${token}`;
+    }
+    
     getUser(address: string) {
         return this.instance.get(`/user/${address}`);
     }
@@ -27,5 +31,9 @@ export default class API {
             address,
             signature,
         });
+    }
+
+    me() {
+        return this.instance.get(`/user/me`);
     }
 }
