@@ -6,6 +6,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
+import "@openzeppelin/hardhat-upgrades";
 
 dotenv.config();
 
@@ -34,7 +35,7 @@ const config: HardhatUserConfig = {
     development: {
       url: process.env.DEV_URL || "",
       accounts: ["728e05ce6a5042c21760ad59c6c5f428a41cf10cea85dc478fd5bc4afd9149cf"]
-    }
+    },
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,

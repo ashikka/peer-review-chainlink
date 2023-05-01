@@ -1,29 +1,29 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import connectDB from './models/connection';
-import routes from './routes';
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import connectDB from "./models/connection";
+import routes from "./routes";
 
 async function main() {
-    dotenv.config();
+  dotenv.config();
 
-    await connectDB();
-    
-    const app = express();
+  await connectDB();
 
-    app.use(cors());
-    app.use(express.json())
+  const app = express();
 
-    app.use(routes);
+  app.use(cors());
+  app.use(express.json());
 
-    app.get('/', (req, res) => {
-        res.send("OK");
-    });
+  app.use(routes);
 
-    const PORT = process.env.PORT || 3001;
-    app.listen(PORT, () => {
-        console.log(`Listening on port ${PORT}`);
-    })
+  app.get("/", (req, res) => {
+    res.send("OK");
+  });
+
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+  });
 }
 
 main();
