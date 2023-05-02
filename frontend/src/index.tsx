@@ -16,9 +16,9 @@ root.render(
   <Provider store={store}>
     <EtherContextProvider>
       <ApiContextProvider>
-        <ChakraProvider>
-        <App />
-        </ChakraProvider>
+          <ChakraProvider>
+            <App />
+          </ChakraProvider>
       </ApiContextProvider>
     </EtherContextProvider>
   </Provider>

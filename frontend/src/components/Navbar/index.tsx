@@ -9,6 +9,9 @@ import { RootState } from '../../stores';
 import { setUser } from '../../stores/slices/userSlice';
 import { Link, Text, useColorModeValue, useDisclosure, Box, Flex, IconButton, HStack, Button, MenuButton, Avatar, MenuList, MenuItem, MenuDivider, Stack } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import logo from '../../assets/logo.png';
+import { UserContext } from '../../contexts/user';
+
 
 function RegisterDialog({ isOpen, setIsOpen, register }:
     { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, register: (name: string, email: string) => any }) {
@@ -148,135 +151,23 @@ function RegisterDialog({ isOpen, setIsOpen, register }:
 
 
 export default function Navbar() {
+    const user = useContext(UserContext);
 
     return (
-        <Flex bgColor="#F8F8FB" flexDirection="row" justifyContent="space-between" py={4} px={8}>
-            <Flex>
-                <Text fontSize="2xl" fontWeight="bold">Peer Review</Text>
+        <Flex bgColor="#F8F8FB" flexDirection="row" justifyContent="space-between" py={5} px={8} borderBottom="3px solid #6459F5">
+            <Flex alignItems="center">
+                <img src={logo} alt="logo" width={40} />
+                <Text fontSize="2xl" fontWeight="bold" ml={2}>Peer Review</Text>
             </Flex>
             <Flex>
-                <Button bg='#6459F5' color="#ffffff" variant='solid'>
+                {!user.user.username && <Button onClick={() => {user.signInOrRegister()}} bg='#6459F5' color="#ffffff" variant='solid'>
                     Login with Metamask
-                </Button>
+                </Button>}
+
+                {user.user.username && <Button onClick={() => {user.signOut()}} bg='#6459F5' color="#ffffff" variant='solid'>
+                    Sign Out
+                </Button>}
             </Flex>
         </Flex>
-    )
-}
-
-export function NavbarBkp() {
-    const ether = useContext(EtherContext).ether;
-    const api = useContext(ApiContext).api;
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const user = useSelector((state: RootState) => state.user);
-
-    const getUser = async (token: string) => {
-        api?.setToken(token);
-        const user = await api?.me();
-        if (user?.data) {
-            user.data.token = token;
-            dispatch(setUser(user.data));
-            navigate('/paper');
-        } else {
-            navigate('/');
-        }
-
-    }
-    useEffect(() => {
-        if (api) {
-            const token = localStorage.getItem("token");
-            if (token) {
-                getUser(token);
-            } else {
-                navigate('/');
-            }
-        }
-    }, [api]);
-
-    useEffect(() => {
-        console.log(user)
-    }, [user.token]);
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const signInOrRegister = async () => {
-        if (ether == null || api == null) return;
-
-        const address = await ether.connectWallet();
-        if (address == null) return;
-        // Check if address exists already. If it does, then just request to sign message, and then send sign in request.
-
-        const user = await api.getUser(address);
-
-        if (user.status == 200) {
-            return signIn(address)
-        }
-
-        setIsOpen(true);
-        // If it doesn't, then need to register new account
-    }
-
-    const register = async (name: string, email: string) => {
-        if (ether == null || api == null) return;
-        const signature = await ether.signMessage("Click sign below to authenticate with DocPublish :)");
-
-        if (signature == null) return;
-
-        const address = await ether.connectWallet();
-        if (address == null) return;
-
-        const user = await api.register(address, name, email, signature);
-
-        console.log(user.data);
-    }
-
-
-    const signIn = async (address: string) => {
-        if (ether == null || api == null) return;
-
-        const signature = await ether.signMessage("Click sign below to authenticate with DocPublish :)");
-
-        if (signature == null) return;
-
-        const res = await api.login(address, signature);
-        localStorage.setItem("token", res.data.token);
-        getUser(res.data.token);
-    }
-
-    const signOut = async () => {
-        localStorage.removeItem("token");
-        dispatch(setUser({}));
-        navigate('/');
-    };
-
-    return (
-        <>
-            {isOpen && <RegisterDialog isOpen={isOpen} setIsOpen={setIsOpen} register={register} />}
-            <div className="w-screen h-24 border-b-4 border-indigo-500 mb-8 px-8 flex flex-row items-center justify-between">
-                <div className="w-32 text-2xl"><span className='font-semibold'>Doc</span>Publish</div>
-                <div className="text-xl flex flex-row">
-                    {!user.username && <button
-                        type="button"
-                        className="py-2 px-3 bg-indigo-500 text-white text-lg font-semibold rounded-md shadow focus:outline-none"
-                        onClick={signInOrRegister}
-                    >
-                        Sign In
-                    </button>}
-
-                    {user.username &&
-                        <>
-                            <span className="w-32 text-xl">Signed in as <span className='font-semibold'>{user.username}</span></span>
-                            <button
-                                type="button"
-                                className="py-2 px-3 bg-indigo-500 text-white text-lg font-semibold rounded-md shadow focus:outline-none"
-                                onClick={signOut}
-                            >
-                                Sign Out
-                            </button>
-                        </>}
-
-                </div>
-            </div>
-        </>
     )
 }
