@@ -39,6 +39,9 @@ export default function Navbar() {
                                 <Avatar size="sm"></Avatar>
                             </MenuButton>
                             <MenuList>
+                                <MenuItem>
+                                Signed in as &nbsp;<Text fontWeight="bold">{user.username}</Text>
+                                </MenuItem>
                                 <MenuItem as={Link} to="/profile">
                                     Profile
                                 </MenuItem>
