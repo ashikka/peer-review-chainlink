@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import { EtherContextProvider } from './contexts/ether';
 import { ApiContextProvider } from './contexts/api';
+import { ChakraProvider } from '@chakra-ui/react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +16,9 @@ root.render(
   <Provider store={store}>
     <EtherContextProvider>
       <ApiContextProvider>
+        <ChakraProvider>
         <App />
+        </ChakraProvider>
       </ApiContextProvider>
     </EtherContextProvider>
   </Provider>
