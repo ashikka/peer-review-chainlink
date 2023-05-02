@@ -1,3 +1,4 @@
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, FormControl, FormHelperText, FormLabel, Input } from '@chakra-ui/react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +13,49 @@ export type UserContextProps = {
     register: Function,
     signIn: Function,
     signOut: Function,
-    user: any,
+    address: string,
+    email: string,
+    token: string,
+    username: string,
+}
+
+export function RegisterModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+
+    const user = useContext(UserContext);
+
+    return (
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>Register for a new account</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                    <FormControl>
+                        <FormLabel htmlFor='email'>Email address</FormLabel>
+                        <Input onChange={(e) => {setEmail(e.target.value)}} id='email' type='email' />
+                        <FormHelperText>We'll never share your email.</FormHelperText>
+                    </FormControl>
+                    <br />
+                    <FormControl>
+                        <FormLabel htmlFor='username'>Username</FormLabel>
+                        <Input onChange={(e) => setUsername(e.target.value)} id='username' type='username' />
+                    </FormControl>
+                </ModalBody>
+
+                <ModalFooter>
+                    <Button colorScheme='blue' mr={3} onClick={async () => {
+                        await user.register(username, email);
+                        onClose();
+                        await user.signInOrRegister();
+                        }}>
+                        Register
+                    </Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
+    )
 }
 
 export const UserContext = createContext<UserContextProps>({
@@ -20,7 +63,10 @@ export const UserContext = createContext<UserContextProps>({
     register: () => { },
     signIn: () => { },
     signOut: () => { },
-    user: null,
+    username: '',
+    email: '',
+    token: '',
+    address: '',
 });
 
 export const UserContextProvider = ({ children }: { children: any }) => {
@@ -86,7 +132,6 @@ export const UserContextProvider = ({ children }: { children: any }) => {
 
         const user = await api.register(address, name, email, signature);
 
-        console.log(user.data);
     }
 
 
@@ -114,8 +159,12 @@ export const UserContextProvider = ({ children }: { children: any }) => {
             signInOrRegister,
             signOut,
             register,
-            user,
+            username: user.username || "",
+            address: user.address || "",
+            email: user.email || "",
+            token: user.token || "",
         }}>
+            <RegisterModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
             {children}
         </UserContext.Provider>
     );
