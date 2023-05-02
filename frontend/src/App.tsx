@@ -12,7 +12,7 @@ import Navbar from './components/Navbar';
 import logo from './logo.svg';
 import './App.css';
 import Home from './pages/Home';
-import Login from './pages/Paper';
+import UploadPaperScreen from './pages/UploadPaperScreen/UploadPaperScreen';
 import SignUpLoginInScreen from './pages/SignUpLoginInScreen/SignUpLoginInScreen';
 import { UserContextProvider } from './contexts/user';
 
@@ -26,7 +26,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/ok" element={<Home />} />
-            <Route path="/paper" element={<Login />} />
+            <Route path="/paper" element={<UploadPaperScreen />} />
             <Route path="/" element={<SignUpLoginInScreen />} />
           </Routes>
         </UserContextProvider>
