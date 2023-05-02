@@ -23,9 +23,9 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/ok" element={<Home />} />
           <Route path="/paper" element={<Login />} />
-          <Route path="signup" element={<SignUpLoginInScreen />} />
+          <Route path="/" element={<SignUpLoginInScreen />} />
         </Routes>
       </Router>
 
