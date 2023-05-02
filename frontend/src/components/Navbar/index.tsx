@@ -1,5 +1,5 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react'
+import React, { Fragment, ReactNode, useContext, useEffect, useState } from 'react';
+import { Dialog, Menu, Transition } from '@headlessui/react'
 import { useNavigate } from "react-router-dom";
 
 import { ApiContext } from '../../contexts/api';
@@ -7,7 +7,8 @@ import { EtherContext } from '../../contexts/ether';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import { setUser } from '../../stores/slices/userSlice';
-
+import { Link, Text, useColorModeValue, useDisclosure, Box, Flex, IconButton, HStack, Button, MenuButton, Avatar, MenuList, MenuItem, MenuDivider, Stack } from '@chakra-ui/react';
+import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
 
 function RegisterDialog({ isOpen, setIsOpen, register }:
     { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, register: (name: string, email: string) => any }) {
@@ -145,7 +146,24 @@ function RegisterDialog({ isOpen, setIsOpen, register }:
     )
 }
 
+
 export default function Navbar() {
+
+    return (
+        <Flex bgColor="#F8F8FB" flexDirection="row" justifyContent="space-between" py={4} px={8}>
+            <Flex>
+                <Text fontSize="2xl" fontWeight="bold">Peer Review</Text>
+            </Flex>
+            <Flex>
+                <Button bg='#6459F5' color="#ffffff" variant='solid'>
+                    Login with Metamask
+                </Button>
+            </Flex>
+        </Flex>
+    )
+}
+
+export function NavbarBkp() {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api;
     const dispatch = useDispatch();
@@ -246,7 +264,7 @@ export default function Navbar() {
                     </button>}
 
                     {user.username &&
-                        <> 
+                        <>
                             <span className="w-32 text-xl">Signed in as <span className='font-semibold'>{user.username}</span></span>
                             <button
                                 type="button"
