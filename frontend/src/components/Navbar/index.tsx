@@ -1,14 +1,14 @@
 import React, { Fragment, ReactNode, useContext, useEffect, useState } from 'react';
-import { Dialog, Menu, Transition } from '@headlessui/react'
-import { useNavigate } from "react-router-dom";
+import { Dialog, Transition } from '@headlessui/react'
+import { useNavigate, Link } from "react-router-dom";
 
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import { setUser } from '../../stores/slices/userSlice';
-import { Link, Text, useColorModeValue, useDisclosure, Box, Flex, IconButton, HStack, Button, MenuButton, Avatar, MenuList, MenuItem, MenuDivider, Stack } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import { Text, Menu, useColorModeValue, useDisclosure, Box, Flex, IconButton, HStack, Button, MenuButton, Avatar, MenuList, MenuItem, MenuDivider, Stack } from '@chakra-ui/react';
+import { HamburgerIcon, CloseIcon, AddIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import logo from '../../assets/logo.png';
 import { UserContext } from '../../contexts/user';
 
@@ -150,6 +150,14 @@ function RegisterDialog({ isOpen, setIsOpen, register }:
 }
 
 
+function NavLink({ text, href }: { text: string, href: string }) {
+    return (
+        <Link to={href}>
+            <Text color="#6459F5" fontWeight="semibold">{text}</Text>
+        </Link>
+    )
+}
+
 export default function Navbar() {
     const user = useContext(UserContext);
 
@@ -157,16 +165,31 @@ export default function Navbar() {
         <Flex bgColor="#F8F8FB" flexDirection="row" justifyContent="space-between" py={5} px={8} borderBottom="3px solid #6459F5">
             <Flex alignItems="center">
                 <img src={logo} alt="logo" width={40} />
-                <Text fontSize="2xl" fontWeight="bold" ml={2}>Peer Review</Text>
+                <Text fontSize="2xl" fontWeight="bold" ml={2}><Link to="/">Peer Review</Link></Text>
             </Flex>
             <Flex>
-                {!user.user.username && <Button onClick={() => {user.signInOrRegister()}} bg='#6459F5' color="#ffffff" variant='solid'>
+                {!user.user.username && <Button onClick={() => { user.signInOrRegister() }} bg='#6459F5' color="#ffffff" variant='solid'>
                     Login with Metamask
                 </Button>}
 
-                {user.user.username && <Button onClick={() => {user.signOut()}} bg='#6459F5' color="#ffffff" variant='solid'>
-                    Sign Out
-                </Button>}
+                {user.user.username &&
+                    <Flex alignItems="center" gridGap={6}>
+                        <NavLink text="Home" href="/" />
+                        <NavLink text="Upload" href="/paper" />
+                        <NavLink text="Browse" href="/browse" />
+
+                        <Menu>
+                            <MenuButton>
+                                <Avatar size="sm"></Avatar>
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem as={Link} to="/profile">
+                                    Profile
+                                </MenuItem>
+                                <MenuItem onClick={() => user.signOut()}>Sign Out</MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </Flex>}
             </Flex>
         </Flex>
     )

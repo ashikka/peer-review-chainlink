@@ -36,7 +36,6 @@ export const UserContextProvider = ({ children }: { children: any }) => {
         if (user?.data) {
             user.data.token = token;
             dispatch(setUser(user.data));
-            navigate('/paper');
         } else {
             navigate('/');
         }
