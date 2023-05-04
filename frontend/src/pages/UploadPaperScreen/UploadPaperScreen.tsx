@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
 import { LinkIcon } from '@chakra-ui/icons'
@@ -8,16 +8,23 @@ import logo from '../../assets/logo.png';
 
 export default function UploadPaperScreen() {
     const [url, setUrl] = useState('');
+    const file = useRef(null);
+    const [progress, setProgress] = useState(0);
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api;
 
     const retrieveFile = async (e: any) => {
         if (ether == null) return;
-        const file = e.target.files[0];
-
-        const url = await ether.add(file);
-        setUrl(url);
+        file.current = e.target.files[0];
+        setProgress(0);
         e.preventDefault();
+    }
+
+    const uploadFile = async () => {
+        if (ether == null) return;
+
+        const url = await ether.add(file, (progress) => setProgress(progress));
+        setUrl(url);
     }
 
     return (<>
@@ -33,10 +40,11 @@ export default function UploadPaperScreen() {
                         <FormLabel>Title</FormLabel>
                         <Input id='title' type='text' />
                         <FormLabel mt="0.5rem">Progress</FormLabel>
-                        <Progress colorScheme='green' size='md' value={20} />
+                        <Progress colorScheme='green' size='md' value={progress} />
                         <FormLabel mt="2rem">Attach your paper <LinkIcon/></FormLabel>
                         
-                        <Button bg='#6459F5' color="#ffffff" variant='solid'>
+                        <Input type='file' id='formFile' onChange={retrieveFile} />
+                        <Button mt={4} bg='#6459F5' color="#ffffff" variant='solid'>
                             Upload
                         </Button>
                     </FormControl>

@@ -22,8 +22,8 @@ export default class Ether {
         return await signer.signMessage(message);
     }
 
-    async add(file: any) {
-        const added = await this.client.add(file)
+    async add(file: any, progressFn: (progress: number) => void) {
+        const added = await this.client.add(file, {progress: (prog) => console.log(progressFn((prog/file.size)*100))});
         return `https://ipfs.infura.io/ipfs/${added.path}`
     }
 }
