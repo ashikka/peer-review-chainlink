@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 
 import {
@@ -14,20 +14,32 @@ import './App.css';
 import Home from './pages/Home';
 import UploadPaperScreen from './pages/UploadPaperScreen/UploadPaperScreen';
 import SignUpLoginInScreen from './pages/SignUpLoginInScreen/SignUpLoginInScreen';
+import LoadingScreen from './pages/LoadingScreen/LoadingScreen';
 import { UserContextProvider } from './contexts/user';
 
+
 function App() {
+
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
-  }, [])
+    setTimeout(() => setLoading(false), 3000)
+  }, []);
+
   return (
     <>
       <Router>
         <UserContextProvider>
           <Navbar />
           <Routes>
-            <Route path="/ok" element={<Home />} />
-            <Route path="/paper" element={<UploadPaperScreen />} />
-            <Route path="/" element={<SignUpLoginInScreen />} />
+            {loading === false ? (
+              <>
+                <Route path="/ok" element={<Home />} />
+                <Route path="/paper" element={<UploadPaperScreen />} />
+                <Route path="/" element={<SignUpLoginInScreen />} />
+              </>
+            ) : <Route path="/" element={<LoadingScreen />} />}
+
           </Routes>
         </UserContextProvider>
       </Router>
