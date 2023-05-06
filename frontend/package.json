@@ -23,6 +23,7 @@
     "ipfs-http-client": "^56.0.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-icons": "^4.3.1",
     "react-pdf": "^5.7.2",
     "react-redux": "^7.2.8",
     "react-router-dom": "^6.3.0",

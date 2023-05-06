@@ -1,5 +1,9 @@
-import { Box, Flex, Heading, HStack, Tag, Text } from '@chakra-ui/react';
+
+import { Box, Flex, Heading, HStack, Tag, TagLabel, Text } from '@chakra-ui/react';
 import React from 'react';
+import { ChevronLeftIcon } from '@chakra-ui/icons'
+import { FaFilter } from 'react-icons/fa';
+
 import {
     Table,
     Thead,
@@ -40,18 +44,40 @@ export default function ProfileScreen() {
                     </Table>
                 </TableContainer>
             </Flex>
-            <Heading as="h3" size="lg">Papers Uploaded</Heading>
-            <HStack spacing={4}>
-
-                <Tag size="lg" variant='solid' colorScheme='teal'>
-                    Teal
+            <Heading as="h3" size="lg" mx="6vw">Papers Uploaded</Heading>
+            <HStack spacing={6} mx="6vw" my="2rem">
+                <Box as={FaFilter} size="32px" color="gray.800" />
+                <Text>Filters</Text>
+                <Tag
+                    size="md"
+                    variant="solid"
+                    colorScheme="gray"
+                    padding="0.5rem"
+                >
+                    <TagLabel>Under Review</TagLabel>
                 </Tag>
-                <Tag size="lg" variant='solid' colorScheme='teal'>
-                    Teal
-                </Tag>   <Tag size="lg" variant='solid' colorScheme='teal'>
-                    Teal
+                <Tag
+                    size="md"
+                    variant="solid"
+                    colorScheme="gray"
+                    padding="0.5rem"
+                >
+                    <TagLabel>Approved</TagLabel>
+                </Tag>           <Tag
+                    size="md"
+                    variant="solid"
+                    colorScheme="gray"
+                    padding="0.5rem"
+                >
+                    <TagLabel>Rejected</TagLabel>
                 </Tag>
             </HStack>
+            <Flex justifyContent="space-around" mx="10vw">
+                <div style={{width: "200px", height: "200px", backgroundColor: "#EDF2F6"}}/>
+                <div style={{width: "200px", height: "200px", backgroundColor: "#EDF2F6"}}/>
+                <div style={{width: "200px", height: "200px", backgroundColor: "#EDF2F6"}}/>
+                <div style={{width: "200px", height: "200px", backgroundColor: "#EDF2F6"}}/>
+            </Flex>
 
         </>
     );
