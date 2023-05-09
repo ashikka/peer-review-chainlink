@@ -34,7 +34,7 @@ export function RegisterModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                 <ModalBody>
                     <FormControl>
                         <FormLabel htmlFor='email'>Email address</FormLabel>
-                        <Input onChange={(e) => {setEmail(e.target.value)}} id='email' type='email' />
+                        <Input onChange={(e) => { setEmail(e.target.value) }} id='email' type='email' />
                         <FormHelperText>We'll never share your email.</FormHelperText>
                     </FormControl>
                     <br />
@@ -49,7 +49,7 @@ export function RegisterModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                         await user.register(username, email);
                         onClose();
                         await user.signInOrRegister();
-                        }}>
+                    }}>
                         Register
                     </Button>
                 </ModalFooter>
@@ -82,6 +82,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
         if (user?.data) {
             user.data.token = token;
             dispatch(setUser(user.data));
+            navigate('/paper');
         } else {
             navigate('/');
         }
@@ -145,7 +146,6 @@ export const UserContextProvider = ({ children }: { children: any }) => {
         const res = await api.login(address, signature);
         localStorage.setItem("token", res.data.token);
         getUser(res.data.token);
-        navigate('/paper');
     }
 
     const signOut = async () => {
