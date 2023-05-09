@@ -21,27 +21,18 @@ import ProfileScreen from './pages/ProfileScreen/ProfileScreen';
 
 function App() {
 
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 3000)
-  }, []);
-
   return (
     <>
       <Router>
         <UserContextProvider>
           <Navbar />
           <Routes>
-            {loading === false ? (
               <>
                 <Route path="/ok" element={<Home />} />
                 <Route path="/paper" element={<UploadPaperScreen />} />
                 <Route path="/" element={<SignUpLoginInScreen />} />
                 <Route path="/profile" element={<ProfileScreen />} />
               </>
-            ) : <Route path="/" element={<LoadingScreen />} />}
-
           </Routes>
         </UserContextProvider>
       </Router>

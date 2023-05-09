@@ -1,9 +1,10 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
 import { LinkIcon } from '@chakra-ui/icons'
 import { Flex, Heading, Button, OrderedList, ListItem, FormControl, FormLabel, Input, Progress } from '@chakra-ui/react';
 import logo from '../../assets/logo.png';
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 
 export default function UploadPaperScreen() {
@@ -12,7 +13,21 @@ export default function UploadPaperScreen() {
     const [progress, setProgress] = useState(0);
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api;
+    const [loading, setLoading] = useState(true);
 
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 500)
+    })
+
+    if (loading) {
+        return (
+            <LoadingScreen />
+        )
+    }
+    
     const retrieveFile = async (e: any) => {
         if (ether == null || !e.target.files) return;
 

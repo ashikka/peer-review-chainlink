@@ -1,13 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Flex, Text, Button } from '@chakra-ui/react';
 import { ListItem, UnorderedList } from '@chakra-ui/react'
 import { Heading } from '@chakra-ui/react'
 import logo from '../../assets/logo.png';
 import { UserContext } from '../../contexts/user';
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 
 export default function SignUpLoginInScreen() {
     const user = useContext(UserContext);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 500)
+    })
+
+    if (loading) {
+        return (
+            <LoadingScreen />
+        )
+    }
 
     return (
         <Flex justifyContent="center" flexDirection="column" alignItems="center" height="80vh">
