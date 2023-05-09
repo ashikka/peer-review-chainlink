@@ -145,6 +145,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
         const res = await api.login(address, signature);
         localStorage.setItem("token", res.data.token);
         getUser(res.data.token);
+        navigate('/paper');
     }
 
     const signOut = async () => {

@@ -1,9 +1,9 @@
 import "hardhat/console.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract Paper is Ownable {
+contract Paper {
     string public status = "UNDER_REVIEW";
     string public ipfsHash;
+    address public owner;
 
     mapping(address => bool) public reviews;
 
@@ -11,6 +11,7 @@ contract Paper is Ownable {
     constructor(string memory _ipfsHash) public {
         console.log("Deploying a User");
         ipfsHash = _ipfsHash;
+        owner = msg.sender;
     }
 
     function setStatus(string memory _status) public {

@@ -14,7 +14,8 @@ export default function UploadPaperScreen() {
     const api = useContext(ApiContext).api;
 
     const retrieveFile = async (e: any) => {
-        if (ether == null) return;
+        if (ether == null || !e.target.files) return;
+
         file.current = e.target.files[0];
         setProgress(0);
         e.preventDefault();
@@ -23,7 +24,9 @@ export default function UploadPaperScreen() {
     const uploadFile = async () => {
         if (ether == null) return;
 
-        const url = await ether.add(file, (progress) => setProgress(progress));
+        if (!file.current) return;
+
+        const url = await ether.add(file.current, (progress) => setProgress(progress));
         setUrl(url);
     }
 
@@ -44,7 +47,7 @@ export default function UploadPaperScreen() {
                         <FormLabel mt="2rem">Attach your paper <LinkIcon/></FormLabel>
                         
                         <Input type='file' id='formFile' onChange={retrieveFile} />
-                        <Button mt={4} bg='#6459F5' color="#ffffff" variant='solid'>
+                        <Button mt={4} bg='#6459F5' color="#ffffff" variant='solid' onClick={uploadFile}>
                             Upload
                         </Button>
                     </FormControl>
