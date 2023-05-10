@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
 import { ChevronLeftIcon, ChevronRightIcon, LinkIcon } from '@chakra-ui/icons'
-import { Flex, Heading, Button, OrderedList, ListItem, FormControl, FormLabel, Input, Progress, Container, Badge } from '@chakra-ui/react';
+import { Flex, Heading, Button, OrderedList, ListItem, FormControl, FormLabel, Input, Progress, Badge } from '@chakra-ui/react';
 import logo from '../../assets/logo.png';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
@@ -48,6 +48,12 @@ export default function UploadPaperScreen() {
         if (file.current) {
             console.log(file.current)
             setReviewFileScreen(true);
+        } else {
+            MySwal.fire({
+                icon: 'error',
+                title: <p>Oops!</p>,
+                html: (<div>Required fields are not filled.</div>),
+            });
         }
     }
 
@@ -63,7 +69,7 @@ export default function UploadPaperScreen() {
         MySwal.fire({
             icon: 'success',
             title: <p>Good Job!</p>,
-            html: (<div>Your paper has been uploaded successfully to <a href={url}>{url}</a></div>),
+            html: (<div>Your paper has been uploaded successfully <a style={{color: 'blue'}} href={url}>here</a></div>),
         });
     }
 
@@ -75,8 +81,8 @@ export default function UploadPaperScreen() {
     if (reviewFileScreen) {
         return (
             <>
-                <Heading as='h2' mt={4} ml={12}>Review your Paper</Heading>
                 <Flex direction="column" alignItems="center">
+                <Heading as='h2' my={4} ml={12}>Review your Paper</Heading>
                     <Badge fontSize="1rem">{pageNumber}/{numPages}</Badge>
                     <Flex direction="row" alignItems="center">
                         <ChevronLeftIcon cursor="pointer" w={12} h={12} mr={12} onClick={() => {

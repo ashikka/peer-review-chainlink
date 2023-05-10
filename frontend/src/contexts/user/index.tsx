@@ -124,7 +124,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
 
     const register = async (name: string, email: string) => {
         if (ether == null || api == null) return;
-        const signature = await ether.signMessage("Click sign below to authenticate with DocPublish :)");
+        const signature = await ether.signMessage("Click sign below to authenticate with Peer Review :)");
 
         if (signature == null) return;
 
@@ -139,7 +139,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
     const signIn = async (address: string) => {
         if (ether == null || api == null) return;
 
-        const signature = await ether.signMessage("Click sign below to authenticate with DocPublish :)");
+        const signature = await ether.signMessage("Click sign below to authenticate with Peer Review :)");
 
         if (signature == null) return;
 

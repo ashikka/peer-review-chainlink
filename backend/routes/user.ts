@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
 
   if (
     ethers.utils.verifyMessage(
-      "Click sign below to authenticate with DocPublish :)",
+      "Click sign below to authenticate with Peer Review :)",
       signature
     ) === address
   ) {
@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
 
   if (
     ethers.utils.verifyMessage(
-      "Click sign below to authenticate with DocPublish :)",
+      "Click sign below to authenticate with Peer Review :)",
       signature
     ) === address
   ) {
