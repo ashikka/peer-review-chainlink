@@ -109,7 +109,7 @@ export default function UploadPaperScreen() {
                         <Flex mb="1rem" alignItems="center">
                             <Text>Submitted on 27 April 2022</Text>
                             <Flex mx="2rem" alignItems="center">
-                                <Box as={IoIosPaper} size="26px" color="gray.800" />
+                                <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem"  />
                                 <Text>5 pages</Text>
                             </Flex>
                         </Flex>
