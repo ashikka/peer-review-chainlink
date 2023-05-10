@@ -1,19 +1,20 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Flex, Heading, Badge } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 
 
-export default function PaperView(props: {heading: String, file: any}) {
+export default function PaperView(props: { heading: String, file: any }) {
 
     const [numPages, setNumPages] = useState(0);
     const [pageNumber, setPageNumber] = useState(1);
 
+
     const documentLoadSuccess = async (pdf: any) => {
         setNumPages(pdf.numPages);
+        console.log("here", numPages)
         setPageNumber(1);
     };
-
     return (
         <>
             <Flex flexDirection="column" justifyContent="center" alignItems="center" w="60vw">
@@ -37,4 +38,7 @@ export default function PaperView(props: {heading: String, file: any}) {
             </Flex>
         </>
     )
+
+
+
 }
