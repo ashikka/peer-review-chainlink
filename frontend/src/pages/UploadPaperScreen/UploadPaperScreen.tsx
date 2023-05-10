@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoIosPaper } from 'react-icons/io';
 import { BsFilePersonFill } from 'react-icons/bs';
 import { CloseIcon, CheckIcon } from '@chakra-ui/icons'
+import PaperView from '../../components/PaperView/PaperView';
 
 
 export default function UploadPaperScreen() {
@@ -19,8 +20,6 @@ export default function UploadPaperScreen() {
     const [category, setCategory] = useState("");
     const [abstract, setAbstract] = useState("");
     const [url, setUrl] = useState('');
-    const [numPages, setNumPages] = useState(0);
-    const [pageNumber, setPageNumber] = useState(1);
     const file = useRef(null);
     const [progress, setProgress] = useState(0);
     const [reviewFileScreen, setReviewFileScreen] = useState(false);
@@ -100,34 +99,11 @@ export default function UploadPaperScreen() {
         });
     }
 
-    const documentLoadSuccess = async (pdf: any) => {
-        setNumPages(pdf.numPages);
-        setPageNumber(1);
-    };
-
     if (reviewFileScreen) {
         return (
             <>
                 <Flex justifyContent="space-around">
-                    <Flex flexDirection="column" justifyContent="center" alignItems="center" w="60vw">
-                        <Heading as='h2' my="2rem">Review before submitting</Heading>
-                        <Badge fontSize="1rem">{pageNumber}/{numPages}</Badge>
-                        <Flex direction="row" alignItems="center">
-                            <ChevronLeftIcon cursor="pointer" w={12} h={12} mr={12} onClick={() => {
-                                if (pageNumber > 1) {
-                                    setPageNumber(pageNumber - 1);
-                                }
-                            }} />
-                            <Document file={file.current} onLoadSuccess={documentLoadSuccess}>
-                                <Page height={window.innerHeight * 0.7} pageNumber={pageNumber} />
-                            </Document>
-                            <ChevronRightIcon cursor="pointer" w={12} h={12} ml={12} onClick={() => {
-                                if (pageNumber < numPages) {
-                                    setPageNumber(pageNumber + 1);
-                                }
-                            }} />
-                        </Flex>
-                    </Flex>
+                    <PaperView file={file.current} heading="Review your paper" />
                     <Flex justifyContent="flex-start" flexDirection="column" w="40vw">
                         <Text fontSize='3xl' mt="10vh" mb={4}>How Do Autonomous Cars Work?</Text>
                         <Flex mb="1rem" alignItems="center">
