@@ -1,7 +1,6 @@
 
 import { Box, Flex, Heading, HStack, Tag, TagLabel, Text } from '@chakra-ui/react';
 import React from 'react';
-import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { FaFilter } from 'react-icons/fa';
 
 import {

@@ -2,13 +2,16 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
 import { ChevronLeftIcon, ChevronRightIcon, LinkIcon } from '@chakra-ui/icons'
-import { Flex, Heading, Button, OrderedList, ListItem, FormControl, FormLabel, Input, Progress, Badge, Select, Textarea } from '@chakra-ui/react';
+import { Flex, Heading, Button, OrderedList, ListItem, FormControl, FormLabel, Input, Progress, Badge, Select, Textarea, Text, Box } from '@chakra-ui/react';
 import logo from '../../assets/logo.png';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useNavigate } from 'react-router-dom';
+import { IoIosPaper } from 'react-icons/io';
+import { BsFilePersonFill } from 'react-icons/bs';
+import { CloseIcon, CheckIcon } from '@chakra-ui/icons'
 
 
 export default function UploadPaperScreen() {
@@ -105,28 +108,63 @@ export default function UploadPaperScreen() {
     if (reviewFileScreen) {
         return (
             <>
-                <Flex direction="column" alignItems="center">
-                    <Heading as='h2' my={4} ml={12}>Review your Paper</Heading>
-                    <Badge fontSize="1rem">{pageNumber}/{numPages}</Badge>
-                    <Flex direction="row" alignItems="center">
-                        <ChevronLeftIcon cursor="pointer" w={12} h={12} mr={12} onClick={() => {
-                            if (pageNumber > 1) {
-                                setPageNumber(pageNumber - 1);
-                            }
-                        }} />
-                        <Document file={file.current} onLoadSuccess={documentLoadSuccess}>
-                            <Page height={window.innerHeight * 0.7} pageNumber={pageNumber} />
-                        </Document>
-                        <ChevronRightIcon cursor="pointer" w={12} h={12} ml={12} onClick={() => {
-                            if (pageNumber < numPages) {
-                                setPageNumber(pageNumber + 1);
-                            }
-                        }} />
+                <Flex justifyContent="space-around">
+                    <Flex flexDirection="column" justifyContent="center" alignItems="center" w="60vw">
+                        <Heading as='h2' my="2rem">Review before submitting</Heading>
+                        <Badge fontSize="1rem">{pageNumber}/{numPages}</Badge>
+                        <Flex direction="row" alignItems="center">
+                            <ChevronLeftIcon cursor="pointer" w={12} h={12} mr={12} onClick={() => {
+                                if (pageNumber > 1) {
+                                    setPageNumber(pageNumber - 1);
+                                }
+                            }} />
+                            <Document file={file.current} onLoadSuccess={documentLoadSuccess}>
+                                <Page height={window.innerHeight * 0.7} pageNumber={pageNumber} />
+                            </Document>
+                            <ChevronRightIcon cursor="pointer" w={12} h={12} ml={12} onClick={() => {
+                                if (pageNumber < numPages) {
+                                    setPageNumber(pageNumber + 1);
+                                }
+                            }} />
+                        </Flex>
                     </Flex>
+                    <Flex justifyContent="flex-start" flexDirection="column" w="40vw">
+                        <Text fontSize='3xl' mt="10vh" mb={4}>How Do Autonomous Cars Work?</Text>
+                        <Flex mb="1rem" alignItems="center">
+                            <Text>Submitted on 27 April 2022</Text>
+                            <Flex mx="2rem" alignItems="center">
+                                <Box as={IoIosPaper} size="26px" color="gray.800" />
+                                <Text>5 pages</Text>
+                            </Flex>
+                        </Flex>
+                        <Text color="gray.500">Published in Computer Science and Engineering</Text>
+                        <Flex alignItems="center">
+                            <Box as={BsFilePersonFill} size="70px" color="gray.800" my="1rem" ml="-0.5rem" />
+                            <Box>
+                                <Text>Anonymous</Text>
+                                <Text>Vellore Institute of Technology, Vellore</Text>
+                            </Box>
+                        </Flex>
+                        <Text fontSize="md" mb="0.5rem">Abstract</Text>
+                        <Box maxW="30vw" borderTop="2px solid gray">
+                            <Text mt="0.5rem" fontSize="xs">Lorem ipsum dolor sit amet. Nam explicabo sint quo voluptatem dolorem qui molestiae unde At magni incidunt. Cum autem veritatis ea perferendis ipsum quo debitis suscipit! Quo omnis sunt non porro soluta hic dolore consequatur.
 
-                    <Button mt={4} mb={4} bg='#6459F5' color="#ffffff" variant='solid' onClick={uploadFile}>
-                        Submit
-                    </Button>
+                                Est voluptatum voluptate ex neque consequatur ut voluptatem consequuntur. Cum delectus expedita eum repellendus consequatur vel maxime similique. Ut assumenda iure At tempore iusto a beatae rerum et dolorum autem est libero modi ut nobis nulla in cupiditate neque. Aut Quis illo id labore ipsum eos natus laboriosam.
+
+                                Est consectetur consequuntur et dolores voluptatem sit quas exercitationem qui aliquam officia. Est delectus dolor nihil saepe qui magnam temporibus sed officia exercitationem eum voluptas expedita est alias consequuntur et eligendi distinctio. Qui alias animi qui dolorem praesentium ab repudiandae nulla aut voluptate facere!</Text>
+                        </Box>
+
+                        <Flex flexDirection="column" w="20%">
+                            <Button mt={4} mb={4} bg='#1AAF9E' color="#ffffff" variant='solid' onClick={uploadFile}>
+                                <CheckIcon mr={2} />
+                                Submit
+                            </Button>
+                            <Button mt={4} mb={4} bg='#d3455b' color="#ffffff" variant='solid' onClick={uploadFile}>
+                                <CloseIcon w={3} h={3} mr={2} />
+                                Cancel
+                            </Button>
+                        </Flex>
+                    </Flex>
                 </Flex>
             </>
         )
