@@ -22,3 +22,13 @@ contract Paper {
         reviews[_reviewer] = _review;
     }
 }
+
+/**
+ User
+  - address of the owner
+  - list/mapping of papers deployed by this user
+  getPapers() - returns an array of addresses to Paper contracts deployed by this user
+  deployPaper() - deploys a new Paper contract under this user. (can only be run by the owner)
+
+
+ */
