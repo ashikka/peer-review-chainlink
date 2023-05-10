@@ -12,7 +12,6 @@ export default function PaperView(props: { heading: String, file: any }) {
 
     const documentLoadSuccess = async (pdf: any) => {
         setNumPages(pdf.numPages);
-        console.log("here", numPages)
         setPageNumber(1);
     };
     return (
@@ -26,8 +25,8 @@ export default function PaperView(props: { heading: String, file: any }) {
                             setPageNumber(pageNumber - 1);
                         }
                     }} />
-                    <Document file={props.file} >
-                        <Page height={window.innerHeight * 0.7} pageNumber={pageNumber} onLoadSuccess={documentLoadSuccess} />
+                    <Document file={props.file} onLoadSuccess={documentLoadSuccess} >
+                        <Page height={window.innerHeight * 0.7} pageNumber={pageNumber} />
                     </Document>
                     <ChevronRightIcon cursor="pointer" w={12} h={12} ml={12} onClick={() => {
                         if (pageNumber < numPages) {
