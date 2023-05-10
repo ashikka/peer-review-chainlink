@@ -8,6 +8,7 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function UploadPaperScreen() {
@@ -24,6 +25,8 @@ export default function UploadPaperScreen() {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api;
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
 
     const MySwal = withReactContent(Swal)
 
@@ -59,7 +62,17 @@ export default function UploadPaperScreen() {
     const reviewFile = async () => {
         if (file.current && title && category) {
             console.log(file.current)
-            setAbstractScreen(true);
+
+            if (ether == null) return;
+
+            if (!file.current) return;
+
+            const url = await ether.add(file.current, (progress) => setProgress(progress));
+            setUrl(url);
+
+            setProgress(100);
+
+            setTimeout(() => setAbstractScreen(true), 500);
             if (abstract) {
                 setReviewFileScreen(true);
             }
@@ -73,18 +86,14 @@ export default function UploadPaperScreen() {
     }
 
     const uploadFile = async () => {
-        if (ether == null) return;
-
-        if (!file.current) return;
-
-        const url = await ether.add(file.current, (progress) => setProgress(progress));
-        console.log(url);
-        setUrl(url);
-
         MySwal.fire({
             icon: 'success',
             title: <p>Good Job!</p>,
             html: (<div>Your paper has been uploaded successfully <a style={{ color: 'blue' }} href={url}>here</a></div>),
+        }).then((val) => {
+            if (val.isConfirmed) {
+                navigate('/browse');
+            }
         });
     }
 
