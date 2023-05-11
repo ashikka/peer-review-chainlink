@@ -17,7 +17,7 @@ contract PeerReview {
         } 
         console.log("Creating a User");
         address from = msg.sender;
-        User u = new User();
+        User u = new User(from);
         usersMap[from] = address(u);
 
         users.push(from);
