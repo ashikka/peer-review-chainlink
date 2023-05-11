@@ -1,14 +1,16 @@
 import { ethers } from 'ethers';
 import { create, IPFSHTTPClient } from "ipfs-http-client";
-
+import { PeerReview, PeerReview__factory, User, User__factory } from '../../typechain';
 export default class Ether {
     private provider: ethers.providers.Web3Provider
     private client: IPFSHTTPClient;
+    private user!: User;
     constructor() {
         this.provider = new ethers.providers.Web3Provider(window.ethereum);
         this.client = create({
             url: 'https://ipfs.infura.io:5001/api/v0'
         });
+
     }
 
     async connectWallet() {
@@ -21,6 +23,43 @@ export default class Ether {
         const signer = this.provider.getSigner();
         return await signer.signMessage(message);
     }
+
+    async createUser() {
+        const c = await this.getPeerReviewContract();
+        await c.createUser();
+        return this.getMyUser();
+    }
+
+    async getMyUser() {
+        const c = await this.getPeerReviewContract();
+        const address = await c.getMyUser();
+
+        const user = await this.getUserContract(address);
+        return user;
+
+    }
+
+    async setMyUser(user: User) {
+        this.user = user;
+    }
+
+    async getUsers() {
+        const c = await this.getPeerReviewContract();
+        console.log(await c.getUsers());
+    }
+
+    private getPeerReviewContract() {
+        const signer = this.provider.getSigner();
+        const peerReview = PeerReview__factory.connect(process.env.REACT_APP_PEER_REVIEW_CONTRACT_ADDRESS as string, signer);
+        return peerReview;
+    }
+
+    private getUserContract(address: string) {
+        const signer = this.provider.getSigner();
+        const user = User__factory.connect(address, signer);
+        return user;
+    }
+
 
     async add(file: any, progressFn: (progress: number) => void) {
         const added = await this.client.add(file, {progress: (prog) => console.log(progressFn((prog/file.size)*100))});

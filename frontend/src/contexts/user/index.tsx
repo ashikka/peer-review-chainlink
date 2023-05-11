@@ -77,7 +77,15 @@ export const UserContextProvider = ({ children }: { children: any }) => {
     const user = useSelector((state: RootState) => state.user);
 
     const getUser = async (token: string) => {
-        api?.setToken(token);
+        if (ether == null || api == null) {
+            return;
+        }
+        api.setToken(token);
+
+        const userContract = await ether.getMyUser() || await ether.createUser();
+
+        ether.setMyUser(userContract);
+        
         const user = await api?.me();
         if (user?.data) {
             user.data.token = token;
