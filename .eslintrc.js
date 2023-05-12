@@ -5,7 +5,11 @@ module.exports = {
     mocha: true,
     node: true,
   },
-  plugins: ["@typescript-eslint"],
+  plugins: [
+    "@typescript-eslint",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+  ],
   extends: [
     "standard",
     "plugin:prettier/recommended",
@@ -20,5 +24,12 @@ module.exports = {
       "error",
       { ignores: ["modules"] },
     ],
+  },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
   },
 };
