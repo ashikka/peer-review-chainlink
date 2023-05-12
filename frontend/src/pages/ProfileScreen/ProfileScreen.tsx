@@ -1,6 +1,6 @@
 
 import { Box, Flex, Heading, HStack, Tag, TagLabel, Text } from '@chakra-ui/react';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 
 import {
@@ -14,13 +14,22 @@ import {
 } from '@chakra-ui/react'
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
+import { Paper } from '../../typechain';
 
 export default function ProfileScreen() {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api
 
+    const [papers, setPapers] = useState<Paper[]>([]);
+
     const getPapers = async () => {
-        await ether?.getPapers();
+        const papers = await ether?.getPapers();
+
+        if (papers == null) {
+            return;
+        }
+
+        setPapers(papers);
     };
 
     useEffect(() => {
