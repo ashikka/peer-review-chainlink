@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { create, IPFSHTTPClient } from "ipfs-http-client";
-import { PeerReview, PeerReview__factory, User, User__factory } from '../../typechain';
+import { Paper__factory, PeerReview, PeerReview__factory, User, User__factory } from '../../typechain';
 export default class Ether {
     private provider: ethers.providers.Web3Provider
     private client: IPFSHTTPClient;
@@ -43,6 +43,25 @@ export default class Ether {
         this.user = user;
     }
 
+    async getPapers() {
+        const addresses = await this.user.getPapers();
+
+        const papers = await Promise.all(addresses.map((address) => {
+            return this.getPaperContract(address);
+        }));
+
+        console.log("Papers deployed for this user:");
+        papers.forEach(async (paper) => {
+            console.log(`Address: ${paper.address} IPFS Hash: ${await paper.ipfsHash()}`);
+        })
+        return papers;
+    }
+
+    async deployPaper(ipfsHash: string) {
+        const t = await this.user.deployPaper(ipfsHash);
+        console.log("deployed paper: ", t);
+    }
+
     async getUsers() {
         const c = await this.getPeerReviewContract();
         console.log(await c.getUsers());
@@ -54,6 +73,12 @@ export default class Ether {
         return peerReview;
     }
 
+    private getPaperContract(address: string) {
+        const signer = this.provider.getSigner();
+        const paper = Paper__factory.connect(address, signer);
+        return paper;
+    }
+
     private getUserContract(address: string) {
         const signer = this.provider.getSigner();
         const user = User__factory.connect(address, signer);
@@ -63,6 +88,6 @@ export default class Ether {
 
     async add(file: any, progressFn: (progress: number) => void) {
         const added = await this.client.add(file, {progress: (prog) => console.log(progressFn((prog/file.size)*100))});
-        return `https://ipfs.infura.io/ipfs/${added.path}`
+        return added.path;
     }
 }

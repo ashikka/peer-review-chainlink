@@ -19,7 +19,7 @@ export default function UploadPaperScreen() {
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
     const [abstract, setAbstract] = useState("");
-    const [url, setUrl] = useState('');
+    const [hash, setHash] = useState('');
     const file = useRef(null);
     const [progress, setProgress] = useState(0);
     const [reviewFileScreen, setReviewFileScreen] = useState(false);
@@ -48,7 +48,7 @@ export default function UploadPaperScreen() {
     const showOptions = () => {
         return (
             <Select placeholder='Select from dropdown' value={category} onChange={e => setCategory(e.target.value)}>
-                {["Physical, Chemical and Earth Sciences", "Humanities and Creative Arts", "Social Sciences", "Business and Management", "Engineering and Technology", "Education", "Law", "Health and Medicine", "Agriculture and Environment", "Other"].map((category) => <option>{category}</option>)}
+                {["Physical, Chemical and Earth Sciences", "Humanities and Creative Arts", "Social Sciences", "Business and Management", "Engineering and Technology", "Education", "Law", "Health and Medicine", "Agriculture and Environment", "Other"].map((category) => <option key={category}>{category}</option>)}
             </Select>
         )
     }
@@ -70,7 +70,7 @@ export default function UploadPaperScreen() {
             if (!file.current) return;
 
             const url = await ether.add(file.current, (progress) => setProgress(progress));
-            setUrl(url);
+            setHash(`https://peer-review-chainlink.infura-ipfs.io/ipfs/${url}`);
 
             setProgress(100);
 
@@ -88,10 +88,13 @@ export default function UploadPaperScreen() {
     }
 
     const uploadFile = async () => {
+        if (ether == null) return;
+
+        await ether.deployPaper(hash);
         MySwal.fire({
             icon: 'success',
             title: <p>Good Job!</p>,
-            html: (<div>Your paper has been uploaded successfully <a style={{ color: 'blue' }} href={url}>here</a></div>),
+            html: (<div>Your paper has been uploaded successfully <a style={{ color: 'blue' }} href={hash}>here</a></div>),
         }).then((val) => {
             if (val.isConfirmed) {
                 navigate('/browse');
