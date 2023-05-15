@@ -9,6 +9,7 @@ const Paper = new Schema({
   address: String,
   ipfsHash: String,
   user: String,
+  status: String,
 });
 
 const PaperModel = mongoose.model("Paper", Paper);

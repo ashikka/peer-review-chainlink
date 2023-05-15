@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../stores';
 import { setUser } from '../../stores/slices/userSlice';
+import { User } from '../../typechain';
 import { ApiContext } from '../api';
 import { EtherContext } from '../ether';
-import User from './User';
 
 export type UserContextProps = {
     signInOrRegister: Function,
@@ -82,8 +82,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
         }
         api.setToken(token);
 
-        const userContract = await ether.getMyUser() || await ether.createUser();
-
+        const userContract = (await ether.getMyUser() || await ether.createUser()) as User;
         ether.setMyUser(userContract);
         
         const user = await api?.me();

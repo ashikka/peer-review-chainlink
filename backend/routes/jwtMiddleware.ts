@@ -4,7 +4,7 @@ import User from "../models/user";
 
 
 export const jwtAuth: RequestHandler = async (req, res, next) => {
-    const token = (req.headers["x-access-token"] || req.headers["authorization"]) as string;
+    const token= (req.headers["x-access-token"] || req.headers["authorization"]) as string;
 
     if (token) {
 

@@ -34,6 +34,10 @@ export default class Ether {
         const c = await this.getPeerReviewContract();
         const address = await c.getMyUser();
 
+        if (address === "0x0000000000000000000000000000000000000000") {
+            return null;
+        }
+
         const user = await this.getUserContract(address);
         return user;
 

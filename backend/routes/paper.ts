@@ -15,6 +15,7 @@ router.post('/submit', jwtAuth, async (req, res, next) => {
         category,
         address,
         ipfsHash,
+        status: "UNDER_REVIEW",
         user: req.user,
     });
 

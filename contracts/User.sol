@@ -25,7 +25,6 @@ contract User {
     }
 
     function deployPaper(string memory _ipfsHash) public returns(address newContract) {
-
         Paper p = new Paper(_ipfsHash, user_address);
         papers[address(p)] = p;
         papers_array.push(address(p));
