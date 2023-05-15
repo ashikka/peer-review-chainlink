@@ -1,15 +1,16 @@
 import express from "express";
 import { ethers } from "ethers";
-import User from "../models/user";
+import User, { UserInterface } from "../models/user";
 import jwt from "jsonwebtoken";
 import { jwtAuth } from "./jwtMiddleware";
+import PaperModel from "../models/paper";
 
 const router = express.Router();
 
 declare global {
   namespace Express {
     interface Request {
-      user: typeof User;
+      user: UserInterface;
     }
   }
 }
@@ -86,6 +87,10 @@ router.get("/:address", async (req, res) => {
 });
 
 router.get('/papers', async (req, res) => {
+  const papers = await PaperModel.find({
+    user: req.user.address,
+  });
+  res.json(papers);
 })
 
 

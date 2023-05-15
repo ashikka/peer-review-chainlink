@@ -9,6 +9,13 @@ const User = new Schema({
   token: String,
 });
 
-const UserModel = mongoose.model("User", User);
+export interface UserInterface {
+  name: string;
+  email: string;
+  address: string;
+  token: string;
+}
+
+const UserModel = mongoose.model<UserInterface>("User", User);
 
 export default UserModel;
