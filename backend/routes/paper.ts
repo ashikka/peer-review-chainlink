@@ -31,6 +31,7 @@ cron.schedule('*/10 * * * * *', async () => {
                     const newPaper = new PaperModel({
                         address: paper,
                         status: status,
+                        ipfsHash: await paperContract.ipfsHash(),
                         user: user.address,
                     });
                     await newPaper.save();
@@ -92,7 +93,7 @@ router.post('/submit', jwtAuth, async (req, res, next) => {
     res.json({ paper });
 });
 
-router.get('all', async (req, res, next) => {
+router.get('/all', async (req, res, next) => {
     const papers = await PaperModel.find({});
     res.json(papers);
 });

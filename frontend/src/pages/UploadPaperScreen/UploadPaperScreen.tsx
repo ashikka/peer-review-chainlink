@@ -90,7 +90,19 @@ export default function UploadPaperScreen() {
     const uploadFile = async () => {
         if (ether == null) return;
 
-        await ether.deployPaper(hash);
+        const res = await ether.deployPaper(hash);
+
+        const papers = await ether.getPapers();
+
+        for (const paper of papers) {
+            const ipfsHash = await paper.ipfsHash();
+
+            if (ipfsHash === hash) {
+                const paperAddress = paper.address;
+                await api?.submitPaper(title, abstract, category, hash, paperAddress);
+                break;
+            }
+        }
         MySwal.fire({
             icon: 'success',
             title: <p>Good Job!</p>,

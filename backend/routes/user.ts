@@ -72,6 +72,13 @@ router.post("/login", async (req, res) => {
   });
 });
 
+router.get('/papers', jwtAuth, async (req, res) => {
+  const papers = await PaperModel.find({
+    user: req.user.address,
+  });
+  res.json(papers);
+})
+
 router.get("/:address", async (req, res) => {
   const { address } = req.params;
   const user = await User.findOne({ address });
@@ -86,12 +93,7 @@ router.get("/:address", async (req, res) => {
   }
 });
 
-router.get('/papers', async (req, res) => {
-  const papers = await PaperModel.find({
-    user: req.user.address,
-  });
-  res.json(papers);
-})
+
 
 
 export default router;

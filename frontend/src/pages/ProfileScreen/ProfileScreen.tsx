@@ -14,22 +14,22 @@ import {
 } from '@chakra-ui/react'
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
-import { Paper } from '../../typechain';
+import { ApiPaper } from '../../contexts/api/Api';
 
 export default function ProfileScreen() {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api
 
-    const [papers, setPapers] = useState<Paper[]>([]);
+    const [papers, setPapers] = useState<ApiPaper[]>([]);
 
     const getPapers = async () => {
-        const papers = await ether?.getPapers();
-
+        const papers = await api?.getUserPapers();
+        console.log(papers?.data);
         if (papers == null) {
             return;
         }
 
-        setPapers(papers);
+        setPapers(papers?.data);
     };
 
     useEffect(() => {

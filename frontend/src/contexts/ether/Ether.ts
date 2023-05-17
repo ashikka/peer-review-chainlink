@@ -63,7 +63,7 @@ export default class Ether {
 
     async deployPaper(ipfsHash: string) {
         const t = await this.user.deployPaper(ipfsHash);
-        console.log("deployed paper: ", t);
+        return t;
     }
 
     async getUsers() {

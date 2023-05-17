@@ -1,5 +1,14 @@
 import axios, { AxiosInstance } from 'axios';
 
+export interface ApiPaper {
+    title: string;
+    abstract: string;
+    category: string;
+    address: string;
+    ipfsHash: string;
+    user: string;
+    status: string;
+}
 export default class API {
     private instance: AxiosInstance;
     constructor() {
@@ -30,6 +39,30 @@ export default class API {
         return this.instance.post(`/user/login`, {
             address,
             signature,
+        });
+    }
+
+    getUserPapers() {
+        return this.instance.get(`/user/papers`);
+    }
+
+    getAllPapers() {
+        return this.instance.get('/paper/all');
+    }
+
+    submitPaper(
+        title: string,
+        abstract: string,
+        category: string,
+        ipfsHash: string,
+        address: string,
+    ) {
+        return this.instance.post(`/paper/submit`, {
+            title,
+            abstract,
+            category,
+            ipfsHash,
+            address,
         });
     }
 
