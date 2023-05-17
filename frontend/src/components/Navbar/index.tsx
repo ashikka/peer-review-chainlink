@@ -32,7 +32,7 @@ export default function Navbar() {
                     <Flex alignItems="center" gridGap={6}>
                         <NavLink text="Home" href="/" />
                         <NavLink text="Upload" href="/paper" />
-                        <NavLink text="Browse" href="/review" />
+                        <NavLink text="Browse" href="/browse" />
 
                         <Menu>
                             <MenuButton>

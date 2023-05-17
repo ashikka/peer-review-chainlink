@@ -19,6 +19,7 @@ import { UserContextProvider } from './contexts/user';
 import ProfileScreen from './pages/ProfileScreen/ProfileScreen';
 import ReviewPaper from './pages/ReviewPaper/ReviewPaper';
 import PageNotFoundScreen from './pages/PageNotFoundScreen/PageNotFoundScreen';
+import BrowseScreen from './pages/BrowseScreen/BrowseScreen';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
               <Route path="/" element={<SignUpLoginInScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/review" element={<ReviewPaper />} />
+              <Route path="/browse" element={<BrowseScreen />} />
               <Route path="*" element={<PageNotFoundScreen />} />
             </>
           </Routes>
