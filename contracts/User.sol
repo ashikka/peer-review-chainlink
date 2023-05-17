@@ -15,9 +15,7 @@ contract User {
     }
 
     function getPapers() public view returns (address[] memory _address) {
-        if( msg.sender == user_address ) {
-            return papers_array;
-        }
+        return papers_array;
     }
 
     function getPaper(address _paperAddress) public view returns (Paper) {
@@ -25,9 +23,11 @@ contract User {
     }
 
     function deployPaper(string memory _ipfsHash) public returns(address newContract) {
-        Paper p = new Paper(_ipfsHash, user_address);
-        papers[address(p)] = p;
-        papers_array.push(address(p));
-        return address(p);
+        if( msg.sender == user_address ) {
+            Paper p = new Paper(_ipfsHash, user_address);
+            papers[address(p)] = p;
+            papers_array.push(address(p));
+            return address(p);
+        }
     }
 }

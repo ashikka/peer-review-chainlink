@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./models/connection";
 import routes from "./routes";
+import { Blockchain } from "./utils/ethers";
 
 async function main() {
   dotenv.config();
