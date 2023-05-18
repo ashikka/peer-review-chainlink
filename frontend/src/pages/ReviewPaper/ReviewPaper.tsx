@@ -21,6 +21,7 @@ export default function ReviewPaper() {
     const [commentScreen, showCommentScreen] = useState(true);
     const [notReviewer, setNotReviewer] = useState(false);
     const [paper, setPaper] = useState<ApiPaper>();
+    const [pages, setPages] = useState(0);
 
     const { address } = useParams();
 
@@ -52,10 +53,10 @@ export default function ReviewPaper() {
                     <Flex pl="5rem" flexDirection="column" pt={10}>
                         <Heading as="h1" mb={4}>{paper?.title}</Heading>
                         <Flex mb="1rem" alignItems="center">
-                            <Text>Submitted on 27 April 2022</Text>
+                            <Text>Submitted on {paper?.date && new Date(paper.date).toLocaleString()}</Text>
                             <Flex mx="2rem" alignItems="center">
                                 <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
-                                <Text>5 pages</Text>
+                                <Text>{pages} pages</Text>
                             </Flex>
                         </Flex>
                         <Text color="gray.500">Published in {paper?.category}</Text>
@@ -86,7 +87,7 @@ export default function ReviewPaper() {
 
                     </Flex>
 
-                    <PaperView width="55vw" file="https://ipfs.infura.io/ipfs/QmPS8A5nVnjNfXyJVsLaFgYZfYDp8bUNjkpA9TJPjATPur" heightPercentage={0.8} />
+                    <PaperView width="55vw" file={paper?.ipfsHash} heightPercentage={0.8} setPages={(pages) => setPages(pages)} />
 
                 </Flex>
 

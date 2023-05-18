@@ -8,6 +8,7 @@ export interface ApiPaper {
     ipfsHash: string;
     user: string;
     status: string;
+    date: number;
 }
 export default class API {
     private instance: AxiosInstance;

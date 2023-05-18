@@ -4,12 +4,16 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 
 
-export default function PaperView({heading, file, heightPercentage, width }: { heading?: String, file: any, heightPercentage?: number, width?: number | string }) {
+export default function PaperView({heading, file, heightPercentage, width, setPages }: { heading?: String, file: any, heightPercentage?: number, width?: number | string , setPages?: (pages: number) => any}) {
     const [numPages, setNumPages] = useState(0);
     const [pageNumber, setPageNumber] = useState(1);
 
     const documentLoadSuccess = async (pdf: any) => {
         setNumPages(pdf.numPages);
+
+        if (setPages) {
+            setPages(pdf.numPages);
+        }
         setPageNumber(1);
     };
     return (
