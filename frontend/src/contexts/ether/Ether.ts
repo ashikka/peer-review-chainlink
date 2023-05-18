@@ -26,7 +26,8 @@ export default class Ether {
 
     async createUser() {
         const c = await this.getPeerReviewContract();
-        await c.createUser();
+        const tx = await c.createUser();
+        await tx.wait();
         return this.getMyUser();
     }
 
@@ -63,6 +64,7 @@ export default class Ether {
 
     async deployPaper(ipfsHash: string) {
         const t = await this.user.deployPaper(ipfsHash);
+        await t.wait()
         return t;
     }
 

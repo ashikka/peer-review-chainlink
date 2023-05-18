@@ -66,6 +66,10 @@ export default class API {
         });
     }
 
+    getPaper(address: string) {
+        return this.instance.get(`/paper/view/${address}`);
+    }
+
     me() {
         return this.instance.get(`/user/me`);
     }

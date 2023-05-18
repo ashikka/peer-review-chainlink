@@ -15,11 +15,12 @@ import {
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
 import { ApiPaper } from '../../contexts/api/Api';
+import { UserContext } from '../../contexts/user';
 
 export default function ProfileScreen() {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api
-
+    const user = useContext(UserContext).token;
     const [papers, setPapers] = useState<ApiPaper[]>([]);
 
     const getPapers = async () => {
@@ -33,8 +34,10 @@ export default function ProfileScreen() {
     };
 
     useEffect(() => {
-       getPapers();
-    }, []);
+        if (ether && api && user) {
+            getPapers();
+        }
+    }, [ether, api, user]);
     return (
         <>
             <Flex my="2rem" justifyContent="space-around" alignItems="center">
@@ -93,10 +96,10 @@ export default function ProfileScreen() {
                 </Tag>
             </HStack>
             <Flex justifyContent="space-around" mx="10vw">
-                <div style={{width: "200px", height: "200px", backgroundColor: "#EDF2F6"}}/>
-                <div style={{width: "200px", height: "200px", backgroundColor: "#EDF2F6"}}/>
-                <div style={{width: "200px", height: "200px", backgroundColor: "#EDF2F6"}}/>
-                <div style={{width: "200px", height: "200px", backgroundColor: "#EDF2F6"}}/>
+                <div style={{ width: "200px", height: "200px", backgroundColor: "#EDF2F6" }} />
+                <div style={{ width: "200px", height: "200px", backgroundColor: "#EDF2F6" }} />
+                <div style={{ width: "200px", height: "200px", backgroundColor: "#EDF2F6" }} />
+                <div style={{ width: "200px", height: "200px", backgroundColor: "#EDF2F6" }} />
             </Flex>
 
         </>

@@ -35,7 +35,7 @@ function App() {
               <Route path="/paper" element={<UploadPaperScreen />} />
               <Route path="/" element={<SignUpLoginInScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
-              <Route path="/review" element={<ReviewPaper />} />
+              <Route path="/view/:address" element={<ReviewPaper />} />
               <Route path="/browse" element={<BrowseScreen />} />
               <Route path="*" element={<PageNotFoundScreen />} />
             </>

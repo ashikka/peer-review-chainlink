@@ -69,6 +69,7 @@ export const UserContext = createContext<UserContextProps>({
     address: '',
 });
 
+
 export const UserContextProvider = ({ children }: { children: any }) => {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api;
@@ -81,15 +82,23 @@ export const UserContextProvider = ({ children }: { children: any }) => {
             return;
         }
         api.setToken(token);
-
-        const userContract = (await ether.getMyUser() || await ether.createUser()) as User;
-        ether.setMyUser(userContract);
-        
         const user = await api?.me();
         if (user?.data) {
+            let userContract = (await ether.getMyUser()) as User;
+            if (!userContract) {
+                console.log("User contract not found, creating");
+                await ether.createUser();
+                userContract = (await ether.getMyUser()) as User;
+
+                if (userContract == null) {
+                    navigate('/');
+                    return;
+                }
+            }
+            console.log(userContract);
+            ether.setMyUser(userContract);
             user.data.token = token;
             dispatch(setUser(user.data));
-            navigate('/paper');
         } else {
             navigate('/');
         }

@@ -10,6 +10,7 @@ const Paper = new Schema({
   ipfsHash: String,
   user: String,
   status: String,
+  date: Number,
 });
 
 const PaperModel = mongoose.model("Paper", Paper);

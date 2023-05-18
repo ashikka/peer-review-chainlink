@@ -3,6 +3,7 @@ import react, { useContext, useEffect, useState } from 'react';
 import { ApiContext } from '../../contexts/api';
 import { ApiPaper } from '../../contexts/api/Api';
 import { EtherContext } from '../../contexts/ether';
+import { UserContext } from '../../contexts/user';
 
 export default function BrowseScreen() {
     const api = useContext(ApiContext).api;
@@ -20,8 +21,10 @@ export default function BrowseScreen() {
         setPapers(papers?.data);
     };
     useEffect(() => {
-        getAllPapers();
-    }, []);
+        if (api && ether) {
+            getAllPapers();
+        }
+    }, [api, ether]);
 
     return (
         <>

@@ -1,26 +1,56 @@
 import { Flex, Heading, Button, Text, Box, Badge, Textarea } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { IoIosPaper } from 'react-icons/io';
 import { BsFilePersonFill } from 'react-icons/bs';
 import { ChatIcon, LinkIcon, DownloadIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons'
 import PaperView from '../../components/PaperView/PaperView';
+import { useParams } from 'react-router-dom';
+import { ApiContext } from '../../contexts/api';
+import { EtherContext } from '../../contexts/ether';
+import { ApiPaper } from '../../contexts/api/Api';
 
 
 
 
 export default function ReviewPaper() {
+    const api = useContext(ApiContext).api;
+    const ether = useContext(EtherContext).ether;
+
     const [reviewer, setReviewer] = useState(false);
     const [commentScreen, showCommentScreen] = useState(true);
     const [notReviewer, setNotReviewer] = useState(false);
+    const [paper, setPaper] = useState<ApiPaper>();
 
+    const { address } = useParams();
+
+    const getPaper = async (address: string) => {
+        if (api == null || ether == null) return;
+
+        const paper = await api?.getPaper(address);
+        if (paper == null) {
+            return;
+        }
+
+        const apiPaper = paper.data?.paper;
+        console.log(apiPaper);
+        if (apiPaper) {
+            setPaper(paper.data.paper);
+        }
+    }
+
+    useEffect(() => {
+        if (address && api && ether) {
+            getPaper(address);
+        }
+    }, [address, api, ether]);
 
     if (commentScreen) {
         return (
             <>
                 <Flex justifyContent="center" paddingTop="3rem">
                     <Flex pl="5rem" flexDirection="column" pt={10}>
-                        <Heading as="h1" mb={4}>How Do Autonomous Cars Work?</Heading>
+                        <Heading as="h1" mb={4}>{paper?.title}</Heading>
                         <Flex mb="1rem" alignItems="center">
                             <Text>Submitted on 27 April 2022</Text>
                             <Flex mx="2rem" alignItems="center">
@@ -28,7 +58,7 @@ export default function ReviewPaper() {
                                 <Text>5 pages</Text>
                             </Flex>
                         </Flex>
-                        <Text color="gray.500">Published in Computer Science and Engineering</Text>
+                        <Text color="gray.500">Published in {paper?.category}</Text>
                         <Flex alignItems="center">
                             <Box as={BsFilePersonFill} size="40px" color="gray.800" my="1rem" ml="-0.5rem" />
                             <Box>

@@ -86,7 +86,8 @@ router.post('/submit', jwtAuth, async (req, res, next) => {
         address,
         ipfsHash,
         status: "UNDER_REVIEW",
-        user: req.user,
+        user: req.user.address,
+        date: (new Date()).getTime(),
     });
 
     await paper.save();
