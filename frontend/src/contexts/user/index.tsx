@@ -17,11 +17,13 @@ export type UserContextProps = {
     email: string,
     token: string,
     username: string,
+    designation: string,
 }
 
 export function RegisterModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
+    const [designation, setDesignation] = useState("");
 
     const user = useContext(UserContext);
 
@@ -42,11 +44,17 @@ export function RegisterModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                         <FormLabel htmlFor='username'>Username</FormLabel>
                         <Input onChange={(e) => setUsername(e.target.value)} id='username' type='username' />
                     </FormControl>
+                    <br />
+
+                    <FormControl>
+                        <FormLabel htmlFor='username'>Designation</FormLabel>
+                        <Input onChange={(e) => setDesignation(e.target.value)} id='designation' type='text' />
+                    </FormControl>
                 </ModalBody>
 
                 <ModalFooter>
                     <Button colorScheme='blue' mr={3} onClick={async () => {
-                        await user.register(username, email);
+                        await user.register(username, email, designation);
                         onClose();
                         await user.signInOrRegister();
                     }}>
@@ -67,6 +75,7 @@ export const UserContext = createContext<UserContextProps>({
     email: '',
     token: '',
     address: '',
+    designation: '',
 });
 
 
@@ -138,7 +147,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
         // If it doesn't, then need to register new account
     }
 
-    const register = async (name: string, email: string) => {
+    const register = async (name: string, email: string, designation: string) => {
         if (ether == null || api == null) return;
         const signature = await ether.signMessage("Click sign below to authenticate with Peer Review :)");
 
@@ -147,7 +156,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
         const address = await ether.connectWallet();
         if (address == null) return;
 
-        const user = await api.register(address, name, email, signature);
+        const user = await api.register(address, name, email, designation, signature);
 
     }
 
@@ -180,6 +189,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
             address: user.address || "",
             email: user.email || "",
             token: user.token || "",
+            designation: user.designation || "",
         }}>
             <RegisterModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
             {children}

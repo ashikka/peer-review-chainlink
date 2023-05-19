@@ -27,11 +27,12 @@ export default class API {
         return this.instance.get(`/user/${address}`);
     }
 
-    register(address: string, name: string, email: string, signature: string) {
+    register(address: string, name: string, email: string, designation:string, signature: string) {
         return this.instance.post(`/user/register`, {
             address,
             name,
             email,
+            designation,
             signature,
         });
     }

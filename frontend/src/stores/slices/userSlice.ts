@@ -8,6 +8,7 @@ const userSlice = createReducer({
   email: null,
   username: null,
   address: null,
+  designation: null,
 },
   {
     [setUser.toString()]: (state, action) => {
@@ -15,6 +16,7 @@ const userSlice = createReducer({
       state.email = action.payload.email;
       state.username = action.payload.name;
       state.address = action.payload.address;
+      state.designation = action.payload.designation;
     }
   });
 

@@ -20,7 +20,7 @@ router.get("/me", jwtAuth, async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { address, name, email, signature } = req.body;
+  const { address, name, email, signature, designation } = req.body;
 
   if (
     ethers.utils.verifyMessage(
@@ -32,6 +32,7 @@ router.post("/register", async (req, res) => {
       address,
       name,
       email,
+      designation,
     });
     await user.save();
     return res.json(user);
