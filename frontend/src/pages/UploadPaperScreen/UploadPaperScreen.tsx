@@ -20,6 +20,7 @@ export default function UploadPaperScreen() {
     const [category, setCategory] = useState("");
     const [abstract, setAbstract] = useState("");
     const [hash, setHash] = useState('');
+    const [pages, setPages] = useState(0);
     const file = useRef(null);
     const [progress, setProgress] = useState(0);
     const [reviewFileScreen, setReviewFileScreen] = useState(false);
@@ -27,6 +28,7 @@ export default function UploadPaperScreen() {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api;
     const [loading, setLoading] = useState(true);
+
 
     const navigate = useNavigate();
 
@@ -63,7 +65,6 @@ export default function UploadPaperScreen() {
 
     const reviewFile = async () => {
         if (file.current && title && category) {
-            console.log(file.current)
 
             if (ether == null) return;
 
@@ -118,17 +119,17 @@ export default function UploadPaperScreen() {
         return (
             <>
                 <Flex justifyContent="space-around">
-                    <PaperView file={file.current} heading="Review your paper" />
+                    <PaperView file={file.current} setPages={(pages) => setPages(pages)} heading="Review your paper" />
                     <Flex justifyContent="flex-start" flexDirection="column" w="40vw">
-                        <Text fontSize='3xl' mt="10vh" mb={4}>How Do Autonomous Cars Work?</Text>
+                        <Text fontSize='3xl' mt="10vh" mb={4}>{title}</Text>
                         <Flex mb="1rem" alignItems="center">
-                            <Text>Submitted on 27 April 2022</Text>
+                            <Text>{new Date().toLocaleString()}</Text>
                             <Flex mx="2rem" alignItems="center">
-                                <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem"  />
-                                <Text>5 pages</Text>
+                                <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
+                                <Text>{pages} pages</Text>
                             </Flex>
                         </Flex>
-                        <Text color="gray.500">Published in Computer Science and Engineering</Text>
+                        <Text color="gray.500">Published in {category}</Text>
                         <Flex alignItems="center">
                             <Box as={BsFilePersonFill} size="70px" color="gray.800" my="1rem" ml="-0.5rem" />
                             <Box>
@@ -138,11 +139,7 @@ export default function UploadPaperScreen() {
                         </Flex>
                         <Text fontSize="md" mb="0.5rem">Abstract</Text>
                         <Box maxW="30vw" borderTop="2px solid gray">
-                            <Text mt="0.5rem" fontSize="xs">Lorem ipsum dolor sit amet. Nam explicabo sint quo voluptatem dolorem qui molestiae unde At magni incidunt. Cum autem veritatis ea perferendis ipsum quo debitis suscipit! Quo omnis sunt non porro soluta hic dolore consequatur.
-
-                                Est voluptatum voluptate ex neque consequatur ut voluptatem consequuntur. Cum delectus expedita eum repellendus consequatur vel maxime similique. Ut assumenda iure At tempore iusto a beatae rerum et dolorum autem est libero modi ut nobis nulla in cupiditate neque. Aut Quis illo id labore ipsum eos natus laboriosam.
-
-                                Est consectetur consequuntur et dolores voluptatem sit quas exercitationem qui aliquam officia. Est delectus dolor nihil saepe qui magnam temporibus sed officia exercitationem eum voluptas expedita est alias consequuntur et eligendi distinctio. Qui alias animi qui dolorem praesentium ab repudiandae nulla aut voluptate facere!</Text>
+                            <Text mt="0.5rem" fontSize="xs">{abstract}</Text>
                         </Box>
 
                         <Flex flexDirection="column" w="20%">
