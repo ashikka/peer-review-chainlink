@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
 import { ApiPaper } from '../../contexts/api/Api';
+import { UserContext } from '../../contexts/user';
 
 
 
@@ -16,9 +17,10 @@ import { ApiPaper } from '../../contexts/api/Api';
 export default function ReviewPaper() {
     const api = useContext(ApiContext).api;
     const ether = useContext(EtherContext).ether;
+    const user = useContext(UserContext).address;
 
     const [reviewer, setReviewer] = useState(false);
-    const [commentScreen, showCommentScreen] = useState(true);
+    const [commentScreen, showCommentScreen] = useState(false);
     const [notReviewer, setNotReviewer] = useState(false);
     const [paper, setPaper] = useState<ApiPaper>();
     const [pages, setPages] = useState(0);
@@ -37,14 +39,22 @@ export default function ReviewPaper() {
         console.log(apiPaper);
         if (apiPaper) {
             setPaper(paper.data.paper);
+
+            if (user === paper.data.paper.user) {
+                setNotReviewer(true);
+                setReviewer(false);
+            } else {
+                setReviewer(true);
+                setNotReviewer(false);
+            }
         }
     }
 
     useEffect(() => {
-        if (address && api && ether) {
+        if (address && api && ether && user) {
             getPaper(address);
         }
-    }, [address, api, ether]);
+    }, [address, api, ether, user]);
 
     if (commentScreen) {
         return (
@@ -67,10 +77,12 @@ export default function ReviewPaper() {
                                 <Text fontSize='s'>Vellore Institute of Technology, Vellore</Text>
                             </Box>
                         </Flex>
-                        <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
-                            <DownloadIcon mr="0.5rem" />
-                            Download Paper
-                        </Button>
+                        <a href={paper?.ipfsHash} download>
+                            <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
+                                <DownloadIcon mr="0.5rem" />
+                                Download Paper
+                            </Button>
+                        </a>
 
                         <Text fontWeight="semibold" fontSize="lg" mt="2rem" mb="1rem">Comments</Text>
                         <Textarea placeholder="Write your comment here" w="30vw" h="20vh" />
