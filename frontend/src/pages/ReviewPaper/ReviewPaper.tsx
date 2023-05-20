@@ -74,7 +74,6 @@ export default function ReviewPaper() {
                             <Box as={BsFilePersonFill} size="40px" color="gray.800" my="1rem" ml="-0.5rem" />
                             <Box>
                                 <Text fontSize='s'>Anonymous</Text>
-                                <Text fontSize='s'>Vellore Institute of Technology, Vellore</Text>
                             </Box>
                         </Flex>
                         <a href={paper?.ipfsHash} download>
@@ -113,27 +112,28 @@ export default function ReviewPaper() {
             <>
                 <Flex justifyContent="flex-start" >
                     <Flex pl="5rem" flexDirection="column" width="50vw">
-                        <Heading as="h1" mt="10vh" mb={4}>How Do Autonomous Cars Work?</Heading>
+                        <Heading as="h1" mt="10vh" mb={4}>{paper?.title}</Heading>
                         <Flex mb="1rem" alignItems="center">
-                            <Text>Submitted on 27 April 2022</Text>
+                            <Text>Submitted on {paper?.date && new Date(paper.date).toLocaleString()}</Text>
                             <Flex mx="2rem" alignItems="center">
                                 <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
-                                <Text>5 pages</Text>
+                                <Text>{pages} pages</Text>
                             </Flex>
                         </Flex>
-                        <Text color="gray.500">Published in Computer Science and Engineering</Text>
+                        <Text color="gray.500">Published in {paper?.category}</Text>
                         <Flex alignItems="center">
                             <Box as={BsFilePersonFill} size="50px" color="gray.800" my="1rem" ml="-0.5rem" />
                             <Box>
                                 <Text fontSize='s'>Anonymous</Text>
-                                <Text fontSize='s'>Vellore Institute of Technology, Vellore</Text>
                             </Box>
                         </Flex>
                         <Flex justifyContent="space-between">
-                            <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
-                                <DownloadIcon mr="0.5rem" />
-                                Download Paper
-                            </Button>
+                            <a href={paper?.ipfsHash} download>
+                                <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
+                                    <DownloadIcon mr="0.5rem" />
+                                    Download Paper
+                                </Button>
+                            </a>
                             <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
                                 <LinkIcon mr="0.5rem" />
                                 Copy link to paper
@@ -151,11 +151,7 @@ export default function ReviewPaper() {
 
                         </Box>
                         <Box maxW="50vw" border="2px solid gray" p="1rem">
-                            <Text mt="0.5rem" fontSize="xs">Lorem ipsum dolor sit amet. Nam explicabo sint quo voluptatem dolorem qui molestiae unde At magni incidunt. Cum autem veritatis ea perferendis ipsum quo debitis suscipit! Quo omnis sunt non porro soluta hic dolore consequatur.
-
-                                Est voluptatum voluptate ex neque consequatur ut voluptatem consequuntur. Cum delectus expedita eum repellendus consequatur vel maxime similique. Ut assumenda iure At tempore iusto a beatae rerum et dolorum autem est libero modi ut nobis nulla in cupiditate neque. Aut Quis illo id labore ipsum eos natus laboriosam.
-
-                                Est consectetur consequuntur et dolores voluptatem sit quas exercitationem qui aliquam officia. Est delectus dolor nihil saepe qui magnam temporibus sed officia exercitationem eum voluptas expedita est alias consequuntur et eligendi distinctio. Qui alias animi qui dolorem praesentium ab repudiandae nulla aut voluptate facere!</Text>
+                            <Text mt="0.5rem" fontSize="xs">{paper?.abstract}</Text>
                         </Box>
                     </Flex>
                 </Flex>
@@ -169,27 +165,29 @@ export default function ReviewPaper() {
             <>
                 <Flex justifyContent="flex-start" >
                     <Flex pl="5rem" flexDirection="column" width="50vw">
-                        <Heading as="h1" mt="10vh" mb={4}>How Do Autonomous Cars Work?</Heading>
+                        <Heading as="h1" mt="10vh" mb={4}>{paper?.title}</Heading>
                         <Flex mb="1rem" alignItems="center">
-                            <Text>Submitted on 27 April 2022</Text>
+                            <Text>Submitted on {paper?.date && new Date(paper.date).toLocaleString()}</Text>
                             <Flex mx="2rem" alignItems="center">
                                 <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
-                                <Text>5 pages</Text>
+                                <Text>{pages} pages</Text>
                             </Flex>
                         </Flex>
-                        <Text color="gray.500">Published in Computer Science and Engineering</Text>
+                        <Text color="gray.500">Published in {paper?.category}</Text>
                         <Flex alignItems="center">
                             <Box as={BsFilePersonFill} size="50px" color="gray.800" my="1rem" ml="-0.5rem" />
                             <Box>
                                 <Text fontSize='s'>Anonymous</Text>
-                                <Text fontSize='s'>Vellore Institute of Technology, Vellore</Text>
                             </Box>
                         </Flex>
                         <Flex justifyContent="space-between">
-                            <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
-                                <DownloadIcon mr="0.5rem" />
-                                Download Paper
-                            </Button>
+                            <a href={paper?.ipfsHash} download>
+
+                                <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
+                                    <DownloadIcon mr="0.5rem" />
+                                    Download Paper
+                                </Button>
+                            </a>
                             <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
                                 <LinkIcon mr="0.5rem" />
                                 Copy link to paper
@@ -203,11 +201,7 @@ export default function ReviewPaper() {
 
                         </Box>
                         <Box maxW="50vw" border="2px solid gray" p="1rem">
-                            <Text mt="0.5rem" fontSize="xs">Lorem ipsum dolor sit amet. Nam explicabo sint quo voluptatem dolorem qui molestiae unde At magni incidunt. Cum autem veritatis ea perferendis ipsum quo debitis suscipit! Quo omnis sunt non porro soluta hic dolore consequatur.
-
-                                Est voluptatum voluptate ex neque consequatur ut voluptatem consequuntur. Cum delectus expedita eum repellendus consequatur vel maxime similique. Ut assumenda iure At tempore iusto a beatae rerum et dolorum autem est libero modi ut nobis nulla in cupiditate neque. Aut Quis illo id labore ipsum eos natus laboriosam.
-
-                                Est consectetur consequuntur et dolores voluptatem sit quas exercitationem qui aliquam officia. Est delectus dolor nihil saepe qui magnam temporibus sed officia exercitationem eum voluptas expedita est alias consequuntur et eligendi distinctio. Qui alias animi qui dolorem praesentium ab repudiandae nulla aut voluptate facere!</Text>
+                            <Text mt="0.5rem" fontSize="xs">{paper?.abstract}</Text>
                         </Box>
                     </Flex>
                 </Flex>

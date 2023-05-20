@@ -26,6 +26,15 @@ import { UserContext } from "../../contexts/user";
 import { Paper } from "../../typechain";
 import PaperView from "../../components/PaperView/PaperView";
 import PaperCard from "../../components/PaperCard/PaperCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+
+import { Pagination } from "swiper";
+import { Link } from "react-router-dom";
+
 
 export default function ProfileScreen() {
     const ether = useContext(EtherContext).ether;
@@ -42,6 +51,7 @@ export default function ProfileScreen() {
         }
 
         setPapers(papers?.data);
+        console.log(papers.data.length)
     };
 
     useEffect(() => {
@@ -49,6 +59,13 @@ export default function ProfileScreen() {
             getPapers();
         }
     }, [ether, api, user]);
+
+
+    const paperComps = papers.map((paper) => {
+        return (
+            <h1>Hello</h1>
+        )
+    });
     return (
         <>
             <Flex my="2rem" justifyContent="space-around" alignItems="center">
@@ -104,20 +121,39 @@ export default function ProfileScreen() {
                     <TagLabel>Rejected</TagLabel>
                 </Tag>
             </HStack>
-            <Flex justifyContent="space-around" mx="10vw" h="40vh">
-                <>
-                    {papers.map((paper) => (
-                        <PaperCard
-                            title={paper.title}
-                            status={paper.status}
-                            abstract={paper.abstract}
-                            ipfsHash={paper.ipfsHash}
-                            heightPercentage={0.2}
-                            category={paper.category}
-                        />
-                    ))}
-                </>
-            </Flex>
+
+            {papers.length > 0 &&
+                (
+                    <Swiper
+                        slidesPerView={4}
+                        spaceBetween={30}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        modules={[Pagination]}
+                        className="mySwiper"
+                    >
+                        {papers.map((paper) => (
+                            <SwiperSlide>
+                                <Link to={`/view/${paper.address}`}>
+                                    <Box py={10} px={6}>
+                                        <PaperCard
+                                            title={paper.title}
+                                            status={paper.status}
+                                            abstract={paper.abstract}
+                                            ipfsHash={paper.ipfsHash}
+                                            heightPercentage={0.2}
+                                            category={paper.category}
+                                        />
+                                    </Box>
+                                </Link>
+
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                )
+            }
         </>
     );
 }
+

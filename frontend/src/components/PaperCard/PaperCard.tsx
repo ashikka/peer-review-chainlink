@@ -16,7 +16,6 @@ export default function PaperCard({ title, status, abstract, ipfsHash, heightPer
 
         <Box
 
-            w="20vw"
             // h="45vh"
             bg={useColorModeValue('white', 'gray.900')}
             boxShadow={'2xl'}
