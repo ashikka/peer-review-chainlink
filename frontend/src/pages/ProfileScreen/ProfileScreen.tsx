@@ -31,8 +31,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-import { Pagination } from "swiper";
+import { Pagination, Navigation } from "swiper";
 import { Link } from "react-router-dom";
 
 
@@ -129,16 +130,18 @@ export default function ProfileScreen() {
                         spaceBetween={30}
                         pagination={{
                             clickable: true,
+                            type: 'progressbar',
                         }}
-                        modules={[Pagination]}
+                        navigation={true}
+                        modules={[Pagination, Navigation]}
                         className="mySwiper"
                     >
                         {papers.map((paper) => (
                             <SwiperSlide>
                                 <Link to={`/view/${paper.address}`}>
-                                    <Box py={10} px={6}>
+                                    <Box transitionDuration="0.2s" transitionTimingFunction="ease-out" _hover={{transform: 'scale(1.1)'}} py={10} px={6}>
                                         <PaperCard
-                                            title={paper.title}
+                                        title={paper.title}
                                             status={paper.status}
                                             abstract={paper.abstract}
                                             ipfsHash={paper.ipfsHash}
