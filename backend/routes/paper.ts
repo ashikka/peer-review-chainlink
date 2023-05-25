@@ -28,13 +28,15 @@ cron.schedule('*/10 * * * * *', async () => {
                 const paperModel = await PaperModel.findOne({ address: paper });
 
                 if (paperModel == null) {
-                    const newPaper = new PaperModel({
-                        address: paper,
-                        status: status,
-                        ipfsHash: await paperContract.ipfsHash(),
-                        user: user.address,
-                    });
-                    await newPaper.save();
+                    // Don't save
+                    // const newPaper = new PaperModel({
+                    //     address: paper,
+                    //     status: status,
+                    //     ipfsHash: await paperContract.ipfsHash(),
+                    //     user: user.address,
+                    // });
+                    // await newPaper.save();
+                    continue;
                 } else {
                     paperModel.status = status;
                     await paperModel.save();
