@@ -1,9 +1,20 @@
-import { Heading, Text } from '@chakra-ui/react';
+import { Box, Container, Flex, Heading, HStack, Tag, TagLabel, Text } from '@chakra-ui/react';
 import react, { useContext, useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import { FaFilter } from 'react-icons/fa';
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { Pagination, Navigation } from 'swiper';
+import PaperCard from '../../components/PaperCard/PaperCard';
 import { ApiContext } from '../../contexts/api';
 import { ApiPaper } from '../../contexts/api/Api';
 import { EtherContext } from '../../contexts/ether';
 import { UserContext } from '../../contexts/user';
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 export default function BrowseScreen() {
     const api = useContext(ApiContext).api;
@@ -28,9 +39,90 @@ export default function BrowseScreen() {
 
     return (
         <>
-            <Heading>Browse</Heading>
+            <Container maxW='7xl'>
+                <HStack spacing={6} my="2rem">
+                    <Box as={FaFilter} size="32px" color="gray.800" />
+                    <Text>Filters</Text>
+                    <Tag size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                        <TagLabel>Under Review</TagLabel>
+                    </Tag>
+                    <Tag size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                        <TagLabel>Approved</TagLabel>
+                    </Tag>{" "}
+                    <Tag size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                        <TagLabel>Rejected</TagLabel>
+                    </Tag>
+                </HStack>
+                {papers.length > 0 &&
+                    (
+                        <Swiper
+                            slidesPerView={4}
+                            spaceBetween={30}
+                            pagination={{
+                                clickable: true,
+                            }}
+                            navigation={true}
+                            modules={[Pagination, Navigation]}
+                            className="mySwiper"
+                        >
+                            {papers.map((paper) => (
+                                <SwiperSlide>
+                                    <Link to={`/view/${paper.address}`}>
+                                        <Box transitionDuration="0.2s" transitionTimingFunction="ease-out" _hover={{ transform: 'scale(1.1)' }} py={10} px={6}>
+                                            <PaperCard
+                                                title={paper.title}
+                                                status={paper.status}
+                                                abstract={paper.abstract}
+                                                ipfsHash={paper.ipfsHash}
+                                                heightPercentage={0.2}
+                                                category={paper.category}
+                                            />
+                                        </Box>
+                                    </Link>
 
-            <Text>There are {papers?.length} papers on the PeerReview Blockchain</Text>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+
+                    )
+
+                }
+                <Heading>Recommended</Heading>
+                {papers.length > 0 &&
+                    (
+                        <Swiper
+                            slidesPerView={4}
+                            spaceBetween={30}
+                            pagination={{
+                                clickable: true,
+                            }}
+                            navigation={true}
+                            modules={[Pagination, Navigation]}
+                            className="mySwiper"
+                        >
+                            {papers.map((paper) => (
+                                <SwiperSlide>
+                                    <Link to={`/view/${paper.address}`}>
+                                        <Box transitionDuration="0.2s" transitionTimingFunction="ease-out" _hover={{ transform: 'scale(1.1)' }} py={10} px={6}>
+                                            <PaperCard
+                                                title={paper.title}
+                                                status={paper.status}
+                                                abstract={paper.abstract}
+                                                ipfsHash={paper.ipfsHash}
+                                                heightPercentage={0.2}
+                                                category={paper.category}
+                                            />
+                                        </Box>
+                                    </Link>
+
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+
+                    )
+
+                }
+            </Container>
         </>
     )
 }

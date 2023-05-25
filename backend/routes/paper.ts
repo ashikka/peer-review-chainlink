@@ -64,6 +64,7 @@ router.post('/submit', jwtAuth, async (req, res, next) => {
     }
 
     const existingPaper = await PaperModel.findOne({ address });
+    console.log(existingPaper);
 
     if (existingPaper != null) {
         if (title) {
@@ -93,6 +94,7 @@ router.post('/submit', jwtAuth, async (req, res, next) => {
     });
 
     await paper.save();
+    console.log(paper);
     res.json({ paper });
 });
 

@@ -23,8 +23,6 @@ import { ApiContext } from "../../contexts/api";
 import { EtherContext } from "../../contexts/ether";
 import { ApiPaper } from "../../contexts/api/Api";
 import { UserContext } from "../../contexts/user";
-import { Paper } from "../../typechain";
-import PaperView from "../../components/PaperView/PaperView";
 import PaperCard from "../../components/PaperCard/PaperCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 
