@@ -1,5 +1,6 @@
 import {
     Box,
+    Container,
     Flex,
     Heading,
     HStack,
@@ -67,9 +68,12 @@ export default function ProfileScreen() {
     });
     return (
         <>
+        <Container maxW='7xl'>
+
+        
             <Flex my="2rem" justifyContent="space-around" alignItems="center">
                 <img
-                    style={{ borderRadius: "50%", height: "25vh", width: "25vh" }}
+                    style={{ borderRadius: "50%", height: "20vh", width: "20vh" }}
                     src="https://media-exp1.licdn.com/dms/image/C5603AQGtgn0mDao7LQ/profile-displayphoto-shrink_400_400/0/1649330215887?e=1655942400&v=beta&t=WJi-xD6TDcgs3Bxweischb2BRdmqmnoNVnds-UPdqHc"
                     alt="profile"
                 />
@@ -128,7 +132,6 @@ export default function ProfileScreen() {
                         spaceBetween={30}
                         pagination={{
                             clickable: true,
-                            type: 'progressbar',
                         }}
                         navigation={true}
                         modules={[Pagination, Navigation]}
@@ -154,6 +157,7 @@ export default function ProfileScreen() {
                     </Swiper>
                 )
             }
+            </Container>
         </>
     );
 }
