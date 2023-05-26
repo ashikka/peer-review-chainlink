@@ -24,6 +24,7 @@ export default function ReviewPaper() {
     const [notReviewer, setNotReviewer] = useState(false);
     const [paper, setPaper] = useState<ApiPaper>();
     const [pages, setPages] = useState(0);
+    const [ipfsHash, setIpfsHash] = useState("");
 
     const { address } = useParams();
 
@@ -37,6 +38,10 @@ export default function ReviewPaper() {
 
         const apiPaper = paper.data?.paper;
         console.log(apiPaper);
+        console.log(apiPaper.ipfsHash);
+
+        setIpfsHash(apiPaper.ipfsHash);
+
         if (apiPaper) {
             setPaper(paper.data.paper);
 
@@ -153,6 +158,9 @@ export default function ReviewPaper() {
                         <Box maxW="50vw" border="2px solid gray" p="1rem">
                             <Text mt="0.5rem" fontSize="xs">{paper?.abstract}</Text>
                         </Box>
+                    </Flex>
+                    <Flex mt="2rem">
+                        <PaperView file={ipfsHash} setPages={(pages) => setPages(pages)} />
                     </Flex>
                 </Flex>
 
