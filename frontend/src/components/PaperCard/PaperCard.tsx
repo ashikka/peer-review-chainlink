@@ -47,7 +47,7 @@ export default function PaperCard({ title, status, abstract, ipfsHash, heightPer
             <Stack mt={2} direction={'row'} spacing={4} align={'center'}>
                 <Stack direction={'column'} spacing={0} fontSize={'sm'}>
                     <Text mb="0.5rem" fontWeight={600}>{category}</Text>
-                    {(status === "Approved") ? <Badge colorScheme="green" w={120}>{status}</Badge> : ((status === "Rejected") ? <Badge colorScheme="red" w={120}>{status}</Badge> : <Badge textAlign="center" colorScheme='yellow' w={120}>{status}</Badge>)}
+                    {(status === "PUBLISHED") ? <Badge textAlign="center" colorScheme="green" w={120}>{status}</Badge> : ((status === "Rejected") ? <Badge textAlign="center" colorScheme="red" w={120}>{status}</Badge> : <Badge textAlign="center" colorScheme='yellow' w={120}>{status}</Badge>)}
 
                 </Stack>
             </Stack>
