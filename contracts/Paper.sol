@@ -34,7 +34,7 @@ contract Paper {
         status = _status;
     }
 
-    function addReview(bool _review, string memory comment) private {
+    function addReview(bool _review, string memory comment) public {
         if (msg.sender != owner && keccak256(bytes(status)) == keccak256(bytes("UNDER_REVIEW"))){
             PaperReview memory review = PaperReview(_review, comment);
             reviews[msg.sender] = review;
@@ -60,12 +60,4 @@ contract Paper {
     }
 }
 
-/**
- User
-  - address of the owner
-  - list/mapping of papers deployed by this user
-  getPapers() - returns an array of addresses to Paper contracts deployed by this user
-  deployPaper() - deploys a new Paper contract under this user. (can only be run by the owner)
 
-
- */
