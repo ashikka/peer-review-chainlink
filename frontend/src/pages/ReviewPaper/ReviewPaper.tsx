@@ -10,6 +10,8 @@ import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
 import { ApiPaper } from '../../contexts/api/Api';
 import { UserContext } from '../../contexts/user';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content';
 
 
 
@@ -25,6 +27,9 @@ export default function ReviewPaper() {
     const [paper, setPaper] = useState<ApiPaper>();
     const [pages, setPages] = useState(0);
     const [ipfsHash, setIpfsHash] = useState("");
+    const [comment, setComment] = useState("");
+
+    const MySwal = withReactContent(Swal)
 
     const { address } = useParams();
 
@@ -52,6 +57,23 @@ export default function ReviewPaper() {
                 setReviewer(true);
                 setNotReviewer(false);
             }
+        }
+    }
+
+    const showCommentsPopup = (commentsArray: any) => {
+        console.log(commentsArray);
+        MySwal.fire({
+            title: <p>Comments</p>,
+            html: (<>{commentsArray.map((c: any)=><ul>{c.comment}</ul>)}</>),
+        })
+    }
+
+    const addYourReview = async (status: boolean, comment: string) => {
+        if (ether == null) return;
+
+        const review = await ether?.addReview(status, comment, paper?.address as string);
+        if (review == null) {
+            return;
         }
     }
 
@@ -89,13 +111,13 @@ export default function ReviewPaper() {
                         </a>
 
                         <Text fontWeight="semibold" fontSize="lg" mt="2rem" mb="1rem">Comments</Text>
-                        <Textarea placeholder="Write your comment here" w="30vw" h="20vh" />
+                        <Textarea placeholder="Write your comment here" w="30vw" h="20vh" value={comment} onChange={(e) => setComment(e.target.value)} />
                         <Flex flexDirection="column" w="20%">
-                            <Button mt={4} mb={4} bg='#1AAF9E' color="#ffffff" variant='solid'>
+                            <Button mt={4} mb={4} bg='#1AAF9E' color="#ffffff" variant='solid' onClick={() => addYourReview(true, comment)}>
                                 <CheckIcon mr={2} />
                                 Accept
                             </Button>
-                            <Button mt={4} mb={4} bg='#d3455b' color="#ffffff" variant='solid'>
+                            <Button mt={4} mb={4} bg='#d3455b' color="#ffffff" variant='solid' onClick={() => addYourReview(false, comment)}>
                                 <CloseIcon w={3} h={3} mr={2} />
                                 Reject
                             </Button>
@@ -145,8 +167,8 @@ export default function ReviewPaper() {
                             </Button>
                         </Flex>
                         <Flex alignItems="center" justifyContent="space-between">
-                            <Flex mt="1rem" bg="#f7be68" w="20vw" h="2.5rem" justifyContent="center" alignItems="center" borderRadius="5px">Status: Under Review</Flex>
-                            <Button bg='#6459F5' color="#ffffff" variant='solid' w="20vw" mt="1rem">
+                            <Flex mt="1rem" bg="#f7be68" w="20vw" h="2.5rem" justifyContent="center" alignItems="center" borderRadius="5px">Status: {paper?.status as string}</Flex>
+                            <Button bg='#6459F5' color="#ffffff" variant='solid' w="20vw" mt="1rem" onClick={async() => showCommentsPopup(await ether?.getPaperReviews(paper?.address as string))}>
                                 <ChatIcon mr="0.5rem" />
                                 Show comments
                             </Button>
@@ -201,7 +223,10 @@ export default function ReviewPaper() {
                                 Copy link to paper
                             </Button>
                         </Flex>
-                        <Button bg='#6459F5' color="#ffffff" variant='solid' w="20vw" mt="1rem">
+                        <Button bg='#6459F5' color="#ffffff" variant='solid' w="20vw" mt="1rem" onClick={()=> {
+                            showCommentScreen(true);
+                            setReviewer(false);
+                        }}>
                             Review Paper
                         </Button>
                         <Box borderTop="2px solid gray" borderX="2px solid gray" mt="2rem" pt="1rem" px="1rem">

@@ -2,6 +2,19 @@ import { ethers } from 'ethers';
 import { create, IPFSHTTPClient } from "ipfs-http-client";
 import { Paper__factory, PeerReview, PeerReview__factory, User, User__factory } from '../../typechain';
 export default class Ether {
+
+    async addReview(status: boolean, comment: string, address: string) {
+        const c = this.getPaperContract(address);
+        const tx = await c.addReview(status, comment);
+        await tx.wait();
+        return tx;
+    }
+
+    getPaperReviews(address: string){
+        const c = this.getPaperContract(address);
+        return c.getReviews();
+    }
+
     private provider: ethers.providers.Web3Provider
     private client: IPFSHTTPClient;
     private user!: User;
@@ -96,4 +109,7 @@ export default class Ether {
         const added = await this.client.add(file, {progress: (prog) => console.log(progressFn((prog/file.size)*100))});
         return added.path;
     }
+
+
+
 }
