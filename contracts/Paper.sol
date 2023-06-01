@@ -35,8 +35,17 @@ contract Paper {
     }
 
     function addReview(bool _review, string memory comment) public {
-        if (msg.sender != owner && keccak256(bytes(status)) == keccak256(bytes("UNDER_REVIEW"))){
+        if (
+            msg.sender != owner &&
+            keccak256(bytes(status)) == keccak256(bytes("UNDER_REVIEW"))
+        ) {
             PaperReview memory review = PaperReview(_review, comment);
+            for (uint256 index = 0; index < reviewers.length; index++) {
+                if (reviewers[index] == msg.sender) {
+                    reviews[msg.sender] = review;
+                    return;
+                }
+            }
             reviews[msg.sender] = review;
             reviewers.push(msg.sender);
             uint256 numReviews = 0;
@@ -59,5 +68,3 @@ contract Paper {
         return reviewList;
     }
 }
-
-
