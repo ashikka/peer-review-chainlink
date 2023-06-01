@@ -13,12 +13,14 @@ import { IoIosPaper } from 'react-icons/io';
 import { BsFilePersonFill } from 'react-icons/bs';
 import { CloseIcon, CheckIcon } from '@chakra-ui/icons'
 import PaperView from '../../components/PaperView/PaperView';
+import { UserContext } from '../../contexts/user';
 
 
 export default function UploadPaperScreen() {
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
     const [abstract, setAbstract] = useState("");
+    const user = useContext(UserContext);
     const [hash, setHash] = useState('');
     const [pages, setPages] = useState(0);
     const file = useRef(null);
@@ -133,8 +135,8 @@ export default function UploadPaperScreen() {
                         <Flex alignItems="center">
                             <Box as={BsFilePersonFill} size="70px" color="gray.800" my="1rem" ml="-0.5rem" />
                             <Box>
-                                <Text>Anonymous</Text>
-                                <Text>Vellore Institute of Technology, Vellore</Text>
+                                <Text>{user.username} ({user.email})</Text>
+                                <Text>{user.designation}</Text>
                             </Box>
                         </Flex>
                         <Text fontSize="md" mb="0.5rem">Abstract</Text>

@@ -39,7 +39,7 @@ import { Link } from "react-router-dom";
 export default function ProfileScreen() {
     const ether = useContext(EtherContext).ether;
     const api = useContext(ApiContext).api;
-    const user = useContext(UserContext).token;
+    const user = useContext(UserContext);
     const [papers, setPapers] = useState<ApiPaper[]>([]);
     const [pages, setPages] = useState<number>(0);
 
@@ -55,10 +55,10 @@ export default function ProfileScreen() {
     };
 
     useEffect(() => {
-        if (ether && api && user) {
+        if (ether && api && user.token) {
             getPapers();
         }
-    }, [ether, api, user]);
+    }, [ether, api, user.token]);
 
 
     const paperComps = papers.map((paper) => {
@@ -79,13 +79,13 @@ export default function ProfileScreen() {
                 />
                 <Box>
                     <Text>
-                        <b>Name:</b> John Doe
+                        <b>Name:</b> {user.username}
                     </Text>
                     <Text>
-                        <b>Designation:</b> Assistant Professor at VIT, Vellore
+                        <b>Designation:</b> {user.designation}
                     </Text>
                     <Text>
-                        <b>Email:</b> johndoe@gmail.com
+                        <b>Email:</b> {user.email}
                     </Text>
                 </Box>
                 <TableContainer>
