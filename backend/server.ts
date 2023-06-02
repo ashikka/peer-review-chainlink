@@ -4,12 +4,13 @@ import cors from "cors";
 import connectDB from "./models/connection";
 import routes from "./routes";
 import { Blockchain } from "./utils/ethers";
+import { getScholarDetails } from "./utils/scholar";
 
 async function main() {
   dotenv.config();
 
   await connectDB();
-
+  console.log(await getScholarDetails('https://scholar.google.com/citations?hl=en&user=TeijU_YAAAAJ'));
   const app = express();
 
   app.use(cors());

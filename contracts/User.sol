@@ -8,9 +8,11 @@ contract User {
     mapping(address => Paper) public papers;
     address[] public papers_array;
     address public user_address;
+    bool verified;
 
-    constructor( address _address) {
+    constructor(address _address) {
         user_address = _address;
+        verified = false;
         console.log("Deploying a User");
     }
 
@@ -20,6 +22,10 @@ contract User {
 
     function getPaper(address _paperAddress) public view returns (Paper) {
         return papers[_paperAddress];
+    }
+
+    function verify() public {
+        verified = true;
     }
 
     function deployPaper(string memory _ipfsHash) public returns(address newContract) {

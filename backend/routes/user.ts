@@ -4,6 +4,7 @@ import User, { UserInterface } from "../models/user";
 import jwt from "jsonwebtoken";
 import { jwtAuth } from "./jwtMiddleware";
 import PaperModel from "../models/paper";
+import { getScholarDetails } from "../utils/scholar";
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ router.get("/me", jwtAuth, async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { address, name, email, signature, designation } = req.body;
+  const { address, signature, scholarUrl } = req.body;
 
   if (
     ethers.utils.verifyMessage(
@@ -28,11 +29,20 @@ router.post("/register", async (req, res) => {
       signature
     ) === address
   ) {
+
+    const scholarDetails = await getScholarDetails(scholarUrl);
+
+    if (!scholarDetails.affiliation.includes(address)) {
+      return res.status(401).json({
+        success: false,
+        message: "You are not affiliated with this scholar",
+      });
+    }
     const user = new User({
       address,
-      name,
-      email,
-      designation,
+      name: scholarDetails.name,
+      email: scholarDetails.email,
+      designation: scholarDetails.affiliation,
     });
     await user.save();
     return res.json(user);
