@@ -171,6 +171,9 @@ export default function ProfileScreen() {
                     }} size="md" variant="solid" colorScheme="gray" padding="0.5rem">
                         <TagLabel>Rejected</TagLabel>
                     </Tag>
+                    <Tag onClick={() => { setShowFilteredPapers(false) }} size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                        <TagLabel>Show All</TagLabel>
+                    </Tag>
                 </HStack>
                 {showFilteredPapers ? filteredPapersView() : papers.length > 0 &&
                     (
