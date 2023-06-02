@@ -9,7 +9,6 @@ import PaperCard from '../../components/PaperCard/PaperCard';
 import { ApiContext } from '../../contexts/api';
 import { ApiPaper } from '../../contexts/api/Api';
 import { EtherContext } from '../../contexts/ether';
-import { UserContext } from '../../contexts/user';
 
 // Import Swiper styles
 import "swiper/css";
@@ -21,6 +20,50 @@ export default function BrowseScreen() {
     const ether = useContext(EtherContext).ether;
 
     const [papers, setPapers] = useState<ApiPaper[]>([]);
+    const [filteredPapers, setFilteredPapers] = useState<ApiPaper[]>([]);
+    const [showFilteredPapers, setShowFilteredPapers] = useState<boolean>(false);
+
+    const filterPapers = (filter: string) => {
+        if (papers.length > 0) {
+            setFilteredPapers(papers?.filter(paper => paper.status.includes(filter)))
+        }
+    }
+
+    const filteredPapersView = () => {
+        return (
+            <>
+                <Swiper
+                    slidesPerView={4}
+                    spaceBetween={30}
+                    pagination={{
+                        clickable: true,
+                    }}
+                    navigation={true}
+                    modules={[Pagination, Navigation]}
+                    className="mySwiper"
+                >
+                    {filteredPapers.map((paper) => (
+                        <SwiperSlide>
+                            <Link to={`/view/${paper.address}`}>
+                                <Box transitionDuration="0.2s" transitionTimingFunction="ease-out" _hover={{ transform: 'scale(1.1)' }} py={10} px={6}>
+                                    <PaperCard
+                                        title={paper.title}
+                                        status={paper.status}
+                                        abstract={paper.abstract}
+                                        ipfsHash={paper.ipfsHash}
+                                        heightPercentage={0.2}
+                                        category={paper.category}
+                                    />
+                                </Box>
+                            </Link>
+
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </>
+        )
+    }
+
 
     const getAllPapers = async () => {
         const papers = await api?.getAllPapers();
@@ -43,17 +86,31 @@ export default function BrowseScreen() {
                 <HStack spacing={6} my="2rem">
                     <Box as={FaFilter} size="32px" color="gray.800" />
                     <Text>Filters</Text>
-                    <Tag size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                    <Tag onClick={() => {
+                        filterPapers("UNDER_REVIEW")
+                        setShowFilteredPapers(true)
+                    }}
+                        size="md" variant="solid" colorScheme="gray" padding="0.5rem">
                         <TagLabel>Under Review</TagLabel>
                     </Tag>
-                    <Tag size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                    <Tag
+                        onClick={() => {
+                            filterPapers("PUBLISHED")
+                            setShowFilteredPapers(true)
+                        }}
+                        size="md" variant="solid" colorScheme="gray" padding="0.5rem">
                         <TagLabel>Approved</TagLabel>
                     </Tag>{" "}
-                    <Tag size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                    <Tag
+                        onClick={() => {
+                            filterPapers("REJECTED")
+                            setShowFilteredPapers(true)
+                        }}
+                        size="md" variant="solid" colorScheme="gray" padding="0.5rem">
                         <TagLabel>Rejected</TagLabel>
                     </Tag>
                 </HStack>
-                {papers.length > 0 &&
+                {showFilteredPapers ? filteredPapersView() : papers.length > 0 &&
                     (
                         <Swiper
                             slidesPerView={4}
@@ -83,10 +140,9 @@ export default function BrowseScreen() {
                                 </SwiperSlide>
                             ))}
                         </Swiper>
-
                     )
-
                 }
+
                 <Heading>Recommended</Heading>
                 {papers.length > 0 &&
                     (
