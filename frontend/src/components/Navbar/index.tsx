@@ -18,7 +18,7 @@ export default function Navbar() {
     const user = useContext(UserContext);
 
     return (
-        <Flex bgColor="#F8F8FB" flexDirection="row" justifyContent="space-between" py={5} px={8} borderBottom="3px solid grey">
+        <Flex bgColor="transparent" flexDirection="row" justifyContent="space-between" py={5} px={8}>
             <Flex alignItems="center">
                 <img src={logo} alt="logo" width={40} />
                 <Text fontSize="2xl" fontWeight="bold" ml={2}><Link to="/">Peer Review</Link></Text>
