@@ -19,6 +19,7 @@ import {
     Th,
     Td,
     TableContainer,
+    Link as ChakraLink
 } from "@chakra-ui/react";
 import { ApiContext } from "../../contexts/api";
 import { EtherContext } from "../../contexts/ether";
@@ -34,6 +35,7 @@ import "swiper/css/navigation";
 
 import { Pagination, Navigation } from "swiper";
 import { Link } from "react-router-dom";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 
 export default function ProfileScreen() {
@@ -43,7 +45,10 @@ export default function ProfileScreen() {
     const [papers, setPapers] = useState<ApiPaper[]>([]);
     const [filteredPapers, setFilteredPapers] = useState<ApiPaper[]>([]);
     const [pages, setPages] = useState<number>(0);
+    const [hindex, sethindex] = useState<number>(0);
+    const [citations, setCitations] = useState<number>(0);
     const [showFilteredPapers, setShowFilteredPapers] = useState<boolean>(false);
+    const [trustRating, setTrustRating] = useState<number>(0);
 
     const getPapers = async () => {
         const papers = await api?.getUserPapers();
@@ -56,9 +61,22 @@ export default function ProfileScreen() {
         console.log(papers.data)
     };
 
+    const getScholarProfile = async () => {
+        const profile = await api?.getUserScholarDetails();
+        sethindex(profile?.data?.scholarDetails.hindex);
+        setCitations(profile?.data?.scholarDetails.citations);
+    }
+
+    const getTrustRating = async () => {
+        const user = await ether?.getMyUser();
+        setTrustRating((await user?.trust_rating())?.toNumber() || 0);
+    }
+
     useEffect(() => {
         if (ether && api && user.token) {
             getPapers();
+            getTrustRating();
+            getScholarProfile();
         }
     }, [ether, api, user.token]);
 
@@ -125,6 +143,14 @@ export default function ProfileScreen() {
                         <Text>
                             <b>Email:</b> {user.email}
                         </Text>
+                        <Text>
+                            <b>Trust Rating:</b> {trustRating}/100
+                        </Text>
+                        <Text>
+                            <ChakraLink href={user.scholarUrl} color="teal.500" isExternal>
+                                Google Scholar <ExternalLinkIcon mx='2px' />
+                            </ChakraLink>
+                        </Text>
                     </Box>
                     <TableContainer>
                         <Table variant="striped">
@@ -139,8 +165,8 @@ export default function ProfileScreen() {
                                     <Td>h-index</Td>
                                 </Tr>
                                 <Tr>
-                                    <Td>134</Td>
-                                    <Td>12</Td>
+                                    <Td>{citations}</Td>
+                                    <Td>{hindex}</Td>
                                 </Tr>
                             </Tbody>
                         </Table>

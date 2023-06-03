@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
+import "./User.sol";
 
 struct PaperReview {
     bool decision;
@@ -48,13 +49,14 @@ contract Paper {
             }
             reviews[msg.sender] = review;
             reviewers.push(msg.sender);
-            uint256 numReviews = 0;
+            uint256 totalScore = 0;
             for (uint256 index = 0; index < reviewers.length; index++) {
+                User reviewer = User(reviewers[index]);
                 if (reviews[reviewers[index]].decision) {
-                    numReviews++;
+                    totalScore += reviewer.trust_rating();
                 }
             }
-            if (numReviews >= 2) {
+            if (totalScore >= 150) {
                 setStatus("PUBLISHED");
             }
         }

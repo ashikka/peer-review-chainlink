@@ -12,14 +12,14 @@ export class Blockchain {
     }
 
     async checkPaperIsOwnedByUser(address: string, user: string) {
-        const c = Paper__factory.connect(address, this.provider);
+        const c = Paper__factory.connect(address, this.provider.getSigner());
         const owner = await c.owner();
 
         return  owner === user;
     }
 
     async getPaper(address: string) {
-        const c = Paper__factory.connect(address, this.provider);
+        const c = Paper__factory.connect(address, this.provider.getSigner());
         return c;
     }
 
@@ -29,8 +29,13 @@ export class Blockchain {
         if (userContractAddress === "0x0000000000000000000000000000000000000000") {
             return null;
         }
-        const c = User__factory.connect(userContractAddress, this.provider);
+        const c = User__factory.connect(userContractAddress, this.provider.getSigner());
         return c;
+    }
+
+    async setUserTrustRating(address: string, trustRating: number) {
+        const c = await this.getUser(address);
+        await c.setTrustRating(trustRating);
     }
 }
 

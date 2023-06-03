@@ -10,7 +10,7 @@ async function main() {
   dotenv.config();
 
   await connectDB();
-  console.log(await getScholarDetails('https://scholar.google.com/citations?hl=en&user=TeijU_YAAAAJ'));
+  console.log(await getScholarDetails('https://scholar.google.co.in/citations?user=G30mwMoAAAAJ&hl=en'));
   const app = express();
 
   app.use(cors());

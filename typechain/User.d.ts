@@ -26,6 +26,8 @@ interface UserInterface extends ethers.utils.Interface {
     "getPapers()": FunctionFragment;
     "papers(address)": FunctionFragment;
     "papers_array(uint256)": FunctionFragment;
+    "setTrustRating(uint256)": FunctionFragment;
+    "trust_rating()": FunctionFragment;
     "user_address()": FunctionFragment;
   };
 
@@ -36,6 +38,14 @@ interface UserInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "papers_array",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTrustRating",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "trust_rating",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "user_address",
@@ -51,6 +61,14 @@ interface UserInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "papers", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "papers_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTrustRating",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "trust_rating",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -126,6 +144,13 @@ export class User extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    setTrustRating(
+      _trust_rating: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    trust_rating(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     user_address(overrides?: CallOverrides): Promise<[string]>;
   };
 
@@ -142,6 +167,13 @@ export class User extends BaseContract {
 
   papers_array(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
+  setTrustRating(
+    _trust_rating: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  trust_rating(overrides?: CallOverrides): Promise<BigNumber>;
+
   user_address(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
@@ -157,6 +189,13 @@ export class User extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    setTrustRating(
+      _trust_rating: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    trust_rating(overrides?: CallOverrides): Promise<BigNumber>;
 
     user_address(overrides?: CallOverrides): Promise<string>;
   };
@@ -183,6 +222,13 @@ export class User extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    setTrustRating(
+      _trust_rating: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    trust_rating(overrides?: CallOverrides): Promise<BigNumber>;
+
     user_address(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
@@ -208,6 +254,13 @@ export class User extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    setTrustRating(
+      _trust_rating: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    trust_rating(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     user_address(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };

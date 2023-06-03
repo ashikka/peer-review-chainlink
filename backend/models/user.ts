@@ -8,6 +8,7 @@ const User = new Schema({
   address: String,
   token: String,
   designation: String,
+  scholarUrl: String,
 });
 
 export interface UserInterface {
@@ -15,7 +16,8 @@ export interface UserInterface {
   email: string;
   address: string;
   token: string;
-  designation: String,
+  designation: string,
+  scholarUrl: string,
 }
 
 const UserModel = mongoose.model<UserInterface>("User", User);

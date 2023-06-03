@@ -1,4 +1,4 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, FormControl, FormHelperText, FormLabel, Input } from '@chakra-ui/react';
+import { Text, Badge, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, FormControl, FormHelperText, FormLabel, Input, Alert, AlertIcon, Image } from '@chakra-ui/react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,9 @@ import { setUser } from '../../stores/slices/userSlice';
 import { User } from '../../typechain';
 import { ApiContext } from '../api';
 import { EtherContext } from '../ether';
+import VerifyGif from '../../assets/VerifyScholar.gif';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content';
 
 export type UserContextProps = {
     signInOrRegister: Function,
@@ -18,45 +21,68 @@ export type UserContextProps = {
     token: string,
     username: string,
     designation: string,
+    scholarUrl: string,
 }
 
 export function RegisterModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [designation, setDesignation] = useState("");
+    const [scholarUrl, setScholarUrl] = useState("");
+    const [address, setAddress] = useState("");
+    const ether = useContext(EtherContext).ether;
 
     const user = useContext(UserContext);
 
+    const MySwal = withReactContent(Swal)
+
+    const getAddress = async () => {
+        if (ether) {
+            const address = await ether.connectWallet();
+            setAddress(address);
+        }
+    }
+
+    useEffect(() => {
+        getAddress();
+    }, [ether])
+
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} size="xl">
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>Register for a new account</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <FormControl>
-                        <FormLabel htmlFor='email'>Email address</FormLabel>
-                        <Input onChange={(e) => { setEmail(e.target.value) }} id='email' type='email' />
-                        <FormHelperText>We'll never share your email.</FormHelperText>
+                    <Alert status='info'>
+                        <AlertIcon />
+                        To signup on Peer Review, you need a google scholar account, and need to verify ownership of that account.
+                    </Alert>
+                    <FormControl mt={4}>
+                        <FormLabel htmlFor='username'>Google Scholar Profile URL</FormLabel>
+                        <Input placeholder='https://scholar.google.co.in/citations?user=G30mwMoAAAAJ&hl=en' onChange={(e) => setScholarUrl(e.target.value)} id='designation' type='url' />
                     </FormControl>
-                    <br />
-                    <FormControl>
-                        <FormLabel htmlFor='username'>Username</FormLabel>
-                        <Input onChange={(e) => setUsername(e.target.value)} id='username' type='username' />
-                    </FormControl>
-                    <br />
+                    <Text mt={4}>
+                        Navigate to Google Scholar, and add your metamask wallet address to your affiliation:
+                        <Badge>{address}</Badge>
+                    </Text>
 
-                    <FormControl>
-                        <FormLabel htmlFor='username'>Designation</FormLabel>
-                        <Input onChange={(e) => setDesignation(e.target.value)} id='designation' type='text' />
-                    </FormControl>
+                    <Image mt={4} src={VerifyGif} />
                 </ModalBody>
 
                 <ModalFooter>
                     <Button colorScheme='blue' mr={3} onClick={async () => {
-                        await user.register(username, email, designation);
-                        onClose();
-                        await user.signInOrRegister();
+                        const res = await user.register(scholarUrl);
+                        console.log(res.success);
+                        if (res && res.success === true) {
+                            onClose();
+                            await user.signInOrRegister();
+                        } else {
+                            console.log(res);
+                            onClose();
+                            MySwal.fire({
+                                title: <p>Error</p>,
+                                html: (<>{res.message}</>),
+                                icon: 'error',
+                            })
+                        }
                     }}>
                         Register
                     </Button>
@@ -76,6 +102,7 @@ export const UserContext = createContext<UserContextProps>({
     token: '',
     address: '',
     designation: '',
+    scholarUrl: '',
 });
 
 
@@ -96,6 +123,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
             let userContract = (await ether.getMyUser()) as User;
             if (!userContract) {
                 console.log("User contract not found, creating");
+
                 await ether.createUser();
                 userContract = (await ether.getMyUser()) as User;
 
@@ -104,8 +132,10 @@ export const UserContextProvider = ({ children }: { children: any }) => {
                     return;
                 }
             }
-            console.log(userContract);
+            
             ether.setMyUser(userContract);
+            const trustRatingRes = await api.updateTrustRating();
+            console.log("Update Trust Rating Response", trustRatingRes.data);
             user.data.token = token;
             dispatch(setUser(user.data));
         } else {
@@ -147,7 +177,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
         // If it doesn't, then need to register new account
     }
 
-    const register = async (name: string, email: string, designation: string) => {
+    const register = async (scholarUrl: string) => {
         if (ether == null || api == null) return;
         const signature = await ether.signMessage("Click sign below to authenticate with Peer Review :)");
 
@@ -156,8 +186,9 @@ export const UserContextProvider = ({ children }: { children: any }) => {
         const address = await ether.connectWallet();
         if (address == null) return;
 
-        const user = await api.register(address, name, email, designation, signature);
+        const user = await api.register(address, signature, scholarUrl);
 
+        return user.data;
     }
 
 
@@ -190,6 +221,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
             email: user.email || "",
             token: user.token || "",
             designation: user.designation || "",
+            scholarUrl: user.scholarUrl || "",
         }}>
             <RegisterModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
             {children}

@@ -8,11 +8,12 @@ contract User {
     mapping(address => Paper) public papers;
     address[] public papers_array;
     address public user_address;
-    bool verified;
+    uint256 public trust_rating;
+
+    // address public constant adminAddress = 0x1Af0a1185c0c96906A0a88748Db7e16e1976A67b;
 
     constructor(address _address) {
         user_address = _address;
-        verified = false;
         console.log("Deploying a User");
     }
 
@@ -20,16 +21,21 @@ contract User {
         return papers_array;
     }
 
+    function setTrustRating(uint256 _trust_rating) public {
+        // if (msg.sender == adminAddress) {
+        trust_rating = _trust_rating;
+        // }
+    }
+
     function getPaper(address _paperAddress) public view returns (Paper) {
         return papers[_paperAddress];
     }
 
-    function verify() public {
-        verified = true;
-    }
-
-    function deployPaper(string memory _ipfsHash) public returns(address newContract) {
-        if( msg.sender == user_address ) {
+    function deployPaper(string memory _ipfsHash)
+        public
+        returns (address newContract)
+    {
+        if (msg.sender == user_address) {
             Paper p = new Paper(_ipfsHash, user_address);
             papers[address(p)] = p;
             papers_array.push(address(p));

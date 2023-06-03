@@ -27,13 +27,11 @@ export default class API {
         return this.instance.get(`/user/${address}`);
     }
 
-    register(address: string, name: string, email: string, designation:string, signature: string) {
+    register(address: string, signature: string, scholarUrl: string) {
         return this.instance.post(`/user/register`, {
             address,
-            name,
-            email,
-            designation,
             signature,
+            scholarUrl,
         });
     }
 
@@ -68,11 +66,19 @@ export default class API {
         });
     }
 
+    updateTrustRating() {
+        return this.instance.post(`/user/updateTrustRating`);
+    }
+
     getPaper(address: string) {
         return this.instance.get(`/paper/view/${address}`);
     }
 
     me() {
         return this.instance.get(`/user/me`);
+    }
+
+    getUserScholarDetails() {
+        return this.instance.get(`/user/scholar`);
     }
 }
