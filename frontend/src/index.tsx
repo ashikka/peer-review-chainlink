@@ -8,6 +8,9 @@ import reportWebVitals from './reportWebVitals';
 import { EtherContextProvider } from './contexts/ether';
 import { ApiContextProvider } from './contexts/api';
 import { ChakraProvider } from '@chakra-ui/react';
+import '@fontsource/lato/400.css'
+import '@fontsource/cabin/700.css'
+import theme from './theme'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,7 +19,7 @@ root.render(
   <Provider store={store}>
     <EtherContextProvider>
       <ApiContextProvider>
-          <ChakraProvider>
+          <ChakraProvider theme={theme}>
             <App />
           </ChakraProvider>
       </ApiContextProvider>
