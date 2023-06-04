@@ -8,8 +8,8 @@ const theme = extendTheme({
     }
   },
   fonts: {
-    heading: 'Open Sans, sans-serif',
-    body: 'Raleway, sans-serif',
+    heading: 'Cabin, sans-serif',
+    body: 'Lato, sans-serif',
   },
 })
 

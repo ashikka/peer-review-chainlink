@@ -1,90 +1,81 @@
 import {
-    Button,
-    ButtonGroup,
-    Container,
-    Divider,
-    Flex,
-    IconButton,
-    Input,
-    Stack,
-    Text,
-  } from '@chakra-ui/react'
-  import * as React from 'react'
-  import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
-  import logo  from '../../assets/logo.png'
-  
-  export const Footer = () => (
-    <Flex as="footer" role="contentinfo" p={6}>
+  Button,
+  ButtonGroup,
+  Divider,
+  Flex,
+  IconButton,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
+import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
+import logo  from '../../assets/logo.png';
+
+export const Footer = () => (
+  <Flex bg="#f0effd" w="100vw" justifyContent="center" flexDirection="column" mt="5rem">
+    <Flex justifyContent="center">
+    <Stack
+      spacing="8"
+      direction={{ base: 'column', md: 'row' }}
+      justify="space-between"
+      py={{ base: '12', md: '16' }}
+    >
+      <Stack align="start">
+        <img width="72" height="72" src={logo} alt="logo" />
+        <Text color="muted">Create beautiful websites</Text>
+        <Text>remarkably fast</Text>
+      </Stack>
       <Stack
-        spacing="8"
-        direction={{ base: 'column', md: 'row' }}
-        justify="space-between"
-        py={{ base: '12', md: '16' }}
+        direction={{ base: 'column-reverse', md: 'column', lg: 'row' }}
+        spacing={{ base: '12', md: '8' }}
       >
-        <Stack spacing={{ base: '6', md: '8' }} align="start">
-          <img src={logo} alt="logo"/>
-          <Text color="muted">Create beautiful websites remarkably fast.</Text>
-        </Stack>
-        <Stack
-          direction={{ base: 'column-reverse', md: 'column', lg: 'row' }}
-          spacing={{ base: '12', md: '8' }}
-        >
-          <Stack direction="row" spacing="8">
-            <Stack spacing="4" minW="36" flex="1">
-              <Text fontSize="sm" fontWeight="semibold" color="subtle">
-                Product
-              </Text>
-              <Stack spacing="3" shouldWrapChildren>
-                <Button variant="link">How it works</Button>
-                <Button variant="link">Pricing</Button>
-                <Button variant="link">Use Cases</Button>
-              </Stack>
-            </Stack>
-            <Stack spacing="4" minW="36" flex="1">
-              <Text fontSize="sm" fontWeight="semibold" color="subtle">
-                Legal
-              </Text>
-              <Stack spacing="3" shouldWrapChildren>
-                <Button variant="link">Privacy</Button>
-                <Button variant="link">Terms</Button>
-                <Button variant="link">License</Button>
-              </Stack>
-            </Stack>
-          </Stack>
-          <Stack spacing="4">
+        <Stack direction="row" spacing="8">
+          <Stack spacing="4" minW="36" flex="1">
             <Text fontSize="sm" fontWeight="semibold" color="subtle">
-              Stay up to date
+              Product
             </Text>
-            <Stack spacing="4" direction={{ base: 'column', sm: 'row' }} maxW={{ lg: '360px' }}>
-              <Input placeholder="Enter your email" type="email" required />
-              <Button variant="primary" type="submit" flexShrink={0}>
-                Subscribe
-              </Button>
+            <Stack spacing="3" shouldWrapChildren>
+              <Button variant="link">How it works</Button>
+              <Button variant="link">Pricing</Button>
+              <Button variant="link">Use Cases</Button>
+            </Stack>
+          </Stack>
+          <Stack spacing="4" minW="36" flex="1">
+            <Text fontSize="sm" fontWeight="semibold" color="subtle">
+              Legal
+            </Text>
+            <Stack spacing="3" shouldWrapChildren>
+              <Button variant="link">Privacy</Button>
+              <Button variant="link">Terms</Button>
+              <Button variant="link">License</Button>
             </Stack>
           </Stack>
         </Stack>
       </Stack>
-      <Divider />
-      <Stack
-        pt="8"
-        pb="12"
-        justify="space-between"
-        direction={{ base: 'column-reverse', md: 'row' }}
-        align="center"
-      >
-        <Text fontSize="sm" color="subtle">
-          &copy; {new Date().getFullYear()} Chakra UI Pro, Inc. All rights reserved.
-        </Text>
-        <ButtonGroup variant="ghost">
-          <IconButton
-            as="a"
-            href="#"
-            aria-label="LinkedIn"
-            icon={<FaLinkedin fontSize="1.25rem" />}
-          />
-          <IconButton as="a" href="#" aria-label="GitHub" icon={<FaGithub fontSize="1.25rem" />} />
-          <IconButton as="a" href="#" aria-label="Twitter" icon={<FaTwitter fontSize="1.25rem" />} />
-        </ButtonGroup>
-      </Stack>
+    </Stack>
     </Flex>
-  )
+    <Flex display="block">
+    <Divider />
+    <Stack
+      pt="8"
+      pb="12"
+      justify="center"
+      direction={{ base: 'column-reverse', md: 'row' }}
+      align="center"
+    >
+      <Text fontSize="sm" color="subtle">
+        &copy; {new Date().getFullYear()} Peer Review Inc.{' '}All rights reserved.
+      </Text>
+      <ButtonGroup variant="ghost">
+        <IconButton
+          as="a"
+          href="#"
+          aria-label="LinkedIn"
+          icon={<FaLinkedin fontSize="1.25rem" />}
+        />
+        <IconButton as="a" href="#" aria-label="GitHub" icon={<FaGithub fontSize="1.25rem" />} />
+        <IconButton as="a" href="#" aria-label="Twitter" icon={<FaTwitter fontSize="1.25rem" />} />
+      </ButtonGroup>
+    </Stack>
+    </Flex>
+  </Flex>
+)
