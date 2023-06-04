@@ -6,6 +6,8 @@ import logo from '../../assets/logo.png';
 import { UserContext } from '../../contexts/user';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import entryGif from '../../assets/Research paper.gif'
+import FeatureCard from '../../components/FeatureCard/FeatureCard';
+import { Footer } from '../../components/Footer/Footer';
 
 
 export default function SignUpLoginInScreen() {
@@ -36,9 +38,15 @@ export default function SignUpLoginInScreen() {
                         <img src={logo} alt="logo" width={130} />
                         <Heading as='h1' size='3xl' marginLeft="2rem">Peer Review</Heading>
                     </Flex>
-                    <Text color='gray.600' mt={6} width={400} textAlign="center">Lorem ipsum dolor sit amet. Eos provident mollitia qui molestias ipsa et quaerat autem.</Text>
+                    <Text color='gray.600' mt={6} width={300}>Lorem ipsum dolor sit amet. Eos provident mollitia qui molestias ipsa et quaerat autem. Lorem ipsum dolor sit amet. Eos provident mollitia qui molestias ipsa et quaerat autem.</Text>
+                    <Button mt={6} bg='#6459F5' color="#ffffff" variant='solid' width={350} onClick={() => user.signInOrRegister()}>
+                        Login with Metamask
+                    </Button>
                 </Flex>
-                <img src={entryGif} alt="entry" />
+                <Flex width="50vw">
+                    <img src={entryGif} alt="entry" />
+                </Flex>
+
                 {/* <Flex bgColor="#F8F8FB" px={30} py="4rem" mt="4rem" border="2px solid" borderColor="gray.300">
                 <Flex flexDirection="column" mx={10}>
                     <Button bg='#6459F5' color="#ffffff" variant='solid' width={350} onClick={() => user.signInOrRegister()}>
@@ -58,6 +66,18 @@ export default function SignUpLoginInScreen() {
                 </Flex>
             </Flex> */}
             </Flex>
+            <Flex justifyContent="center" flexDirection="column">
+                <Heading textAlign="center">Features</Heading>
+                <Flex justifyContent="space-around" mt="2rem" px={20}>
+                    <FeatureCard title='ok' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
+                    <FeatureCard title='ok' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
+                    <FeatureCard title='ok' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
+                </Flex>
+            </Flex>
+            <Flex justifyContent="center">
+            <Box zIndex={-1} width="45vw" height="30vh"  mt="4rem" alignSelf="center" borderRadius="5%" bgColor='#f0effd'></Box>
+            </Flex>
+            <Footer />
         </>
     );
 }
