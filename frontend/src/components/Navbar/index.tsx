@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link } from "react-router-dom";
 
-import { Text, Menu, Flex, Button, MenuButton, Avatar, MenuList, MenuItem } from '@chakra-ui/react';
+import { Text, Menu, Flex, Button, MenuButton, Avatar, MenuList, MenuItem, Heading } from '@chakra-ui/react';
 import logo from '../../assets/logo.png';
 import { UserContext } from '../../contexts/user';
 
@@ -21,7 +21,7 @@ export default function Navbar() {
         <Flex bgColor="transparent" flexDirection="row" justifyContent="space-between" py={5} px={8}>
             <Flex alignItems="center">
                 <img src={logo} alt="logo" width={40} />
-                <Text fontSize="2xl" fontWeight="bold" ml={2}><Link to="/">Peer Review</Link></Text>
+                <Heading fontSize="2xl" fontWeight="bold" ml={2}><Link to="/">Peer Review</Link></Heading>
             </Flex>
             <Flex>
                 {!user.username && <Button onClick={() => { user.signInOrRegister() }} bg='#6459F5' color="#ffffff" variant='solid'>

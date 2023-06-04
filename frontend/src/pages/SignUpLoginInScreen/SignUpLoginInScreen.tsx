@@ -75,7 +75,7 @@ export default function SignUpLoginInScreen() {
                 </Flex>
             </Flex>
             <Flex justifyContent="center">
-            <Box zIndex={-1} width="45vw" height="30vh"  mt="4rem" alignSelf="center" borderRadius="5%" bg='#A19CEE'></Box>
+            <Box zIndex={-1} width="45vw" height="30vh"  mt="4rem" alignSelf="center" borderRadius="15px" bg='#A19CEE'></Box>
             </Flex>
             <Footer />
         </>
