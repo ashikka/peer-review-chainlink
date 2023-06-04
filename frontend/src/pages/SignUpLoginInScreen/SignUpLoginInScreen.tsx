@@ -8,6 +8,9 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import entryGif from '../../assets/Research paper.gif'
 import FeatureCard from '../../components/FeatureCard/FeatureCard';
 import { Footer } from '../../components/Footer/Footer';
+import transparent from '../../assets/transparency.png';
+import anonymous from '../../assets/anonymous.png';
+import ethereum from '../../assets/ethereum.png';
 
 
 export default function SignUpLoginInScreen() {
@@ -69,9 +72,9 @@ export default function SignUpLoginInScreen() {
             <Flex justifyContent="center" flexDirection="column">
                 <Heading textAlign="center">Features</Heading>
                 <Flex justifyContent="space-around" mt="2rem" px={20}>
-                    <FeatureCard title='ok' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
-                    <FeatureCard title='ok' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
-                    <FeatureCard title='ok' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
+                    <FeatureCard image={transparent} title="Transparent" content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
+                    <FeatureCard image={anonymous}  title='Anonymous' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
+                    <FeatureCard image={ethereum} title='Smart Contracts' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
                 </Flex>
             </Flex>
             <Flex justifyContent="center">

@@ -7,8 +7,7 @@ import {
     Flex,
 } from '@chakra-ui/react';
 
-
-export default function FeatureCard({ title, content }: { title: string, content: string}) {
+export default function FeatureCard({ title, content, image }: { title: string, content: string, image:any}) {
     return (
 
 
@@ -23,12 +22,10 @@ export default function FeatureCard({ title, content }: { title: string, content
             overflow={'hidden'}>
             <Flex
                 h={100}
-                bg={'gray.100'}
-                mt={-6}
-                mx={-6}
                 mb={6}
+                mt={6}
                 justifyContent="center">
-       
+                    <img src={image} alt="logo" />
             </Flex>
             <Stack height={100}>
                 <Stack>
