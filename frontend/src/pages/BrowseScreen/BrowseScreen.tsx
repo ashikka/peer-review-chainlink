@@ -82,7 +82,7 @@ export default function BrowseScreen() {
 
     return (
         <>
-            <Container maxW='8xl'>
+            <Container maxW='7xl'>
                     <Heading mt={4}>Browse the Latest Papers 📃</Heading>
                     <Text mt={4} color="grey">Use the filters below to search through recently published papers on the PeerReview Blockchain!</Text>
                     <HStack spacing={6} mt="2rem">

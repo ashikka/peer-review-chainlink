@@ -160,7 +160,7 @@ export default function UploadPaperScreen() {
 
     if (abstractScreen) {
         return (<>
-            <Container maxW='8xl'>
+            <Container maxW='7xl'>
                 <Flex alignItems="flex-start">
                     <Flex py="3rem" flexDirection="column" w="50vw">
                         <Flex flexDirection="row" alignItems="center">

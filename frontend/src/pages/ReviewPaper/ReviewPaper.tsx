@@ -86,7 +86,7 @@ export default function ReviewPaper() {
     if (commentScreen) {
         return (
             <>
-                <Container maxW='8xl'>
+                <Container maxW='7xl'>
                     <Flex justifyContent="flex-start">
                         <Flex flexDirection="column" pt={10}>
                             <Heading as="h1" mb={4}>{paper?.title}</Heading>
@@ -139,7 +139,7 @@ export default function ReviewPaper() {
 
         return (
             <>
-                <Container maxW='8xl'>
+                <Container maxW='7xl'>
                     <Flex justifyContent="flex-start" >
                         <Flex flexDirection="column">
                             <Heading as="h1" mt="10vh" mb={2}>{paper?.title}</Heading>
@@ -196,7 +196,7 @@ export default function ReviewPaper() {
     if (reviewer) {
         return (
             <>
-                <Container maxW='8xl'>
+                <Container maxW='7xl'>
                     <Flex justifyContent="flex-start" >
                         <Flex flexDirection="column" width="50vw">
                             <Heading as="h1" mt="10vh" mb={4}>{paper?.title}</Heading>

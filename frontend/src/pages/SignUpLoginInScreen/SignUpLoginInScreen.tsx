@@ -9,6 +9,8 @@ import { Footer } from '../../components/Footer/Footer';
 import transparent from '../../assets/transparency.png';
 import anonymous from '../../assets/anonymous.png';
 import ethereum from '../../assets/ethereum.png';
+import { FcDisclaimer } from 'react-icons/fc'
+
 
 
 export default function SignUpLoginInScreen() {
@@ -33,7 +35,7 @@ export default function SignUpLoginInScreen() {
             <Box zIndex={-1} width="35vw" height="35vw" position="absolute" right="10%" top="-20%" borderRadius="50%" bgColor='#f0effd'></Box>
             <Box zIndex={-1} width="35vw" height="35vw" position="absolute" right="-10%" borderRadius="50%" bgColor='#f0effd'></Box>
             <Box zIndex={-1} width="40vw" height="40vw" position="absolute" right="-20%" top="-20%" borderRadius="50%" bgColor='#f0effd'></Box>
-            <Container maxW='8xl'>
+            <Container maxW='7xl'>
                 <Flex justifyContent="space-between" alignItems="center" flexDirection="row" height="90vh">
                     <Flex flexDirection="column" >
                         <Flex flexDirection="row" alignItems="center">
@@ -55,12 +57,18 @@ export default function SignUpLoginInScreen() {
                     <Heading textAlign="center">Features</Heading>
                     <Flex justifyContent="space-around" mt="4rem" px={20}>
                         <FeatureCard image={transparent} title="Transparent" content='We offer a transparent peer review process. Your work is visible to all and reviewed by trusted academics' />
-                        <FeatureCard image={anonymous} title='Anonymous' content='The reviews are conducted anonymously. The information of the reviwers is private and safe with us.' />
+                        <FeatureCard image={anonymous} title='Anonymous' content='The reviews are conducted anonymously. The information of the reviewers is private and safe with us.' />
                         <FeatureCard image={ethereum} title='Smart Contracts' content='We use smart contracts and the Ethereum blockchain to decentralize and automate our system.' />
                     </Flex>
                 </Flex>
-                <Flex justifyContent="center">
-                    <Box zIndex={-1} width="45vw" height="30vh" mt="4rem" alignSelf="center" borderRadius="15px" bg="#F6F6FA"></Box>
+                <Flex justifyContent="center" alignItems="center">
+                    <Box zIndex={-1} width="45vw" height="30vh" flexDirection="column" mt="4rem" p={8} borderRadius="15px" bg="#F6F6FA">
+                        <Box flexDirection="row">
+                            <Heading mt={4} display="inline" textAlign="center">Disclaimer  <Box as={FcDisclaimer} size="48px" /></Heading>
+
+                        </Box>
+                        <Text textAlign="center" mt={4}>The data you provide us with does not persist on any server-side databases but is completely stored on the blockchain. We respect your privacy and strive to achieve the most secure system. Your data is safe.</Text>
+                    </Box>
                 </Flex>
             </Container>
             <Footer />

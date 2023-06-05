@@ -124,7 +124,7 @@ export default function ProfileScreen() {
 
     return (
         <>
-            <Container maxW='8xl'>
+            <Container maxW='7xl'>
                     <Heading mt={4}>Your Profile</Heading>
                     <Flex my="2rem" justifyContent="space-between" alignItems="center">
                         <Flex alignItems="center">

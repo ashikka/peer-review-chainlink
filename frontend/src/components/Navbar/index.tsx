@@ -18,7 +18,7 @@ export default function Navbar() {
     const user = useContext(UserContext);
 
     return (
-        <Container maxW='8xl' zIndex={100}>
+        <Container maxW='7xl' zIndex={100}>
             <Flex bgColor="transparent" flexDirection="row" justifyContent="space-between" py={5} pr={6}>
                 <Flex alignItems="center">
                     <img src={logo} alt="logo" width={40} />
