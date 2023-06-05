@@ -178,7 +178,7 @@ export default function UploadPaperScreen() {
                         </Flex>
                     </Flex>
                 </Flex>
-                <Flex mt="-9rem" h="100vh" bg="#F6F6FA" w="50vw" flexDirection="column" justifyContent="center" alignItems="center">
+                <Flex mt="-7rem" h="100vh" bg="#F6F6FA" w="50vw" flexDirection="column" justifyContent="center" alignItems="center">
                     <Box w="25vw" h="25vh">
                         <img src={illustration} alt="illustration" />
                     </Box>
@@ -222,7 +222,7 @@ export default function UploadPaperScreen() {
                     </Flex>
                 </Flex>
             </Flex>
-            <Flex mt="-9rem" h="100vh" bg="#F6F6FA" w="50vw" flexDirection="column" justifyContent="center" alignItems="center">
+            <Flex mt="-7rem" h="100vh" bg="#F6F6FA" w="50vw" flexDirection="column" justifyContent="center" alignItems="center">
                 <Box w="25vw" h="25vh">
                     <img src={illustration} alt="illustration" />
                 </Box>

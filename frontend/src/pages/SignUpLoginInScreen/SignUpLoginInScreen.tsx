@@ -38,7 +38,8 @@ export default function SignUpLoginInScreen() {
                     <Flex flexDirection="row" alignItems="center">
                         <Heading as='h1' size='4xl'>Peer Review</Heading>
                     </Flex>
-                    <Text color='gray.600' mt={6} width={300}>Lorem ipsum dolor sit amet. Eos provident mollitia qui molestias ipsa et quaerat autem. Lorem ipsum dolor sit amet. Eos provident mollitia qui molestias ipsa et quaerat autem.</Text>
+                    <Text color='gray.600' mt={6} width={300}>A new way for academic publishing.</Text>
+                    <Text  color='gray.600' width={300}> Say goodbye to illegitmate and plagiarized research papers.</Text>
                     <Button mt={6} bg='#6459F5' color="#ffffff" variant='solid' width={350} onClick={() => user.signInOrRegister()}>
                         Login with Metamask
                     </Button>
@@ -50,9 +51,9 @@ export default function SignUpLoginInScreen() {
             <Flex justifyContent="center" flexDirection="column">
                 <Heading textAlign="center">Features</Heading>
                 <Flex justifyContent="space-around" mt="2rem" px={20}>
-                    <FeatureCard image={transparent} title="Transparent" content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
-                    <FeatureCard image={anonymous} title='Anonymous' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
-                    <FeatureCard image={ethereum} title='Smart Contracts' content='Aut ratione rerum ut aliquid sint et reprehenderit dolorem est suscipit voluptatem sit odit temporibus qui quisquam voluptates aut maxime quibusdam. Et maiores itaque eos quas quos et cupiditate aspernatur et minus totam sit minus exercitationem.' />
+                    <FeatureCard image={transparent} title="Transparent" content='We offer a transparent peer review process. Your work is visible to all and reviewed by trusted academics' />
+                    <FeatureCard image={anonymous} title='Anonymous' content='The reviews are conducted anonymously. The information of the reviwers is private and safe with us.' />
+                    <FeatureCard image={ethereum} title='Smart Contracts' content='We use smart contracts and the Ethereum blockchain to decentralize and automate our system.' />
                 </Flex>
             </Flex>
             <Flex justifyContent="center">

@@ -27,7 +27,7 @@ export default function FeatureCard({ title, content, image }: { title: string, 
                 justifyContent="center">
                     <img src={image} alt="logo" />
             </Flex>
-            <Stack height={100}>
+            <Stack height={100} mb={6}>
                 <Stack>
                     <Heading
                         color={useColorModeValue('gray.700', 'white')}
@@ -35,7 +35,7 @@ export default function FeatureCard({ title, content, image }: { title: string, 
                         fontFamily={'body'}>
                         {title}
                     </Heading>
-                    <Text color={'gray.500'} noOfLines={[1, 2]}>
+                    <Text color={'gray.500'} noOfLines={[1, 5]}>
                         {content}
                     </Text>
                 </Stack>

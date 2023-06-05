@@ -21,8 +21,9 @@ export const Footer = () => (
     >
       <Stack align="start">
         <img width="72" height="72" src={logo} alt="logo" />
-        <Text color="muted">Create beautiful websites</Text>
-        <Text>remarkably fast</Text>
+        <Text color="muted">A Decentralized</Text>
+        <Text>Academic Publishing System</Text>
+        <Text>Using Smart Contract</Text>
       </Stack>
       <Stack
         direction={{ base: 'column-reverse', md: 'column', lg: 'row' }}
