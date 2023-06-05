@@ -124,115 +124,116 @@ export default function ProfileScreen() {
 
     return (
         <>
-            <Container maxW='7xl'>
+            <Container maxW='8xl'>
+                    <Heading mt={4}>Your Profile</Heading>
+                    <Flex my="2rem" justifyContent="space-between" alignItems="center">
+                        <Flex alignItems="center">
+                            <img
+                                style={{ borderRadius: "50%", height: "150px", width: "150px" }}
+                                src="https://media-exp1.licdn.com/dms/image/C5603AQGtgn0mDao7LQ/profile-displayphoto-shrink_400_400/0/1649330215887?e=1655942400&v=beta&t=WJi-xD6TDcgs3Bxweischb2BRdmqmnoNVnds-UPdqHc"
+                                alt="profile"
+                            />
+                            <Box ml={8}>
+                                <Text>
+                                    <b>Name:</b> {user.username}
+                                </Text>
+                                <Text>
+                                    <b>Designation:</b> {user.designation}
+                                </Text>
+                                <Text>
+                                    <b>Email:</b> {user.email}
+                                </Text>
+                                <Text>
+                                    <b>Trust Rating:</b> {trustRating}/100
+                                </Text>
+                                <Text>
+                                    <ChakraLink href={user.scholarUrl} color="teal.500" isExternal>
+                                        Google Scholar <ExternalLinkIcon mx='2px' />
+                                    </ChakraLink>
+                                </Text>
+                            </Box>
+                        </Flex>
+                        <TableContainer>
+                            <Table variant="striped">
+                                <Thead>
+                                    <Tr textAlign="center">
+                                        <Th>Researcher Statistics</Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    <Tr>
+                                        <Td>Citations</Td>
+                                        <Td>h-index</Td>
+                                    </Tr>
+                                    <Tr>
+                                        <Td>{citations}</Td>
+                                        <Td>{hindex}</Td>
+                                    </Tr>
+                                </Tbody>
+                            </Table>
+                        </TableContainer>
+                    </Flex>
+                    <Heading as="h3" size="lg" mt={4}>
+                        My Papers
+                    </Heading>
+                    <HStack spacing={6} mt={6}>
+                        <Box as={FaFilter} size="32px" color="gray.800" />
+                        <Text>Filters</Text>
+                        <Tag onClick={() => {
+                            filterPapers("UNDER_REVIEW")
+                            setShowFilteredPapers(true)
+                        }}
+                            size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                            <TagLabel>Under Review</TagLabel>
+                        </Tag>
+                        <Tag onClick={() => {
+                            filterPapers("PUBLISHED")
+                            setShowFilteredPapers(true)
+                        }} size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                            <TagLabel>Approved</TagLabel>
+                        </Tag>{" "}
+                        <Tag onClick={() => {
+                            filterPapers("REJECTED")
+                            setShowFilteredPapers(true)
+                        }} size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                            <TagLabel>Rejected</TagLabel>
+                        </Tag>
+                        <Tag onClick={() => { setShowFilteredPapers(false) }} size="md" variant="solid" colorScheme="gray" padding="0.5rem">
+                            <TagLabel>Show All</TagLabel>
+                        </Tag>
+                    </HStack>
+                    {showFilteredPapers ? filteredPapersView() : papers.length > 0 &&
+                        (
+                            <Swiper
+                                slidesPerView={4}
+                                spaceBetween={30}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                navigation={true}
+                                modules={[Pagination, Navigation]}
+                                className="mySwiper"
+                            >
+                                {papers.map((paper) => (
+                                    <SwiperSlide>
+                                        <Link to={`/view/${paper.address}`}>
+                                            <Box transitionDuration="0.2s" transitionTimingFunction="ease-out" _hover={{ transform: 'scale(1.1)' }} py={10} px={6}>
+                                                <PaperCard
+                                                    title={paper.title}
+                                                    status={paper.status}
+                                                    abstract={paper.abstract}
+                                                    ipfsHash={paper.ipfsHash}
+                                                    heightPercentage={0.2}
+                                                    category={paper.category}
+                                                />
+                                            </Box>
+                                        </Link>
 
-
-                <Flex my="2rem" justifyContent="space-around" alignItems="center">
-                    <img
-                        style={{ borderRadius: "50%", height: "20vh", width: "20vh" }}
-                        src="https://media-exp1.licdn.com/dms/image/C5603AQGtgn0mDao7LQ/profile-displayphoto-shrink_400_400/0/1649330215887?e=1655942400&v=beta&t=WJi-xD6TDcgs3Bxweischb2BRdmqmnoNVnds-UPdqHc"
-                        alt="profile"
-                    />
-                    <Box>
-                        <Text>
-                            <b>Name:</b> {user.username}
-                        </Text>
-                        <Text>
-                            <b>Designation:</b> {user.designation}
-                        </Text>
-                        <Text>
-                            <b>Email:</b> {user.email}
-                        </Text>
-                        <Text>
-                            <b>Trust Rating:</b> {trustRating}/100
-                        </Text>
-                        <Text>
-                            <ChakraLink href={user.scholarUrl} color="teal.500" isExternal>
-                                Google Scholar <ExternalLinkIcon mx='2px' />
-                            </ChakraLink>
-                        </Text>
-                    </Box>
-                    <TableContainer>
-                        <Table variant="striped">
-                            <Thead>
-                                <Tr textAlign="center">
-                                    <Th>Researcher Statistics</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                <Tr>
-                                    <Td>Citations</Td>
-                                    <Td>h-index</Td>
-                                </Tr>
-                                <Tr>
-                                    <Td>{citations}</Td>
-                                    <Td>{hindex}</Td>
-                                </Tr>
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                </Flex>
-                <Heading as="h3" size="lg" mx="6vw">
-                    Papers Uploaded
-                </Heading>
-                <HStack spacing={6} mx="6vw" my="2rem">
-                    <Box as={FaFilter} size="32px" color="gray.800" />
-                    <Text>Filters</Text>
-                    <Tag onClick={() => {
-                        filterPapers("UNDER_REVIEW")
-                        setShowFilteredPapers(true)
-                    }}
-                        size="md" variant="solid" colorScheme="gray" padding="0.5rem">
-                        <TagLabel>Under Review</TagLabel>
-                    </Tag>
-                    <Tag onClick={() => {
-                        filterPapers("PUBLISHED")
-                        setShowFilteredPapers(true)
-                    }} size="md" variant="solid" colorScheme="gray" padding="0.5rem">
-                        <TagLabel>Approved</TagLabel>
-                    </Tag>{" "}
-                    <Tag onClick={() => {
-                        filterPapers("REJECTED")
-                        setShowFilteredPapers(true)
-                    }} size="md" variant="solid" colorScheme="gray" padding="0.5rem">
-                        <TagLabel>Rejected</TagLabel>
-                    </Tag>
-                    <Tag onClick={() => { setShowFilteredPapers(false) }} size="md" variant="solid" colorScheme="gray" padding="0.5rem">
-                        <TagLabel>Show All</TagLabel>
-                    </Tag>
-                </HStack>
-                {showFilteredPapers ? filteredPapersView() : papers.length > 0 &&
-                    (
-                        <Swiper
-                            slidesPerView={4}
-                            spaceBetween={30}
-                            pagination={{
-                                clickable: true,
-                            }}
-                            navigation={true}
-                            modules={[Pagination, Navigation]}
-                            className="mySwiper"
-                        >
-                            {papers.map((paper) => (
-                                <SwiperSlide>
-                                    <Link to={`/view/${paper.address}`}>
-                                        <Box transitionDuration="0.2s" transitionTimingFunction="ease-out" _hover={{ transform: 'scale(1.1)' }} py={10} px={6}>
-                                            <PaperCard
-                                                title={paper.title}
-                                                status={paper.status}
-                                                abstract={paper.abstract}
-                                                ipfsHash={paper.ipfsHash}
-                                                heightPercentage={0.2}
-                                                category={paper.category}
-                                            />
-                                        </Box>
-                                    </Link>
-
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
-                    )
-                }
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        )
+                    }
             </Container>
         </>
     );

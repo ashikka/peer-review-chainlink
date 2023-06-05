@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { ApiContext } from '../../contexts/api';
 import { EtherContext } from '../../contexts/ether';
 import { LinkIcon } from '@chakra-ui/icons'
-import { Flex, Heading, Button, OrderedList, ListItem, FormControl, FormLabel, Input, Progress, Select, Textarea, Text, Box } from '@chakra-ui/react';
+import { Flex, Heading, Button, OrderedList, ListItem, FormControl, FormLabel, Input, Progress, Select, Textarea, Text, Box, Container } from '@chakra-ui/react';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -119,32 +119,31 @@ export default function UploadPaperScreen() {
     if (reviewFileScreen) {
         return (
             <>
-                <Flex justifyContent="space-around">
+                <Flex py={8} justifyContent="space-around">
                     <PaperView file={file.current} setPages={(pages) => setPages(pages)} heading="Review your paper" />
                     <Flex justifyContent="flex-start" flexDirection="column" w="40vw">
-                        <Text fontSize='3xl' mt="10vh" mb={4}>{title}</Text>
+                        <Text fontSize='3xl'>{title}</Text>
                         <Flex mb="1rem" alignItems="center">
-                            <Text>{new Date().toLocaleString()}</Text>
-                            <Flex mx="2rem" alignItems="center">
+                            <Text>Published on: {new Date().toLocaleString()}</Text>
+                            <Flex mx="1rem" alignItems="center">
                                 <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
                                 <Text>{pages} pages</Text>
                             </Flex>
                         </Flex>
-                        <Text color="gray.500">Published in {category}</Text>
+                        <Text color="gray.500">Published in {category} by</Text>
                         <Flex alignItems="center">
-                            <Box as={BsFilePersonFill} size="70px" color="gray.800" my="1rem" ml="-0.5rem" />
                             <Box>
-                                <Text>{user.username} ({user.email})</Text>
+                                <Text><strong>{user.username}</strong> ({user.email})</Text>
                                 <Text>{user.designation}</Text>
                             </Box>
                         </Flex>
-                        <Text fontSize="md" mb="0.5rem">Abstract</Text>
+                        <Text fontSize="md" mt={16} mb="0.5rem">Abstract</Text>
                         <Box maxW="30vw" borderTop="2px solid gray">
                             <Text mt="0.5rem" fontSize="xs">{abstract}</Text>
                         </Box>
 
-                        <Flex flexDirection="column" w="20%">
-                            <Button mt={4} mb={4} bg='#1AAF9E' color="#ffffff" variant='solid' onClick={uploadFile}>
+                        <Flex flexDirection="row" mt={6}>
+                            <Button mt={4} mb={4} mr={4} bg='#1AAF9E' color="#ffffff" variant='solid' onClick={uploadFile}>
                                 <CheckIcon mr={2} />
                                 Submit
                             </Button>
@@ -161,47 +160,48 @@ export default function UploadPaperScreen() {
 
     if (abstractScreen) {
         return (<>
-            <Flex mt="2rem">
-                <Flex p="3rem" flexDirection="column" w="50vw">
-                    <Flex flexDirection="row" alignItems="center">
-                        <Heading as='h1' size='xl'>Enter the abstract</Heading>
+            <Container maxW='8xl'>
+                <Flex alignItems="flex-start">
+                    <Flex py="3rem" flexDirection="column" w="50vw">
+                        <Flex flexDirection="row" alignItems="center">
+                            <Heading as='h1' size='xl'>Enter the abstract</Heading>
+                        </Flex>
+                        <Flex mt="2rem">
+                            <Flex flexDirection="column">
+                                <FormControl isRequired onChange={retrieveFile}>
+                                    <FormLabel>Abstract</FormLabel>
+                                    <Textarea w="35rem" h="20rem" d="block" placeholder='Write your abstract here' value={abstract} onChange={e => setAbstract(e.target.value)} />
+                                    <Button mt={4} bg='#6459F5' color="#ffffff" variant='solid' onClick={reviewFile}>
+                                        Continue
+                                    </Button>
+                                </FormControl>
+                            </Flex>
+                        </Flex>
                     </Flex>
-                    <Flex mt="2rem">
-                        <Flex flexDirection="column">
-                            <FormControl isRequired onChange={retrieveFile}>
-                                <FormLabel>Abstract</FormLabel>
-                                <Textarea w="35rem" h="20rem" d="block" placeholder='Write your abstract here' value={abstract} onChange={e => setAbstract(e.target.value)} />
-                                <Button mt={4} bg='#6459F5' color="#ffffff" variant='solid' onClick={reviewFile}>
-                                    Continue
-                                </Button>
-                            </FormControl>
+                    <Flex mt="-7rem" h="100vh" bg="#F6F6FA" w="50vw" zIndex={-1} flexDirection="column" justifyContent="center" alignItems="center">
+                        <Box w="25vw" h="25vh">
+                            <img src={illustration} alt="illustration" />
+                        </Box>
+                        <Flex flexDirection="column" mt="12rem">
+                            <Heading mb="1rem">Steps to follow</Heading>
+                            <OrderedList spacing={3} fontSize="md">
+                                <ListItem>Enter the title of the paper.</ListItem>
+                                <ListItem>Upload your paper.</ListItem>
+                                <ListItem>Fill the abstract of the paper.</ListItem>
+                                <ListItem>Wait for the peer review process to complete.</ListItem>
+                            </OrderedList>
                         </Flex>
                     </Flex>
                 </Flex>
-                <Flex mt="-7rem" h="100vh" bg="#F6F6FA" w="50vw" flexDirection="column" justifyContent="center" alignItems="center">
-                    <Box w="25vw" h="25vh">
-                        <img src={illustration} alt="illustration" />
-                    </Box>
-                    <Flex flexDirection="column" mt="12rem">
-                        <Heading mb="1rem">Steps to follow</Heading>
-                        <OrderedList spacing={3} fontSize="md">
-                            <ListItem>Enter the title of the paper.</ListItem>
-                            <ListItem>Upload your paper.</ListItem>
-                            <ListItem>Fill the abstract of the paper.</ListItem>
-                            <ListItem>Wait for the peer review process to complete.</ListItem>
-                        </OrderedList>
-                    </Flex>
-                </Flex>
-            </Flex>
+            </Container>
         </>
 
         )
     }
 
     return (<>
-
-        <Flex mt="2rem">
-            <Flex p="3rem" flexDirection="column" w="50vw">
+        <Flex alignItems="flex-start">
+            <Flex ml="7rem" py="6rem" flexDirection="column" w="50vw">
                 <Heading as='h1' size='xl'>Upload your paper</Heading>
                 <Flex mt="3rem">
                     <Flex flexDirection="column">
@@ -222,7 +222,7 @@ export default function UploadPaperScreen() {
                     </Flex>
                 </Flex>
             </Flex>
-            <Flex mt="-7rem" h="100vh" bg="#F6F6FA" w="50vw" flexDirection="column" justifyContent="center" alignItems="center">
+            <Flex zIndex={-1} mt="-7rem" h="104vh" bg="#F6F6FA" w="50vw" flexDirection="column" justifyContent="center" alignItems="center">
                 <Box w="25vw" h="25vh">
                     <img src={illustration} alt="illustration" />
                 </Box>

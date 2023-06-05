@@ -1,4 +1,4 @@
-import { Flex, Heading, Button, Text, Box, Badge, Textarea } from '@chakra-ui/react';
+import { Flex, Heading, Button, Text, Box, Badge, Textarea, Container } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 
 import { IoIosPaper } from 'react-icons/io';
@@ -64,7 +64,7 @@ export default function ReviewPaper() {
         console.log(commentsArray);
         MySwal.fire({
             title: <p>Comments</p>,
-            html: (<>{commentsArray.map((c: any)=><ul>{c.comment}</ul>)}</>),
+            html: (<>{commentsArray.map((c: any) => <ul>{c.comment}</ul>)}</>),
         })
     }
 
@@ -86,48 +86,50 @@ export default function ReviewPaper() {
     if (commentScreen) {
         return (
             <>
-                <Flex justifyContent="center" paddingTop="3rem">
-                    <Flex pl="5rem" flexDirection="column" pt={10}>
-                        <Heading as="h1" mb={4}>{paper?.title}</Heading>
-                        <Flex mb="1rem" alignItems="center">
-                            <Text>Submitted on {paper?.date && new Date(paper.date).toLocaleString()}</Text>
-                            <Flex mx="2rem" alignItems="center">
-                                <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
-                                <Text>{pages} pages</Text>
+                <Container maxW='8xl'>
+                    <Flex justifyContent="flex-start">
+                        <Flex flexDirection="column" pt={10}>
+                            <Heading as="h1" mb={4}>{paper?.title}</Heading>
+                            <Flex mb="1rem" alignItems="center">
+                                <Text>Submitted on {paper?.date && new Date(paper.date).toLocaleString()}</Text>
+                                <Flex mx="2rem" alignItems="center">
+                                    <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
+                                    <Text>{pages} pages</Text>
+                                </Flex>
                             </Flex>
-                        </Flex>
-                        <Text color="gray.500">Published in {paper?.category}</Text>
-                        <Flex alignItems="center">
-                            <Box as={BsFilePersonFill} size="40px" color="gray.800" my="1rem" ml="-0.5rem" />
-                            <Box>
-                                <Text fontSize='s'>Anonymous</Text>
-                            </Box>
-                        </Flex>
-                        <a href={paper?.ipfsHash} download>
-                            <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
-                                <DownloadIcon mr="0.5rem" />
-                                Download Paper
-                            </Button>
-                        </a>
+                            <Text color="gray.500">Published in {paper?.category}</Text>
+                            <Flex alignItems="center">
+                                <Box as={BsFilePersonFill} size="40px" color="gray.800" my="1rem" ml="-0.5rem" />
+                                <Box>
+                                    <Text fontSize='s'>Anonymous</Text>
+                                </Box>
+                            </Flex>
+                            <a href={paper?.ipfsHash} download>
+                                <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
+                                    <DownloadIcon mr="0.5rem" />
+                                    Download Paper
+                                </Button>
+                            </a>
 
-                        <Text fontWeight="semibold" fontSize="lg" mt="2rem" mb="1rem">Comments</Text>
-                        <Textarea placeholder="Write your comment here" w="30vw" h="20vh" value={comment} onChange={(e) => setComment(e.target.value)} />
-                        <Flex flexDirection="column" w="20%">
-                            <Button mt={4} mb={4} bg='#1AAF9E' color="#ffffff" variant='solid' onClick={() => addYourReview(true, comment)}>
-                                <CheckIcon mr={2} />
-                                Accept
-                            </Button>
-                            <Button mt={4} mb={4} bg='#d3455b' color="#ffffff" variant='solid' onClick={() => addYourReview(false, comment)}>
-                                <CloseIcon w={3} h={3} mr={2} />
-                                Reject
-                            </Button>
+                            <Text fontWeight="semibold" fontSize="lg" mt="2rem" mb="1rem">Comments</Text>
+                            <Textarea placeholder="Write your comment here" w="30vw" h="20vh" value={comment} onChange={(e) => setComment(e.target.value)} />
+                            <Flex flexDirection="column" w="20%">
+                                <Button mt={4} mb={4} bg='#1AAF9E' color="#ffffff" variant='solid' onClick={() => addYourReview(true, comment)}>
+                                    <CheckIcon mr={2} />
+                                    Accept
+                                </Button>
+                                <Button mt={4} mb={4} bg='#d3455b' color="#ffffff" variant='solid' onClick={() => addYourReview(false, comment)}>
+                                    <CloseIcon w={3} h={3} mr={2} />
+                                    Reject
+                                </Button>
+                            </Flex>
+
                         </Flex>
+
+                        <PaperView width="55vw" file={paper?.ipfsHash} heightPercentage={0.8} setPages={(pages) => setPages(pages)} />
 
                     </Flex>
-
-                    <PaperView width="55vw" file={paper?.ipfsHash} heightPercentage={0.8} setPages={(pages) => setPages(pages)} />
-
-                </Flex>
+                </Container>
 
             </>
         )
@@ -137,55 +139,56 @@ export default function ReviewPaper() {
 
         return (
             <>
-                <Flex justifyContent="flex-start" >
-                    <Flex pl="5rem" flexDirection="column" width="50vw">
-                        <Heading as="h1" mt="10vh" mb={4}>{paper?.title}</Heading>
-                        <Flex mb="1rem" alignItems="center">
-                            <Text>Submitted on {paper?.date && new Date(paper.date).toLocaleString()}</Text>
-                            <Flex mx="2rem" alignItems="center">
-                                <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
-                                <Text>{pages} pages</Text>
+                <Container maxW='8xl'>
+                    <Flex justifyContent="flex-start" >
+                        <Flex flexDirection="column">
+                            <Heading as="h1" mt="10vh" mb={2}>{paper?.title}</Heading>
+                            <Flex mb={2} alignItems="center">
+                                <Text>Submitted on {paper?.date && new Date(paper.date).toLocaleString()}</Text>
+                                <Flex mx="2rem" alignItems="center">
+                                    <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
+                                    <Text>{pages} pages</Text>
+                                </Flex>
                             </Flex>
-                        </Flex>
-                        <Text color="gray.500">Published in {paper?.category}</Text>
-                        <Flex alignItems="center">
-                            <Box as={BsFilePersonFill} size="50px" color="gray.800" my="1rem" ml="-0.5rem" />
-                            <Box>
-                                <Text fontSize='s'>Anonymous</Text>
+                            <Text color="gray.500">Published in {paper?.category}</Text>
+                            <Flex alignItems="center">
+                                <Box as={BsFilePersonFill} size="50px" color="gray.800" my="1rem" ml="-0.5rem" />
+                                <Box>
+                                    <Text fontSize='s'>Anonymous</Text>
+                                </Box>
+                            </Flex>
+                            <Flex justifyContent="space-between">
+                                <a href={paper?.ipfsHash} download>
+                                    <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="250px">
+                                        <DownloadIcon mr="0.5rem" />
+                                        Download Paper
+                                    </Button>
+                                </a>
+                                <Button ml={4} color='#6459F5' variant='outline' borderColor='#6459F5' w="250px">
+                                    <LinkIcon mr="0.5rem" />
+                                    Copy link to paper
+                                </Button>
+                            </Flex>
+                            <Flex alignItems="center" justifyContent="space-between">
+                                <Flex mt="1rem" bg="#f7be68" w="250px" h="2.5rem" justifyContent="center" alignItems="center" borderRadius="5px">Status: {paper?.status as string}</Flex>
+                                <Button bg='#6459F5' color="#ffffff" variant='solid' w="250px" mt="1rem" onClick={async () => showCommentsPopup(await ether?.getPaperReviews(paper?.address as string))}>
+                                    <ChatIcon mr="0.5rem" />
+                                    Show comments
+                                </Button>
+                            </Flex>
+                            <Box borderTop="2px solid gray" borderX="2px solid gray" mt="2rem" pt="1rem" px="1rem">
+                                <Text fontSize="md" mb="0.5rem">Abstract</Text>
+
+                            </Box>
+                            <Box maxW="50vw" border="2px solid gray" p="1rem">
+                                <Text mt="0.5rem" fontSize="xs">{paper?.abstract}</Text>
                             </Box>
                         </Flex>
-                        <Flex justifyContent="space-between">
-                            <a href={paper?.ipfsHash} download>
-                                <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
-                                    <DownloadIcon mr="0.5rem" />
-                                    Download Paper
-                                </Button>
-                            </a>
-                            <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
-                                <LinkIcon mr="0.5rem" />
-                                Copy link to paper
-                            </Button>
+                        <Flex mt="2rem">
+                            <PaperView file={ipfsHash} setPages={(pages) => setPages(pages)} />
                         </Flex>
-                        <Flex alignItems="center" justifyContent="space-between">
-                            <Flex mt="1rem" bg="#f7be68" w="20vw" h="2.5rem" justifyContent="center" alignItems="center" borderRadius="5px">Status: {paper?.status as string}</Flex>
-                            <Button bg='#6459F5' color="#ffffff" variant='solid' w="20vw" mt="1rem" onClick={async() => showCommentsPopup(await ether?.getPaperReviews(paper?.address as string))}>
-                                <ChatIcon mr="0.5rem" />
-                                Show comments
-                            </Button>
-                        </Flex>
-                        <Box borderTop="2px solid gray" borderX="2px solid gray" mt="2rem" pt="1rem" px="1rem">
-                            <Text fontSize="md" mb="0.5rem">Abstract</Text>
-
-                        </Box>
-                        <Box maxW="50vw" border="2px solid gray" p="1rem">
-                            <Text mt="0.5rem" fontSize="xs">{paper?.abstract}</Text>
-                        </Box>
                     </Flex>
-                    <Flex mt="2rem">
-                        <PaperView file={ipfsHash} setPages={(pages) => setPages(pages)} />
-                    </Flex>
-                </Flex>
-
+                </Container>
             </>
         )
 
@@ -193,52 +196,53 @@ export default function ReviewPaper() {
     if (reviewer) {
         return (
             <>
-                <Flex justifyContent="flex-start" >
-                    <Flex pl="5rem" flexDirection="column" width="50vw">
-                        <Heading as="h1" mt="10vh" mb={4}>{paper?.title}</Heading>
-                        <Flex mb="1rem" alignItems="center">
-                            <Text>Submitted on {paper?.date && new Date(paper.date).toLocaleString()}</Text>
-                            <Flex mx="2rem" alignItems="center">
-                                <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
-                                <Text>{pages} pages</Text>
+                <Container maxW='8xl'>
+                    <Flex justifyContent="flex-start" >
+                        <Flex flexDirection="column" width="50vw">
+                            <Heading as="h1" mt="10vh" mb={4}>{paper?.title}</Heading>
+                            <Flex mb="1rem" alignItems="center">
+                                <Text>Submitted on {paper?.date && new Date(paper.date).toLocaleString()}</Text>
+                                <Flex mx="2rem" alignItems="center">
+                                    <Box as={IoIosPaper} size="26px" color="gray.800" mr="0.5rem" />
+                                    <Text>{pages} pages</Text>
+                                </Flex>
                             </Flex>
-                        </Flex>
-                        <Text color="gray.500">Published in {paper?.category}</Text>
-                        <Flex alignItems="center">
-                            <Box as={BsFilePersonFill} size="50px" color="gray.800" my="1rem" ml="-0.5rem" />
-                            <Box>
-                                <Text fontSize='s'>Anonymous</Text>
+                            <Text color="gray.500">Published in {paper?.category}</Text>
+                            <Flex alignItems="center">
+                                <Box as={BsFilePersonFill} size="50px" color="gray.800" my="1rem" ml="-0.5rem" />
+                                <Box>
+                                    <Text fontSize='s'>Anonymous</Text>
+                                </Box>
+                            </Flex>
+                            <Flex justifyContent="space-between">
+                                <a href={paper?.ipfsHash} download>
+
+                                    <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
+                                        <DownloadIcon mr="0.5rem" />
+                                        Download Paper
+                                    </Button>
+                                </a>
+                                <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
+                                    <LinkIcon mr="0.5rem" />
+                                    Copy link to paper
+                                </Button>
+                            </Flex>
+                            <Button bg='#6459F5' color="#ffffff" variant='solid' w="20vw" mt="1rem" onClick={() => {
+                                showCommentScreen(true);
+                                setReviewer(false);
+                            }}>
+                                Review Paper
+                            </Button>
+                            <Box borderTop="2px solid gray" borderX="2px solid gray" mt="2rem" pt="1rem" px="1rem">
+                                <Text fontSize="md" mb="0.5rem">Abstract</Text>
+
+                            </Box>
+                            <Box maxW="50vw" border="2px solid gray" p="1rem">
+                                <Text mt="0.5rem" fontSize="xs">{paper?.abstract}</Text>
                             </Box>
                         </Flex>
-                        <Flex justifyContent="space-between">
-                            <a href={paper?.ipfsHash} download>
-
-                                <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
-                                    <DownloadIcon mr="0.5rem" />
-                                    Download Paper
-                                </Button>
-                            </a>
-                            <Button color='#6459F5' variant='outline' borderColor='#6459F5' w="20vw">
-                                <LinkIcon mr="0.5rem" />
-                                Copy link to paper
-                            </Button>
-                        </Flex>
-                        <Button bg='#6459F5' color="#ffffff" variant='solid' w="20vw" mt="1rem" onClick={()=> {
-                            showCommentScreen(true);
-                            setReviewer(false);
-                        }}>
-                            Review Paper
-                        </Button>
-                        <Box borderTop="2px solid gray" borderX="2px solid gray" mt="2rem" pt="1rem" px="1rem">
-                            <Text fontSize="md" mb="0.5rem">Abstract</Text>
-
-                        </Box>
-                        <Box maxW="50vw" border="2px solid gray" p="1rem">
-                            <Text mt="0.5rem" fontSize="xs">{paper?.abstract}</Text>
-                        </Box>
                     </Flex>
-                </Flex>
-
+                </Container>
             </>
         )
     }
