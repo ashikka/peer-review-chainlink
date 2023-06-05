@@ -5,6 +5,8 @@ export default class Ether {
 
     async addReview(status: boolean, comment: string, address: string) {
         const c = this.getPaperContract(address);
+        console.log(address);
+        console.log(status, comment);
         const tx = await c.addReview(status, comment);
         await tx.wait();
         return tx;

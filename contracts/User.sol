@@ -8,12 +8,14 @@ contract User {
     mapping(address => Paper) public papers;
     address[] public papers_array;
     address public user_address;
+    address public peer_review_address;
     uint256 public trust_rating;
 
     // address public constant adminAddress = 0x1Af0a1185c0c96906A0a88748Db7e16e1976A67b;
 
     constructor(address _address) {
         user_address = _address;
+        peer_review_address = msg.sender;
         console.log("Deploying a User");
     }
 
@@ -36,7 +38,7 @@ contract User {
         returns (address newContract)
     {
         if (msg.sender == user_address) {
-            Paper p = new Paper(_ipfsHash, user_address);
+            Paper p = new Paper(_ipfsHash, user_address, peer_review_address);
             papers[address(p)] = p;
             papers_array.push(address(p));
             return address(p);

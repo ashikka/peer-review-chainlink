@@ -27,6 +27,7 @@ interface PaperInterface extends ethers.utils.Interface {
     "getReviews()": FunctionFragment;
     "ipfsHash()": FunctionFragment;
     "owner()": FunctionFragment;
+    "peerReviewAddress()": FunctionFragment;
     "reviewers(uint256)": FunctionFragment;
     "reviews(address)": FunctionFragment;
     "status()": FunctionFragment;
@@ -48,6 +49,10 @@ interface PaperInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "ipfsHash", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "peerReviewAddress",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "reviewers",
     values: [BigNumberish]
   ): string;
@@ -63,6 +68,10 @@ interface PaperInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "getReviews", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ipfsHash", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "peerReviewAddress",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "reviewers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "reviews", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "status", data: BytesLike): Result;
@@ -134,6 +143,8 @@ export class Paper extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
+    peerReviewAddress(overrides?: CallOverrides): Promise<[string]>;
+
     reviewers(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     reviews(
@@ -162,6 +173,8 @@ export class Paper extends BaseContract {
 
   owner(overrides?: CallOverrides): Promise<string>;
 
+  peerReviewAddress(overrides?: CallOverrides): Promise<string>;
+
   reviewers(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   reviews(
@@ -189,6 +202,8 @@ export class Paper extends BaseContract {
     ipfsHash(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
+
+    peerReviewAddress(overrides?: CallOverrides): Promise<string>;
 
     reviewers(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -219,6 +234,8 @@ export class Paper extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
+    peerReviewAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
     reviewers(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -245,6 +262,8 @@ export class Paper extends BaseContract {
     ipfsHash(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    peerReviewAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     reviewers(
       arg0: BigNumberish,

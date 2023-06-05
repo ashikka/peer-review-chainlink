@@ -26,6 +26,7 @@ interface UserInterface extends ethers.utils.Interface {
     "getPapers()": FunctionFragment;
     "papers(address)": FunctionFragment;
     "papers_array(uint256)": FunctionFragment;
+    "peer_review_address()": FunctionFragment;
     "setTrustRating(uint256)": FunctionFragment;
     "trust_rating()": FunctionFragment;
     "user_address()": FunctionFragment;
@@ -38,6 +39,10 @@ interface UserInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "papers_array",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "peer_review_address",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "setTrustRating",
@@ -61,6 +66,10 @@ interface UserInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "papers", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "papers_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "peer_review_address",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -144,6 +153,8 @@ export class User extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    peer_review_address(overrides?: CallOverrides): Promise<[string]>;
+
     setTrustRating(
       _trust_rating: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -167,6 +178,8 @@ export class User extends BaseContract {
 
   papers_array(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
+  peer_review_address(overrides?: CallOverrides): Promise<string>;
+
   setTrustRating(
     _trust_rating: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -189,6 +202,8 @@ export class User extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    peer_review_address(overrides?: CallOverrides): Promise<string>;
 
     setTrustRating(
       _trust_rating: BigNumberish,
@@ -222,6 +237,8 @@ export class User extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    peer_review_address(overrides?: CallOverrides): Promise<BigNumber>;
+
     setTrustRating(
       _trust_rating: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -252,6 +269,10 @@ export class User extends BaseContract {
 
     papers_array(
       arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    peer_review_address(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

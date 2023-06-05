@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 import "./User.sol";
+import "./PeerReview.sol";
 
 struct PaperReview {
     bool decision;
@@ -13,14 +14,16 @@ contract Paper {
     string public status = "UNDER_REVIEW";
     string public ipfsHash;
     address public owner;
+    address public peerReviewAddress;
     address[] public reviewers;
 
     mapping(address => PaperReview) public reviews;
 
-    constructor(string memory _ipfsHash, address _address) {
+    constructor(string memory _ipfsHash, address _address, address prAddress) {
         console.log("Deploying a User");
         ipfsHash = _ipfsHash;
         owner = _address;
+        peerReviewAddress = prAddress;
     }
 
     function getOwner() public view returns (address) {
@@ -50,8 +53,9 @@ contract Paper {
             reviews[msg.sender] = review;
             reviewers.push(msg.sender);
             uint256 totalScore = 0;
+            PeerReview central = PeerReview(peerReviewAddress);
             for (uint256 index = 0; index < reviewers.length; index++) {
-                User reviewer = User(reviewers[index]);
+                User reviewer = User(central.getUser(reviewers[index]));
                 if (reviews[reviewers[index]].decision) {
                     totalScore += reviewer.trust_rating();
                 }
