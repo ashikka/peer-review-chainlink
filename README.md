@@ -42,14 +42,35 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+### The Problem
+
 A rising issue observed in the world of academia and research is Predatory Publishing. This refers to the act of journals charging “publication fees” from researchers to publish papers, often those lacking quality to have any real academic relevance. Journals don’t check the legitimacy of the article, and most papers published in these journals are just derivatives of other works (plagiarism).
 No transparent peer-review process, even if the journal claims to do one. How do we trust if first reviews were conducted, and second, were they conducted by qualified peers? Journals are controlled by central authorities with financial motives, there is a lot of corruption. Preference is given to people willing to pay a higher sum of money.
 
+### Introducing PeerReview!
+PeerReview is a project which aims to decentralize the process of peer reviewing research papers with the help of Ethereum, Smart Contracts, and Blockchain. Some features of PeerReview include:
+
+1. Completely anonymous users, we don't store any data to identify users on our blockchain
+2. Upload papers with ease, and in less than 2 minutes!
+3. Reviews are transparent, and honest. We integrate with Google Scholar to generate a "trust rating" for users, and then use this to evaluate a user's action on our network.
+4. Get feedback from reviewers, and accomodate changes to your paper.
+5. Reviewers are rewarded for their work in the form of Ether.
+6. Completely compatible with Metamask!
+
+## Demo
+[Checkout the Demo on Youtube!](https://www.youtube.com/watch?v=VTRrkXzapfw)
+
+
 ### Built With
 
-* []()
-* []()
-* []()
+* [Typescript](https://www.typescriptlang.org/)
+* [React](https://reactjs.org/)
+* [Ethers.js](https://docs.ethers.io/v5/)
+* [Metamask](https://metamask.io/)
+* [Express](https://expressjs.com/)
+* [Hardhat](https://hardhat.org/)
+* [Ganache](https://trufflesuite.com/ganache/)
+* [MongoDB](https://www.mongodb.com/)
 
 
 
@@ -65,6 +86,14 @@ This is an example of how to list things you need to use the software and how to
 ```sh
 npm install npm@latest -g
 ```
+* Ganache
+
+[Download and install Ganache from its phome page](https://trufflesuite.com/ganache/). Make sure
+a local ethereum blockchain is running on ganache.
+
+* MongoDB
+
+Make sure a MongoDB database is running either on your local network, or on a remote URL.
 
 ### Installation
  
@@ -72,19 +101,74 @@ npm install npm@latest -g
 ```sh
 git clone https://github.com/ashikka/peer-review-chainlink.git
 ```
-2. Install NPM packages
+2. Install the NPM dependencies
 ```sh
 npm install
+
+cd ./frontend
+npm install
+
+cd ../backend
+npm install
+```
+3. Setup `.env` files:
+
+First, make a `.env` in the root folder of the project:
+```
+PRIVATE_KEY=<Private key of an account from ganache>
+DEV_URL=<GanacheURL>
+WALLET_ADDRESSES=<Optional list of wallet addresses to deposit amounts to. (comma seperated)>
+MONGO_URL=<Mongo database URL>
 ```
 
+Now run the `reset.ts` script using hardhat to generate the remaining `.env` files for the frontend and backend.
+
+```sh
+npx hardhat run scripts/reset.ts
+```
+
+4. Finally startup the frontend and backend for the project:
+```sh
+cd frontend
+npm start
+
+# On another terminal
+cd backend
+npm start
+```
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+Here are some screenshots demonstrating how to use this project:
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Easy signup using Google Scholar
+The first step to using PeerReview is to signup for an account. This can be done by linking your existing Gooogle Scholar Profile to create a user on our blockchain:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+![Signup Screen](./docs/signup.png)
+
+### Browse for Papers
+After you are logged in, you can browse existing papers on our blockchain, and view them, or even review them!
+
+![Browse Screen](./docs/browse.png)
+
+You can click on any paper on the browse screen to view more details, or leave a review about that paper:
+
+![Review Screen](./docs/review.png)
+
+### Upload your Research Paper
+
+You can also upload research papers of your own, using the upload screen:
+
+![Upload Screen](./docs/upload1.png)
+![Upload Screen](./docs/upload2.png)
+![Upload Screen](./docs/upload3.png)
+
+### View your Profile
+
+You can view your trust rating, and more details about your profile on the profile page screen:
+
+![Profile Screen](./docs/profile.png)
 
 
 
