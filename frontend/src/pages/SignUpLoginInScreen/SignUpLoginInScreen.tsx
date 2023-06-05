@@ -62,13 +62,13 @@ export default function SignUpLoginInScreen() {
                     </Flex>
                 </Flex>
                 <Flex justifyContent="center" alignItems="center">
-                    <Box zIndex={-1} width="45vw" height="30vh" flexDirection="column" mt="4rem" p={8} borderRadius="15px" bg="#F6F6FA">
-                        <Box flexDirection="row">
-                            <Heading mt={4} display="inline" textAlign="center">Disclaimer  <Box as={FcDisclaimer} size="48px" /></Heading>
-
-                        </Box>
-                        <Text textAlign="center" mt={4}>The data you provide us with does not persist on any server-side databases but is completely stored on the blockchain. We respect your privacy and strive to achieve the most secure system. Your data is safe.</Text>
-                    </Box>
+                    <Flex zIndex={-1} width="45vw" flexDirection="column" mt="6rem" p={8} borderRadius="15px" bg="#F6F6FA">
+                        <Flex alignItems="center">
+                            <Heading textAlign="center">Disclaimer</Heading>
+                            <Box ml={2} as={FcDisclaimer} size="3rem" />
+                        </Flex>
+                        <Text  mt={4}>The data you provide us with does not persist on any server-side databases but is completely stored on the blockchain. We respect your privacy and strive to achieve the most secure system. Your data is safe.</Text>
+                    </Flex>
                 </Flex>
             </Container>
             <Footer />

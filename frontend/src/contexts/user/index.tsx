@@ -138,6 +138,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
             console.log("Update Trust Rating Response", trustRatingRes.data);
             user.data.token = token;
             dispatch(setUser(user.data));
+            navigate('/browse')
         } else {
             navigate('/');
         }
