@@ -63,6 +63,10 @@ contract Paper {
             if (totalScore >= 150) {
                 setStatus("PUBLISHED");
             }
+
+            if (totalScore <=150) {
+                setStatus("REJECTED");
+            }
         }
     }
 
