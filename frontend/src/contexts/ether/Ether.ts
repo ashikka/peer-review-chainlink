@@ -22,8 +22,10 @@ export default class Ether {
     private user!: User;
     constructor() {
         this.provider = new ethers.providers.Web3Provider(window.ethereum);
+        const auth = 'Basic ' + btoa("2QOAJ57mdBgovvtJzDAbhhn2Gwh" + ':' + "9650bbc82880dfd9fbfe7b0a8892ef6d");
         this.client = create({
-            url: 'https://ipfs.infura.io:5001/api/v0'
+            url: 'https://ipfs.infura.io:5001/api/v0',
+            headers: { authorization: auth}
         });
 
     }

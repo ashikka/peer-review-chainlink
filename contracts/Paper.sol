@@ -52,19 +52,19 @@ contract Paper {
             }
             reviews[msg.sender] = review;
             reviewers.push(msg.sender);
-            uint256 totalScore = 0;
+            int totalScore = 0;
             PeerReview central = PeerReview(peerReviewAddress);
             for (uint256 index = 0; index < reviewers.length; index++) {
                 User reviewer = User(central.getUser(reviewers[index]));
                 if (reviews[reviewers[index]].decision) {
-                    totalScore += reviewer.trust_rating();
+                    totalScore += int(reviewer.trust_rating());
                 }
             }
-            if (totalScore >= 150) {
+            if (totalScore >= 200) {
                 setStatus("PUBLISHED");
             }
 
-            if (totalScore <=150) {
+            if (totalScore <= -100) {
                 setStatus("REJECTED");
             }
         }
