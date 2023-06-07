@@ -21,33 +21,86 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface PeerReviewInterface extends ethers.utils.Interface {
   functions: {
-    "createUser()": FunctionFragment;
+    "acceptOwnership()": FunctionFragment;
+    "createUser(string)": FunctionFragment;
+    "fulfillCreateUser(bytes32,bool,string)": FunctionFragment;
     "getMyUser()": FunctionFragment;
     "getUser(address)": FunctionFragment;
     "getUsers()": FunctionFragment;
+    "owner()": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
     "users(uint256)": FunctionFragment;
     "usersMap(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "createUser",
+    functionFragment: "acceptOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "createUser", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "fulfillCreateUser",
+    values: [BytesLike, boolean, string]
   ): string;
   encodeFunctionData(functionFragment: "getMyUser", values?: undefined): string;
   encodeFunctionData(functionFragment: "getUser", values: [string]): string;
   encodeFunctionData(functionFragment: "getUsers", values?: undefined): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [string]
+  ): string;
   encodeFunctionData(functionFragment: "users", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "usersMap", values: [string]): string;
 
+  decodeFunctionResult(
+    functionFragment: "acceptOwnership",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "createUser", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "fulfillCreateUser",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getMyUser", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getUser", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getUsers", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "users", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "usersMap", data: BytesLike): Result;
 
-  events: {};
+  events: {
+    "ChainlinkCancelled(bytes32)": EventFragment;
+    "ChainlinkFulfilled(bytes32)": EventFragment;
+    "ChainlinkRequested(bytes32)": EventFragment;
+    "OwnershipTransferRequested(address,address)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "ChainlinkCancelled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChainlinkFulfilled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChainlinkRequested"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferRequested"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
+
+export type ChainlinkCancelledEvent = TypedEvent<[string] & { id: string }>;
+
+export type ChainlinkFulfilledEvent = TypedEvent<[string] & { id: string }>;
+
+export type ChainlinkRequestedEvent = TypedEvent<[string] & { id: string }>;
+
+export type OwnershipTransferRequestedEvent = TypedEvent<
+  [string, string] & { from: string; to: string }
+>;
+
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string] & { from: string; to: string }
+>;
 
 export class PeerReview extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -93,7 +146,19 @@ export class PeerReview extends BaseContract {
   interface: PeerReviewInterface;
 
   functions: {
+    acceptOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     createUser(
+      scholarUrl: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    fulfillCreateUser(
+      _requestId: BytesLike,
+      valid: boolean,
+      user: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -108,12 +173,31 @@ export class PeerReview extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string[]] & { userList: string[] }>;
 
+    owner(overrides?: CallOverrides): Promise<[string]>;
+
+    transferOwnership(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     users(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     usersMap(arg0: string, overrides?: CallOverrides): Promise<[string]>;
   };
 
+  acceptOwnership(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   createUser(
+    scholarUrl: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  fulfillCreateUser(
+    _requestId: BytesLike,
+    valid: boolean,
+    user: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -123,12 +207,28 @@ export class PeerReview extends BaseContract {
 
   getUsers(overrides?: CallOverrides): Promise<string[]>;
 
+  owner(overrides?: CallOverrides): Promise<string>;
+
+  transferOwnership(
+    to: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   users(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   usersMap(arg0: string, overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
-    createUser(overrides?: CallOverrides): Promise<string>;
+    acceptOwnership(overrides?: CallOverrides): Promise<void>;
+
+    createUser(scholarUrl: string, overrides?: CallOverrides): Promise<string>;
+
+    fulfillCreateUser(
+      _requestId: BytesLike,
+      valid: boolean,
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     getMyUser(overrides?: CallOverrides): Promise<string>;
 
@@ -136,15 +236,75 @@ export class PeerReview extends BaseContract {
 
     getUsers(overrides?: CallOverrides): Promise<string[]>;
 
+    owner(overrides?: CallOverrides): Promise<string>;
+
+    transferOwnership(to: string, overrides?: CallOverrides): Promise<void>;
+
     users(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     usersMap(arg0: string, overrides?: CallOverrides): Promise<string>;
   };
 
-  filters: {};
+  filters: {
+    "ChainlinkCancelled(bytes32)"(
+      id?: BytesLike | null
+    ): TypedEventFilter<[string], { id: string }>;
+
+    ChainlinkCancelled(
+      id?: BytesLike | null
+    ): TypedEventFilter<[string], { id: string }>;
+
+    "ChainlinkFulfilled(bytes32)"(
+      id?: BytesLike | null
+    ): TypedEventFilter<[string], { id: string }>;
+
+    ChainlinkFulfilled(
+      id?: BytesLike | null
+    ): TypedEventFilter<[string], { id: string }>;
+
+    "ChainlinkRequested(bytes32)"(
+      id?: BytesLike | null
+    ): TypedEventFilter<[string], { id: string }>;
+
+    ChainlinkRequested(
+      id?: BytesLike | null
+    ): TypedEventFilter<[string], { id: string }>;
+
+    "OwnershipTransferRequested(address,address)"(
+      from?: string | null,
+      to?: string | null
+    ): TypedEventFilter<[string, string], { from: string; to: string }>;
+
+    OwnershipTransferRequested(
+      from?: string | null,
+      to?: string | null
+    ): TypedEventFilter<[string, string], { from: string; to: string }>;
+
+    "OwnershipTransferred(address,address)"(
+      from?: string | null,
+      to?: string | null
+    ): TypedEventFilter<[string, string], { from: string; to: string }>;
+
+    OwnershipTransferred(
+      from?: string | null,
+      to?: string | null
+    ): TypedEventFilter<[string, string], { from: string; to: string }>;
+  };
 
   estimateGas: {
+    acceptOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     createUser(
+      scholarUrl: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    fulfillCreateUser(
+      _requestId: BytesLike,
+      valid: boolean,
+      user: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -154,13 +314,32 @@ export class PeerReview extends BaseContract {
 
     getUsers(overrides?: CallOverrides): Promise<BigNumber>;
 
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    transferOwnership(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     users(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     usersMap(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    acceptOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     createUser(
+      scholarUrl: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    fulfillCreateUser(
+      _requestId: BytesLike,
+      valid: boolean,
+      user: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -172,6 +351,13 @@ export class PeerReview extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getUsers(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     users(
       arg0: BigNumberish,

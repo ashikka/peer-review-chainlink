@@ -18,25 +18,19 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface UserInterfaceInterface extends ethers.utils.Interface {
+interface ENSResolverInterface extends ethers.utils.Interface {
   functions: {
-    "trust_rating()": FunctionFragment;
+    "addr(bytes32)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "trust_rating",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "addr", values: [BytesLike]): string;
 
-  decodeFunctionResult(
-    functionFragment: "trust_rating",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "addr", data: BytesLike): Result;
 
   events: {};
 }
 
-export class UserInterface extends BaseContract {
+export class ENSResolver extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -77,25 +71,28 @@ export class UserInterface extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: UserInterfaceInterface;
+  interface: ENSResolverInterface;
 
   functions: {
-    trust_rating(overrides?: CallOverrides): Promise<[BigNumber]>;
+    addr(node: BytesLike, overrides?: CallOverrides): Promise<[string]>;
   };
 
-  trust_rating(overrides?: CallOverrides): Promise<BigNumber>;
+  addr(node: BytesLike, overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
-    trust_rating(overrides?: CallOverrides): Promise<BigNumber>;
+    addr(node: BytesLike, overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {};
 
   estimateGas: {
-    trust_rating(overrides?: CallOverrides): Promise<BigNumber>;
+    addr(node: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    trust_rating(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    addr(
+      node: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }

@@ -4,17 +4,20 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { UserInterface, UserInterfaceInterface } from "../UserInterface";
+import type {
+  PointerInterface,
+  PointerInterfaceInterface,
+} from "../PointerInterface";
 
 const _abi = [
   {
     inputs: [],
-    name: "trust_rating",
+    name: "getAddress",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "address",
         name: "",
-        type: "uint256",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -22,15 +25,15 @@ const _abi = [
   },
 ];
 
-export class UserInterface__factory {
+export class PointerInterface__factory {
   static readonly abi = _abi;
-  static createInterface(): UserInterfaceInterface {
-    return new utils.Interface(_abi) as UserInterfaceInterface;
+  static createInterface(): PointerInterfaceInterface {
+    return new utils.Interface(_abi) as PointerInterfaceInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): UserInterface {
-    return new Contract(address, _abi, signerOrProvider) as UserInterface;
+  ): PointerInterface {
+    return new Contract(address, _abi, signerOrProvider) as PointerInterface;
   }
 }

@@ -21,6 +21,25 @@ router.get("/me", jwtAuth, async (req, res) => {
   res.status(201).json(req.user);
 });
 
+router.use("/external-adapter", async (req, res) => {
+
+  try {
+    const { scholarUrl, address } = req.body.data;
+
+    const scholarDetails = await getScholarDetails(scholarUrl);
+  
+    res.status(200).send({
+      data: {
+        valid: scholarDetails.affiliation.toLocaleLowerCase().includes(address.toLocaleLowerCase()),
+      }
+    })
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({"error": "server error"})
+  }
+ 
+});
+
 router.post("/register", async (req, res) => {
   const { address, signature, scholarUrl } = req.body;
 
@@ -93,6 +112,7 @@ router.post('/updateTrustRating', jwtAuth, async (req, res) => {
   const userContract = await bc.getUser(user.address);
 
   console.log(`Setting trust rating for ${user.address} to ${trustRating}`);
+  console.log(userContract);
   await userContract.setTrustRating(trustRating);
 
   res.status(201).json({

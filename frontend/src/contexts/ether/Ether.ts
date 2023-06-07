@@ -41,9 +41,9 @@ export default class Ether {
         return await signer.signMessage(message);
     }
 
-    async createUser() {
+    async createUser(scholarUrl: string) {
         const c = await this.getPeerReviewContract();
-        const tx = await c.createUser();
+        const tx = await c.createUser(scholarUrl);
         await tx.wait();
         return this.getMyUser();
     }

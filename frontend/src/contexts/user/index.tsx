@@ -124,7 +124,7 @@ export const UserContextProvider = ({ children }: { children: any }) => {
             if (!userContract) {
                 console.log("User contract not found, creating");
 
-                await ether.createUser();
+                await ether.createUser(user.data.scholarUrl);
                 userContract = (await ether.getMyUser()) as User;
 
                 if (userContract == null) {
