@@ -16,7 +16,7 @@ function NavLink({ text, href }: { text: string, href: string }) {
 
 export default function Navbar() {
     const user = useContext(UserContext);
-
+    console.log("RENDER", user);
     return (
         <Container maxW='7xl' zIndex={100}>
             <Flex bgColor="transparent" flexDirection="row" justifyContent="space-between" py={5} pr={6}>
