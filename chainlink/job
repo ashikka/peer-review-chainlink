@@ -1,0 +1,27 @@
+type = "directrequest"
+schemaVersion = 1
+name = "google-scholar-validation"
+externalJobID = "0d27436c-e10e-416f-93d5-993d5f248c2e"
+forwardingAllowed = false
+maxTaskDuration = "0s"
+contractAddress = "0xd0bd08d367Ffa09a23b634a55886Ab262E700c26"
+minContractPaymentLinkJuels = "0"
+observationSource = """
+    decode_log   [type=ethabidecodelog
+                  abi="OracleRequest(bytes32 indexed specId, address requester, bytes32 requestId, uint256 payment, address callbackAddr, bytes4 callbackFunctionId, uint256 cancelExpiration, uint256 dataVersion, bytes data)"
+                  data="$(jobRun.logData)"
+                  topics="$(jobRun.logTopics)"]
+
+    decode_cbor  [type=cborparse data="$(decode_log.data)"]
+    fetch        [type=bridge name="google-scholar-adapter" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": { \\"scholarUrl\\": $(decode_cbor.scholarUrl), \\"address\\":$(decode_cbor.address)}}"]
+    parse        [type=jsonparse path="data,valid" data="$(fetch)"]
+   parse_trust [type=jsonparse path="data,trustRating" data="$(fetch)"]
+    encode_data  [type=ethabiencode abi="(bytes32 requestId, bool valid, string user, uint256 trustRating)" data="{ \\"valid\\": $(parse), \\"requestId\\" :  $(decode_log.requestId), \\"user\\":$(decode_cbor.address), \\"trustRating\\": $(parse_trust) }"]
+    encode_tx    [type=ethabiencode
+                  abi="fulfillOracleRequest2(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes calldata data)"
+                  data="{\\"requestId\\": $(decode_log.requestId), \\"payment\\": $(decode_log.payment), \\"callbackAddress\\": $(decode_log.callbackAddr), \\"callbackFunctionId\\": $(decode_log.callbackFunctionId), \\"expiration\\": $(decode_log.cancelExpiration), \\"data\\": $(encode_data)}"
+                 ]
+    submit_tx    [type=ethtx to="0xd0bd08d367Ffa09a23b634a55886Ab262E700c26" data="$(encode_tx)"]
+
+    decode_log -> decode_cbor -> fetch -> parse -> parse_trust -> encode_data -> encode_tx -> submit_tx
+"""
