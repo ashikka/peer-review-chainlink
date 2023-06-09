@@ -27,10 +27,27 @@ router.use("/external-adapter", async (req, res) => {
     const { scholarUrl, address } = req.body.data;
 
     const scholarDetails = await getScholarDetails(scholarUrl);
+    
+    const hindex = scholarDetails.hindex;
+
+    let trustRating = 0;
   
+    if (hindex <= 0) {
+      trustRating = 10;
+    } else if (hindex > 0 && hindex < 3) {
+      trustRating = 50;
+    } else if (hindex >= 3 && hindex < 6) {
+      trustRating = 60;
+    } else if (hindex >= 6 && hindex < 10) {
+      trustRating = 85;
+    } else {
+      trustRating = 100;
+    }
+
     res.status(200).send({
       data: {
         valid: scholarDetails.affiliation.toLocaleLowerCase().includes(address.toLocaleLowerCase()),
+        trustRating,
       }
     })
   } catch (err) {

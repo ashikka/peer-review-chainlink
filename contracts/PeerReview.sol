@@ -44,7 +44,8 @@ contract PeerReview is ChainlinkClient, ConfirmedOwner {
     function fulfillCreateUser(
         bytes32 _requestId,
         bool valid,
-        string  memory user
+        string  memory user,
+        uint256 trustRating
     ) public recordChainlinkFulfillment(_requestId) returns(address newUser) {
         address from = parseAddr(user);
 
@@ -58,7 +59,7 @@ contract PeerReview is ChainlinkClient, ConfirmedOwner {
 
         console.log("Creating a User");
 
-        User u = new User(from);
+        User u = new User(from, trustRating);
         usersMap[from] = address(u);
 
         users.push(from);

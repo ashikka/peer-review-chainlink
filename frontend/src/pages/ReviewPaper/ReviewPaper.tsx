@@ -75,6 +75,11 @@ export default function ReviewPaper() {
         if (review == null) {
             return;
         }
+
+        MySwal.fire({
+            icon: 'success',
+            title: <p>Your review was submitted!</p>,
+        })
     }
 
     useEffect(() => {

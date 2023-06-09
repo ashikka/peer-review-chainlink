@@ -132,6 +132,8 @@ export const UserContextProvider = ({ children }: { children: any }) => {
                     return;
                 }
             }
+
+            console.log(await userContract.trust_rating())
             
             ether.setMyUser(userContract);
             // const trustRatingRes = api.updateTrustRating().then((trustRatingRes) => {

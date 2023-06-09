@@ -13,9 +13,10 @@ contract User {
 
     // address public constant adminAddress = 0x1Af0a1185c0c96906A0a88748Db7e16e1976A67b;
 
-    constructor(address _address) {
+    constructor(address _address, uint256 trustRating) {
         user_address = _address;
         peer_review_address = msg.sender;
+        trust_rating = trustRating;
         console.log("Deploying a User");
     }
 

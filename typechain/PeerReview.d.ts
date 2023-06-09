@@ -23,7 +23,7 @@ interface PeerReviewInterface extends ethers.utils.Interface {
   functions: {
     "acceptOwnership()": FunctionFragment;
     "createUser(string)": FunctionFragment;
-    "fulfillCreateUser(bytes32,bool,string)": FunctionFragment;
+    "fulfillCreateUser(bytes32,bool,string,uint256)": FunctionFragment;
     "getMyUser()": FunctionFragment;
     "getUser(address)": FunctionFragment;
     "getUsers()": FunctionFragment;
@@ -40,7 +40,7 @@ interface PeerReviewInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "createUser", values: [string]): string;
   encodeFunctionData(
     functionFragment: "fulfillCreateUser",
-    values: [BytesLike, boolean, string]
+    values: [BytesLike, boolean, string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "getMyUser", values?: undefined): string;
   encodeFunctionData(functionFragment: "getUser", values: [string]): string;
@@ -159,6 +159,7 @@ export class PeerReview extends BaseContract {
       _requestId: BytesLike,
       valid: boolean,
       user: string,
+      trustRating: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -198,6 +199,7 @@ export class PeerReview extends BaseContract {
     _requestId: BytesLike,
     valid: boolean,
     user: string,
+    trustRating: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -227,6 +229,7 @@ export class PeerReview extends BaseContract {
       _requestId: BytesLike,
       valid: boolean,
       user: string,
+      trustRating: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -305,6 +308,7 @@ export class PeerReview extends BaseContract {
       _requestId: BytesLike,
       valid: boolean,
       user: string,
+      trustRating: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -340,6 +344,7 @@ export class PeerReview extends BaseContract {
       _requestId: BytesLike,
       valid: boolean,
       user: string,
+      trustRating: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
